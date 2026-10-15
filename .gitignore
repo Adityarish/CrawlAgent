@@ -1,0 +1,52 @@
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+.pypirc
+*.pem
+*.key
+cookies.json
+storage_state.json
+
+# Python virtual environments and bytecode
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*.so
+
+# Test, coverage, and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Packaging output
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Crawl4AI runtime and generated crawl/parser output
+.crawler_runtime/
+.crawl4ai/
+.cache/
+jobs_by_company/
+jobs_by_company.json
+parsing/output/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
