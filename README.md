@@ -1,4 +1,4 @@
-# Job crawler and normalizer
+# JobAtlas: Indian job crawler and interactive jobs website
 
 This project uses the open-source Crawl4AI browser locally, respects each
 site's `robots.txt`, saves the raw page content as Markdown, follows likely job
@@ -6,6 +6,45 @@ detail links, and produces JSON shaped for the website/backend.
 
 It does not generate backend-owned fields such as `id`, `company_id`,
 `content_fingerprint`, timestamps, confidence, or coordinates.
+
+## Run the website
+
+The Next.js app reads the normalized records from
+`parsing/output/structured_jobs.json` through the Python API. It provides
+full-text search, company, multi-location, function and experience filters,
+responsive job details, and an interactive Leaflet map of Indian job locations.
+
+Create the local admin configuration (the real `.env` is ignored by Git):
+
+```bash
+cp .env.example .env
+# Edit ADMIN_PASSWORD and ADMIN_SESSION_SECRET in .env
+```
+
+Install the Next.js dependencies and start both the Next.js app and Python API:
+
+```bash
+npm install
+npm run dev
+```
+
+Open <http://localhost:3000>. The public jobs view never receives the admin
+password. Use **Admin** to sign in, add a `Company | URL` career source, and
+start the existing crawler from the website. The crawler runs as one guarded
+background process; progress and its latest log lines appear in the admin
+panel. Each completed crawl automatically parses the saved Markdown and
+detail-page data into `parsing/output/structured_jobs.json`; when parsing
+finishes, the website reloads that structured feed.
+
+Leaflet and OpenStreetMap tiles are loaded from their public CDNs, so the map
+layer requires an internet connection. The job list and filters remain usable
+without map tiles.
+
+For production, run `npm run build` followed by `npm start`. The Python API
+starts alongside Next.js and remains responsible for job data and crawler
+operations; Next.js proxies `/api/*` requests to it. Set
+`JOBATLAS_API_ORIGIN` if the API is hosted somewhere other than
+`http://127.0.0.1:8000`.
 
 ## Setup
 
@@ -78,7 +117,9 @@ page is retained as `raw_payload.detail_url`. `application_url` is upgraded to
 an explicit Apply link when the detail page exposes one; otherwise the job's
 actionable detail link is retained.
 
-The crawler waits one hour before recrawling the same company. `robots.txt`
+The crawler waits six hours after a company's latest crawl attempt before
+recrawling it. Other eligible companies in the same run continue normally.
+`robots.txt`
 permission is not a substitute for a site's terms of service: keep crawl rates
 reasonable and do not attempt to bypass authentication, CAPTCHAs, or access
 controls.

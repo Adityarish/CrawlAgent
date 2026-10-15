@@ -7,7 +7,7 @@ Add one career page per line to ``career_urls.txt``. Both formats below work:
 
 Rendered job-page content is saved by company under ``jobs_by_company/`` and a
 combined machine-readable copy is saved to ``jobs_by_company.json``. A company
-is skipped when that file shows a crawl attempt within the last hour; the
+is skipped when that file shows a crawl attempt within the last six hours; the
 remaining companies continue normally.
 """
 
@@ -38,6 +38,7 @@ from parsing import (
     job_identity,
     parse_company_markdown,
     parse_job_detail,
+    parse_saved_detail_pages,
     validate_job,
     write_structured_outputs,
 )
@@ -52,7 +53,7 @@ DEFAULT_FORMATTED_OUTPUT_DIR = DEFAULT_PARSING_OUTPUT_DIR / "by_company"
 DEFAULT_EXTRACTION_REPORT = DEFAULT_PARSING_OUTPUT_DIR / "extraction_report.json"
 DEFAULT_WAIT_SECONDS = 15.0
 DEFAULT_DETAIL_WAIT_SECONDS = 2.0
-CRAWL_COOLDOWN = timedelta(hours=1)
+CRAWL_COOLDOWN = timedelta(hours=6)
 
 
 def company_from_url(url: str) -> str:
@@ -248,7 +249,7 @@ async def crawl_pages(
                 last_crawled_by_company.get(company_key(company)), now
             )
             print(
-                f"[{position}/{total}] Skipping {company}: crawled within the last hour; "
+                f"[{position}/{total}] Skipping {company}: crawled within the last 6 hours; "
                 f"eligible again at {eligible_at.isoformat()}"
             )
         return list(records_by_key.values()), 0, total
@@ -297,7 +298,7 @@ async def crawl_pages(
             if eligible_at is not None:
                 skipped += 1
                 print(
-                    f"[{position}/{total}] Skipping {company}: crawled within the last hour; "
+                    f"[{position}/{total}] Skipping {company}: crawled within the last 6 hours; "
                     f"eligible again at {eligible_at.isoformat()}"
                 )
                 continue
@@ -513,6 +514,7 @@ async def main() -> None:
         max_jobs_per_company=args.max_jobs_per_company,
         detail_wait_seconds=args.detail_wait,
     )
+    print("Parsing crawled Markdown into the structured website job feed...")
     markdown_jobs, unresolved = format_markdown_directory_one_by_one(
         args.output_dir,
         args.structured_json,
@@ -520,6 +522,10 @@ async def main() -> None:
         args.extraction_report,
     )
     jobs_by_identity = {job_identity(job): job for job in markdown_jobs}
+    # Keep saved Greenhouse detail pages in the feed after a crawl. The parser
+    # CLI already merges these; this crawler entry point must do the same.
+    for job in parse_saved_detail_pages(args.output_dir):
+        jobs_by_identity[job_identity(job)] = job
     for record in records:
         for job in record.get("jobs", []):
             jobs_by_identity[job_identity(job)] = job
@@ -546,3 +552,7 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+
+# venv/bin/python crawler.py

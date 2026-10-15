@@ -21,9 +21,12 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.hypothesis/
 .coverage
 .coverage.*
 coverage.xml
+coverage/
 htmlcov/
 
 # Packaging output
@@ -31,6 +34,19 @@ build/
 dist/
 *.egg-info/
 .eggs/
+
+# Next.js and Node dependencies
+.next/
+out/
+.vercel/
+node_modules/
+.turbo/
+*.tsbuildinfo
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Crawl4AI runtime and generated crawl/parser output
 .crawler_runtime/

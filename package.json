@@ -1,0 +1,18 @@
+{
+  "name": "jobatlas-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n api,next -c yellow,cyan \"./venv/bin/python server.py\" \"next dev\"",
+    "build": "next build",
+    "start": "concurrently -k -n api,next -c yellow,cyan \"./venv/bin/python server.py\" \"next start\""
+  },
+  "dependencies": {
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "concurrently": "9.2.5"
+  }
+}

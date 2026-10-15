@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explore verified job openings across India on an interactive map." />
+    <meta name="theme-color" content="#f4f1e8" />
+    <title>JobAtlas — Jobs across India</title>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="JobAtlas home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 28 28" role="img"><path d="M5 20.5 12.9 5l3.2 8.1L23 9l-5.2 14H7.4Z" /><circle cx="20.5" cy="6.5" r="2.5" /></svg>
+        </span>
+        <span>JobAtlas</span>
+      </a>
+      <nav class="header-actions" aria-label="Primary navigation">
+        <span class="data-status"><span class="status-dot"></span><span id="headerCount">Loading live roles</span></span>
+        <button class="button button-ghost" id="adminButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 7a7 7 0 0 1 14 0" /></svg>
+          Admin
+        </button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="eyebrow"><span>Curated opportunities</span><span class="eyebrow-line"></span><span>India</span></div>
+        <div class="hero-grid">
+          <div>
+            <h1 id="heroTitle">Your next role is<br /><em>somewhere on this map.</em></h1>
+            <p class="hero-copy">Explore fresh openings from leading teams. Search by craft, place, and experience—then go straight to the source.</p>
+          </div>
+          <dl class="hero-stats" aria-label="Job collection summary">
+            <div><dt id="statJobs">—</dt><dd>open roles</dd></div>
+            <div><dt id="statCompanies">—</dt><dd>companies</dd></div>
+            <div><dt id="statCities">—</dt><dd>cities</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="landing" id="landing" aria-labelledby="sectorTitle">
+        <div class="landing-heading">
+          <div><span class="section-kicker">Start with your field</span><h2 id="sectorTitle">What kind of work are you looking for?</h2><p>Choose one or more sectors. You can change your selection any time.</p></div>
+          <span class="sector-selection-count" id="sectorSelectionCount">All sectors</span>
+        </div>
+        <div id="sectorChoices" class="sector-grid" aria-label="Choose job sectors"></div>
+        <div class="landing-actions">
+          <button class="button button-primary" type="button" data-enter-view="map">Explore on map <span aria-hidden="true">→</span></button>
+          <button class="button button-outline" type="button" data-enter-view="list">Browse as list <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <section class="explorer" id="explorer" aria-label="Job explorer" hidden>
+        <div class="search-panel">
+          <label class="search-field" for="searchInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>
+            <input id="searchInput" type="search" autocomplete="off" placeholder="Search titles, skills, or companies" />
+            <kbd>⌘ K</kbd>
+          </label>
+          <div class="filter-row">
+            <label class="select-wrap">
+              <span class="sr-only">Company</span>
+              <select id="companyFilter"><option value="">All companies</option></select>
+            </label>
+            <div class="location-filter" id="locationFilter">
+              <button class="location-trigger" id="locationTrigger" type="button" aria-haspopup="dialog" aria-expanded="false">All locations <span aria-hidden="true">⌄</span></button>
+              <div class="location-menu" id="locationMenu" hidden>
+                <label class="location-search-label" for="locationSearch">Find or type a location</label>
+                <input id="locationSearch" type="search" autocomplete="off" placeholder="e.g. Bengaluru" />
+                <div class="location-options" id="locationOptions" role="group" aria-label="Locations"></div>
+                <p class="location-help">Select one or more locations, or type to filter matching places.</p>
+              </div>
+            </div>
+            <label class="select-wrap">
+              <span class="sr-only">Job category</span>
+              <select id="domainFilter"><option value="">All functions</option></select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Experience</span>
+              <select id="experienceFilter">
+                <option value="">Any experience</option>
+                <option value="fresher">Fresher friendly</option>
+                <option value="0-2">0–2 years</option>
+                <option value="3-5">3–5 years</option>
+                <option value="6+">6+ years</option>
+              </select>
+            </label>
+            <button class="clear-button" id="clearFilters" type="button" hidden>Clear filters</button>
+          </div>
+        </div>
+
+        <div class="results-toolbar">
+          <div>
+            <span class="section-kicker">Open positions</span>
+            <h2><span id="resultCount">0</span> roles found</h2>
+          </div>
+          <div class="results-actions">
+            <button class="text-button sector-back" id="changeSectors" type="button">Change sectors</button>
+            <div class="view-switch" role="group" aria-label="Results view">
+              <button type="button" data-results-view="map" aria-pressed="true">Map view</button>
+              <button type="button" data-results-view="list" aria-pressed="false">List view</button>
+            </div>
+            <label class="sort-control">
+              <span>Sort by</span>
+              <select id="sortSelect">
+                <option value="newest">Newest first</option>
+                <option value="company">Company A–Z</option>
+                <option value="experience">Experience level</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="explorer-grid" id="explorerGrid" data-view="map">
+          <div class="jobs-column">
+            <div id="jobList" class="job-list" aria-live="polite"></div>
+            <nav id="pagination" class="pagination" aria-label="Job result pages" hidden></nav>
+          </div>
+          <aside class="map-column" aria-label="Map of job locations">
+            <div class="map-shell">
+              <div class="map-heading">
+                <div><span class="section-kicker">Explore by place</span><h2>Opportunities across India</h2></div>
+                <button id="resetMapButton" class="map-reset" type="button" title="Reset map to India" aria-label="Reset map to India">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6M4 4v4.6h4.6" /></svg>
+                </button>
+              </div>
+              <div id="map" role="application" aria-label="Interactive map showing job locations"></div>
+              <div class="map-summary"><span><i></i> <strong id="mapLocations">0</strong> active locations</span><span>Click a number to see jobs</span></div>
+              <div class="map-unavailable" id="mapUnavailable" hidden>
+                <strong>Map unavailable</strong>
+                <span>Job locations are still available in the filters.</span>
+              </div>
+            </div>
+          </aside>
+          <aside id="mapResultsPanel" class="map-results-panel" aria-live="polite">
+            <span class="section-kicker">Selected location</span>
+            <h2 id="mapResultsTitle">Choose a map marker</h2>
+            <p id="mapResultsHint">Click a numbered marker to see matching openings here.</p>
+            <div id="mapResultsList" class="job-list"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 20.5 12.9 5l3.2 8.1L23 9l-5.2 14H7.4Z" /><circle cx="20.5" cy="6.5" r="2.5" /></svg></span><span>JobAtlas</span></a>
+      <p>Fresh opportunities, mapped with care.</p>
+      <p class="footer-meta">Data from company career sources · <span id="lastUpdated">Updating…</span></p>
+    </footer>
+
+    <div class="scrim" id="detailScrim" hidden></div>
+    <aside class="job-drawer" id="jobDrawer" aria-labelledby="drawerTitle" aria-hidden="true">
+      <button class="icon-button drawer-close" id="closeDrawer" type="button" aria-label="Close job details">×</button>
+      <div id="drawerContent"></div>
+    </aside>
+
+    <dialog class="admin-dialog" id="adminDialog" aria-labelledby="adminTitle">
+      <button class="icon-button dialog-close" id="closeAdmin" type="button" aria-label="Close admin panel">×</button>
+      <div class="admin-brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 20.5 12.9 5l3.2 8.1L23 9l-5.2 14H7.4Z" /><circle cx="20.5" cy="6.5" r="2.5" /></svg></span></div>
+      <section id="loginView">
+        <span class="section-kicker">Restricted access</span>
+        <h2 id="adminTitle">Source manager</h2>
+        <p>Sign in to add career pages and refresh the job index.</p>
+        <form id="loginForm" class="admin-form">
+          <label for="passwordInput">Admin password</label>
+          <div class="password-field"><input id="passwordInput" name="password" type="password" autocomplete="current-password" required /><button id="togglePassword" type="button" aria-label="Show password">Show</button></div>
+          <p class="form-error" id="loginError" role="alert"></p>
+          <button class="button button-primary button-full" type="submit"><span>Unlock admin</span><span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+      <section id="adminView" hidden>
+        <div class="admin-heading"><div><span class="section-kicker">Source manager</span><h2>Career sources</h2></div><button id="logoutButton" class="text-button" type="button">Sign out</button></div>
+        <p>Add a public career page in the same format the crawler already understands. Each company is refreshed at most once every 6 hours.</p>
+        <form id="sourceForm" class="admin-form source-form">
+          <label for="companyInput">Company name</label>
+          <input id="companyInput" name="company" maxlength="80" placeholder="e.g. Razorpay" required />
+          <label for="urlInput">Career page URL</label>
+          <input id="urlInput" name="url" type="url" placeholder="https://company.com/careers" required />
+          <p class="form-error" id="sourceError" role="alert"></p>
+          <button class="button button-primary button-full" type="submit"><span>Add career source</span><span aria-hidden="true">＋</span></button>
+        </form>
+        <div class="admin-divider"></div>
+        <div class="crawl-control">
+          <div><strong>Refresh job index</strong><span id="crawlStatusText">Crawler is idle</span></div>
+          <button id="runCrawlerButton" class="button button-dark" type="button">Run crawler</button>
+        </div>
+        <pre id="crawlLogs" class="crawl-logs" hidden></pre>
+        <div class="source-list-wrap">
+          <div class="source-list-heading"><span>Configured sources</span><span id="sourceCount">0</span></div>
+          <div id="sourceList" class="source-list"></div>
+        </div>
+      </section>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/app.js?v=20261016-multi-location-filter" defer></script>
+  </body>
+</html>

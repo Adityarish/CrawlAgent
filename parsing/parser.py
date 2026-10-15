@@ -260,6 +260,8 @@ def classify_job(title: str, skills: list[str], description: str) -> tuple[str |
         (("marketing", "campaign", "growth"), ("marketing", "growth-marketing")),
         (("human resources", "talent acquisition", " hr ", "hrbp"), ("human-resources", "talent-acquisition")),
         (("logistics", "supply chain", "delivery hub", "fleet", "last mile", "operations"), ("operations", "supply-chain-logistics")),
+        (("financial analyst", "finance", "accounting", "accountant", "audit", "treasury", "taxation"), ("finance", "finance-accounting")),
+        (("pharmacy", "pharmacist", "pharma", "healthcare", "clinical", "biotech", "medical"), ("healthcare", "pharmacy-healthcare")),
         (("sales", "business development", "category"), ("sales-business", "business-development")),
     )
     padded = f" {text} "
@@ -642,6 +644,80 @@ def parse_darwinbox_listing(
     return jobs
 
 
+AMAZON_JOB_HEADING = re.compile(
+    r"^\s*\*\s+###\s+\[(?P<title>[^]]+)\]\((?P<url>https?://[^\s)]+)\)",
+    re.MULTILINE,
+)
+
+
+def normalize_amazon_location(value: str) -> tuple[str, str | None, str | None, str | None]:
+    """Expand Amazon's country/state codes into readable location fields."""
+    parts = [part.strip() for part in value.split(",") if part.strip()]
+    state_names = {"KA": "Karnataka", "MH": "Maharashtra", "TN": "Tamil Nadu", "TS": "Telangana", "DL": "Delhi", "HR": "Haryana"}
+    country_names = {"IND": "India", "IN": "India"}
+    city = next((part for part in parts if part.upper() not in state_names and part.upper() not in country_names), None)
+    state = next((state_names[part.upper()] for part in parts if part.upper() in state_names), None)
+    country = next((country_names[part.upper()] for part in parts if part.upper() in country_names), None)
+    if city and not country and (state or any(part.upper() == "IND" for part in parts)):
+        country = "India"
+    full = ", ".join(part for part in (city, state, country) if part)
+    return full or clean_line(value), city, state, country
+
+
+def parse_amazon_listing(
+    company_name: str, markdown: str, source_url: str, crawled_at: datetime | None
+) -> list[dict[str, Any]]:
+    """Parse Amazon Jobs result cards saved in rendered Markdown."""
+    matches = list(AMAZON_JOB_HEADING.finditer(markdown))
+    jobs: list[dict[str, Any]] = []
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(markdown)
+        lines = [clean_line(line) for line in markdown[match.end():end].splitlines()]
+        lines = [line for line in lines if line]
+        location_index = next((position for position, line in enumerate(lines) if line.casefold() == "location"), None)
+        if location_index is None or location_index + 1 >= len(lines):
+            continue
+        location, city, state, country = normalize_amazon_location(lines[location_index + 1])
+        date_line = next((line for line in lines if line.startswith("Updated:")), "")
+        date_posted = None
+        date_match = re.search(r"Updated:\s*(\d{1,2}/\d{1,2}/\d{4})", date_line)
+        if date_match:
+            try:
+                date_posted = datetime.strptime(date_match.group(1), "%m/%d/%Y").date().isoformat()
+            except ValueError:
+                pass
+        read_more = next((position for position, line in enumerate(lines) if line.casefold() == "read more"), len(lines))
+        ignored = {"location", "calendar", "sort by", "most recent", "most relevant"}
+        description = " ".join(
+            line for line in lines[location_index + 2:read_more]
+            if not line.startswith("Updated:") and line.casefold() not in ignored
+        ).strip()
+        if not description:
+            description = f"{match.group('title')} role at {company_name} in {location}."
+        title = clean_line(match.group("title"))
+        job_url = html.unescape(match.group("url"))
+        domain, subdomain = classify_job(title, [], description)
+        jobs.append(blank_job(
+            external_id=extract_external_id(job_url),
+            company_name=company_name,
+            title=title,
+            domain=domain,
+            subdomain=subdomain,
+            description=description,
+            summary=description[:500],
+            employment_type="internship" if "intern" in title.casefold() else None,
+            full_location_text=location,
+            city=city,
+            state=state,
+            country=country,
+            application_url=job_url,
+            source_url=source_url,
+            date_posted=date_posted or parse_relative_date("", crawled_at),
+            raw_payload={"source_format": "amazon-jobs-listing", "raw_markdown": markdown[match.start():end]},
+        ))
+    return jobs
+
+
 def unresolved_myntra_cards(markdown: str, source_file: str) -> list[dict[str, Any]]:
     """Report cards that lack titles/links instead of fabricating required data."""
     results: list[dict[str, Any]] = []
@@ -673,7 +749,10 @@ def parse_company_markdown(
     jobs = parse_naukri_listing(company_name, markdown, source_url, crawled_at)
     if jobs:
         return jobs
-    return parse_darwinbox_listing(company_name, markdown, source_url, crawled_at)
+    jobs = parse_darwinbox_listing(company_name, markdown, source_url, crawled_at)
+    if jobs:
+        return jobs
+    return parse_amazon_listing(company_name, markdown, source_url, crawled_at)
 
 
 def discover_job_links(markdown: str, links: Any, source_url: str) -> list[str]:
@@ -975,6 +1054,76 @@ def load_crawled_jobs(crawl_json: Path) -> list[dict[str, Any]]:
     return jobs
 
 
+def parse_saved_detail_pages(input_dir: Path) -> list[dict[str, Any]]:
+    """Parse valid job pages already saved under each company's folder."""
+    jobs: list[dict[str, Any]] = []
+    for company_dir in sorted(path for path in input_dir.iterdir() if path.is_dir()):
+        company = company_dir.name.replace("-", " ").title()
+        for path in sorted(company_dir.glob("*.md")):
+            markdown = path.read_text(encoding="utf-8")
+            source_match = re.search(r"^Source:\s*(\S+)", markdown, re.MULTILINE)
+            listing_match = re.search(r"^Discovered from:\s*(\S+)", markdown, re.MULTILINE)
+            detail_url = urlparse(source_match.group(1)) if source_match else None
+            if (
+                not source_match
+                or not listing_match
+                or not detail_url.hostname
+                or not detail_url.hostname.casefold().endswith("greenhouse.io")
+                or "/jobs/" not in detail_url.path
+            ):
+                continue
+
+            lines = [line.strip() for line in markdown.splitlines()]
+            title_index = next(
+                (index for index, line in enumerate(lines)
+                 if line.startswith("# ") and "raw job page" not in line.casefold()),
+                None,
+            )
+            if title_index is None or title_index + 1 >= len(lines):
+                continue
+            title = clean_line(lines[title_index])
+            location_line = next(
+                (clean_line(line) for line in lines[title_index + 1:title_index + 5] if clean_line(line)),
+                "",
+            )
+            if not title or not location_line or location_line.casefold() in {"apply", "apply now"}:
+                continue
+
+            description_lines = []
+            for line in lines[title_index + 1:]:
+                if line.startswith("## Apply for this job"):
+                    break
+                cleaned = clean_line(line)
+                if cleaned and cleaned.casefold() not in {"apply", "apply now", "save"}:
+                    description_lines.append(cleaned)
+            description = "\n".join(description_lines).strip()
+            if len(description) < 40:
+                continue
+
+            full_location, city, state, country = parse_location(location_line)
+            source_url = source_match.group(1)
+            listing_url = listing_match.group(1)
+            detail_id = extract_external_id(source_url)
+            domain, subdomain = classify_job(title, [], description)
+            jobs.append(blank_job(
+                external_id=detail_id,
+                company_name=company,
+                title=title,
+                domain=domain,
+                subdomain=subdomain,
+                description=description,
+                summary=description[:280],
+                full_location_text=full_location,
+                city=city,
+                state=state,
+                country=country,
+                application_url=source_url,
+                source_url=listing_url,
+                raw_payload={"source_format": "saved-job-detail", "detail_url": source_url},
+            ))
+    return jobs
+
+
 def parse_all_jobs(
     input_dir: Path = DEFAULT_INPUT_DIR,
     crawl_json: Path | None = DEFAULT_CRAWL_JSON,
@@ -995,6 +1144,8 @@ def parse_all_jobs(
         report_output,
     )
     jobs_by_identity = {job_identity(job): job for job in jobs}
+    for job in parse_saved_detail_pages(input_dir):
+        jobs_by_identity[job_identity(job)] = job
     if crawl_json is not None:
         for job in load_crawled_jobs(crawl_json):
             jobs_by_identity[job_identity(job)] = job

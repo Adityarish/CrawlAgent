@@ -151,7 +151,7 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
         old = saved_record(
             "Acme",
             "https://acme.example/jobs",
-            datetime.now(timezone.utc) - timedelta(hours=2),
+            datetime.now(timezone.utc) - timedelta(hours=7),
         )
         self.write_records([old])
 
@@ -186,6 +186,13 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
         crawler_class.assert_not_called()
         self.assertEqual((attempted, skipped), (0, 1))
         self.assertEqual(records, [recent])
+
+    def test_six_hour_cooldown_boundary(self):
+        now = datetime.now(timezone.utc)
+        self.assertIsNotNone(
+            crawler.cooldown_end(now - timedelta(hours=5, minutes=59), now)
+        )
+        self.assertIsNone(crawler.cooldown_end(now - timedelta(hours=6), now))
 
     async def test_detail_pages_are_followed_and_normalized(self):
         DetailCrawler.calls = []
