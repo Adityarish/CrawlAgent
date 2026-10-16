@@ -1,63 +1,136 @@
 "use client";
 
-import { CircleMarker, MapContainer, TileLayer, Tooltip } from "react-leaflet";
+import { divIcon, latLngBounds } from "leaflet";
+import { LocateFixed, LoaderCircle, Map as MapIcon, Minus, Mountain, Plus, Satellite } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CircleMarker, MapContainer, Marker, Popup, TileLayer, Tooltip, useMap } from "react-leaflet";
+import { groupJobsByLocation } from "../lib/jobLocations";
 
-const coordinates = {
-  ahmedabad: [23.0225, 72.5714],
-  bengaluru: [12.9716, 77.5946],
-  bangalore: [12.9716, 77.5946],
-  chennai: [13.0827, 80.2707],
-  delhi: [28.6139, 77.209],
-  gurugram: [28.4595, 77.0266],
-  gurgaon: [28.4595, 77.0266],
-  hyderabad: [17.385, 78.4867],
-  kolkata: [22.5726, 88.3639],
-  mumbai: [19.076, 72.8777],
-  noida: [28.5355, 77.391],
-  pune: [18.5204, 73.8567],
+const TILE_STYLES = {
+  street: {
+    label: "Street",
+    icon: MapIcon,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  },
+  satellite: {
+    label: "Satellite",
+    icon: Satellite,
+    attribution: "Tiles &copy; Esri",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  },
+  terrain: {
+    label: "Terrain",
+    icon: Mountain,
+    attribution: 'Map data &copy; OpenStreetMap contributors, SRTM | Map style &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+    url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+  },
 };
 
-function locate(city = "") {
-  const normalized = city.toLowerCase().trim();
-  const match = Object.keys(coordinates).find((name) => normalized.includes(name));
-  return coordinates[match] || [22.5937, 78.9629];
+function FitMap({ groups, full }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!full || !groups.length) return;
+    const bounds = latLngBounds(groups.map((group) => group.position));
+    map.fitBounds(bounds, { padding: [64, 64], maxZoom: 6 });
+  }, [full, groups, map]);
+
+  return null;
 }
 
-export default function JobsMap({ jobs, selectedId, onSelect }) {
-  const groups = Object.values(
-    jobs.reduce((result, job) => {
-      const city = job.city || "Across India";
-      if (!result[city]) result[city] = { city, position: locate(city), jobs: [] };
-      result[city].jobs.push(job);
-      return result;
-    }, {})
-  );
+function markerIcon(count, selected) {
+  return divIcon({
+    className: "job-map-marker-wrap",
+    html: `<span class="job-map-marker${selected ? " selected" : ""}"><b>${count}</b></span>`,
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+  });
+}
+
+export default function JobsMap({ jobs, selectedId, selectedLocation, onSelect, onSelectGroup, full = false }) {
+  const groups = useMemo(() => groupJobsByLocation(jobs), [jobs]);
+  const mapRef = useRef(null);
+  const [userPosition, setUserPosition] = useState(null);
+  const [locationState, setLocationState] = useState("idle");
+  const [tileStyle, setTileStyle] = useState("street");
+  const activeTiles = TILE_STYLES[tileStyle];
+
+  function locateUser() {
+    if (!navigator.geolocation) {
+      setLocationState("unsupported");
+      return;
+    }
+    setLocationState("loading");
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const position = [coords.latitude, coords.longitude];
+        setUserPosition(position);
+        setLocationState("found");
+        mapRef.current?.flyTo(position, 12, { duration: 1.2 });
+      },
+      () => setLocationState("denied"),
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+    );
+  }
 
   return (
-    <div className="map-shell">
-      <MapContainer center={[22.5937, 78.9629]} zoom={5} minZoom={4} scrollWheelZoom className="jobs-map">
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+    <div className={`map-shell ${full ? "map-shell-full" : ""}`}>
+      <MapContainer ref={mapRef} center={[20.5937, 78.9629]} zoom={5} minZoom={3} scrollWheelZoom zoomControl={false} className="jobs-map">
+        <FitMap groups={groups} full={full} />
+        <TileLayer key={tileStyle} attribution={activeTiles.attribution} url={activeTiles.url} maxZoom={19} />
         {groups.map((group) => {
-          const selected = group.jobs.some((job) => job.id === selectedId);
+          const selected = selectedLocation === group.key || group.jobs.some((job) => job.id === selectedId);
           return (
-            <CircleMarker
-              key={group.city}
-              center={group.position}
-              radius={selected ? 15 : 12}
-              pathOptions={{ color: selected ? "#173d2c" : "#ffffff", weight: 3, fillColor: selected ? "#d9ff6b" : "#173d2c", fillOpacity: 1 }}
-              eventHandlers={{ click: () => onSelect(group.jobs[0]) }}
+            <Marker
+              key={group.key}
+              position={group.position}
+              icon={markerIcon(group.jobs.length, selected)}
+              eventHandlers={{ click: () => onSelectGroup ? onSelectGroup(group) : onSelect?.(group.jobs[0]) }}
             >
               <Tooltip direction="top" offset={[0, -10]} opacity={1}>
-                <strong>{group.city}</strong><br />{group.jobs.length} {group.jobs.length === 1 ? "role" : "roles"}
+                <strong>{group.label}</strong><br />{group.jobs.length} {group.jobs.length === 1 ? "role" : "roles"}
               </Tooltip>
-            </CircleMarker>
+            </Marker>
           );
         })}
+        {userPosition && (
+          <CircleMarker center={userPosition} radius={9} pathOptions={{ color: "#ffffff", weight: 3, fillColor: "#3277d5", fillOpacity: 1 }}>
+            <Popup>You are here</Popup>
+          </CircleMarker>
+        )}
       </MapContainer>
-      <div className="map-key"><span />Select a city marker to inspect its latest role</div>
+      <div className="map-control-dock" aria-label="Map controls">
+        <div className="map-tile-buttons" aria-label="Map style">
+          {Object.entries(TILE_STYLES).map(([key, style]) => {
+            const TileIcon = style.icon;
+            return (
+              <button
+                className={tileStyle === key ? "active" : ""}
+                key={key}
+                onClick={() => setTileStyle(key)}
+                aria-label={`${style.label} map`}
+                aria-pressed={tileStyle === key}
+                title={`${style.label} map`}
+              >
+                <TileIcon size={15} />
+                <span>{style.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="map-navigation-buttons">
+          <button className={`map-locate-control ${locationState}`} onClick={locateUser} aria-label="Show my current location" title="Show my current location">
+            {locationState === "loading" ? <LoaderCircle className="spin" size={18} /> : <LocateFixed size={18} />}
+          </button>
+          <button onClick={() => mapRef.current?.zoomIn()} aria-label="Zoom in" title="Zoom in"><Plus size={19} /></button>
+          <button onClick={() => mapRef.current?.zoomOut()} aria-label="Zoom out" title="Zoom out"><Minus size={19} /></button>
+        </div>
+      </div>
+      {(locationState === "denied" || locationState === "unsupported") && (
+        <div className="map-location-status">{locationState === "denied" ? "Location access was not available. Check your browser permission." : "This browser does not support location access."}</div>
+      )}
+      {!full && <div className="map-key"><span />Select a location marker to inspect its latest role</div>}
     </div>
   );
 }

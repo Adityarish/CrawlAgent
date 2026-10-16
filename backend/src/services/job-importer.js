@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Job } from "../models/Job.js";
+import { loadDistrictLocations, resolveDistrictLocations } from "./district-locations.js";
 
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
 export const defaultJobsFile = path.resolve(currentDirectory, "../../../crawler/parsing/output/structured_jobs.json");
@@ -26,7 +27,7 @@ function toDate(value) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
-export function normalizeJob(record) {
+export function normalizeJob(record, districts = []) {
   return {
     externalId: record.external_id || null,
     companyName: record.company_name,
@@ -49,6 +50,7 @@ export function normalizeJob(record) {
     city: record.city || null,
     state: record.state || null,
     country: record.country || "India",
+    locationPoints: resolveDistrictLocations(record, districts),
     salaryMin: record.salary_min ?? null,
     salaryMax: record.salary_max ?? null,
     salaryCurrency: record.salary_currency || null,
@@ -76,19 +78,25 @@ export async function importJobsFromFile(filePath = defaultJobsFile) {
   const records = JSON.parse(source);
   if (!Array.isArray(records)) throw new Error("Structured jobs file must contain a JSON array.");
 
+  const districts = await loadDistrictLocations();
   const jobs = records
     .filter((record) => record.company_name && record.title && record.description && record.application_url && record.source_url)
-    .map(normalizeJob);
+    .map((record) => normalizeJob(record, districts));
 
   if (!jobs.length) return { imported: 0, skipped: false };
 
+  const now = new Date();
   const operations = jobs.map((job) => ({
     updateOne: {
       filter: { fingerprint: job.fingerprint },
-      update: { $set: job },
+      update: {
+        $set: job,
+        $setOnInsert: { createdAt: now },
+        $currentDate: { updatedAt: true },
+      },
       upsert: true,
     },
   }));
-  await Job.bulkWrite(operations, { ordered: false });
+  await Job.collection.bulkWrite(operations, { ordered: false });
   return { imported: jobs.length, skipped: false };
 }

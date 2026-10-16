@@ -3,7 +3,8 @@ import { Router } from "express";
 import { createAdminToken, requireAdmin } from "../middleware/auth.js";
 import { Source } from "../models/Source.js";
 import { crawlManager } from "../services/crawl-manager.js";
-import { appendSourceToFile } from "../services/source-sync.js";
+import { appendSourceToFile, appendSourcesToFile } from "../services/source-sync.js";
+import * as XLSX from "xlsx";
 
 const router = Router();
 
@@ -21,6 +22,40 @@ function validateSource(company, rawUrl) {
     throw new Error("Enter a complete public HTTP or HTTPS career URL.");
   }
   return { company: name, url: url.toString() };
+}
+
+export function parseSourceUpload({ fileName, data }) {
+  if (typeof fileName !== "string" || !/\.(csv|xlsx?|xlsm)$/i.test(fileName)) {
+    throw new Error("Upload a .csv or Excel workbook (.xls, .xlsx, or .xlsm).");
+  }
+  if (typeof data !== "string" || data.length > 3_800_000) {
+    throw new Error("The file is missing or exceeds the 2.8 MB upload limit.");
+  }
+  const buffer = Buffer.from(data, "base64");
+  if (!buffer.length || buffer.length > 2_800_000) throw new Error("The file is empty or exceeds the 2.8 MB upload limit.");
+  let workbook;
+  try {
+    workbook = XLSX.read(buffer, { type: "buffer", cellDates: false });
+  } catch {
+    throw new Error("We couldn't read that file. Use a valid CSV or Excel workbook.");
+  }
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  if (!sheet) throw new Error("The spreadsheet has no worksheets.");
+  const rows = XLSX.utils.sheet_to_json(sheet, { defval: "", raw: false });
+  if (!rows.length) throw new Error("The first worksheet has no data rows.");
+  const normalized = (key) => String(key).trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  const headers = Object.keys(rows[0]);
+  const companyHeader = headers.find((key) => ["company", "companyname", "name"].includes(normalized(key)));
+  const urlHeader = headers.find((key) => ["url", "link", "careerurl", "careerpage", "sourceurl", "careersite"].includes(normalized(key)));
+  if (!companyHeader || !urlHeader) throw new Error("Add column headers named Company and Link (or URL) to the first row.");
+  return rows.map((row, index) => {
+    if (!String(row[companyHeader]).trim() && !String(row[urlHeader]).trim()) return null;
+    try {
+      return { source: validateSource(row[companyHeader], row[urlHeader]), rowNumber: index + 2 };
+    } catch (error) {
+      return { error: error.message, rowNumber: index + 2 };
+    }
+  }).filter(Boolean);
 }
 
 router.post("/login", (request, response) => {
@@ -65,6 +100,40 @@ router.post("/sources", async (request, response, next) => {
   }
 });
 
+router.post("/sources/upload", async (request, response, next) => {
+  try {
+    const rows = parseSourceUpload(request.body || {});
+    const accepted = [];
+    const skipped = [];
+    const seen = new Set((await Source.distinct("url")).map((url) => url.toLowerCase()));
+    for (const item of rows) {
+      if (item.error) {
+        skipped.push({ row: item.rowNumber, reason: item.error });
+      } else if (seen.has(item.source.url.toLowerCase())) {
+        skipped.push({ row: item.rowNumber, reason: "This career URL is already in the source list." });
+      } else {
+        seen.add(item.source.url.toLowerCase());
+        accepted.push(item.source);
+      }
+    }
+    if (accepted.length) {
+      const created = await Source.insertMany(accepted, { ordered: true });
+      try {
+        await appendSourcesToFile(accepted);
+      } catch (error) {
+        await Source.deleteMany({ _id: { $in: created.map((source) => source._id) } });
+        throw error;
+      }
+    }
+    return response.status(200).json({ added: accepted.length, skipped, totalRows: rows.length });
+  } catch (error) {
+    if (error.message?.startsWith("Upload") || error.message?.startsWith("The file") || error.message?.startsWith("The spreadsheet") || error.message?.startsWith("The first worksheet") || error.message?.startsWith("Add column") || error.message?.startsWith("We couldn't read")) {
+      return response.status(400).json({ error: error.message });
+    }
+    return next(error);
+  }
+});
+
 router.post("/crawl", async (_request, response, next) => {
   try {
     const run = await crawlManager.start();
@@ -72,6 +141,48 @@ router.post("/crawl", async (_request, response, next) => {
   } catch (error) {
     if (error.message.includes("already running")) return response.status(409).json({ error: error.message });
     next(error);
+  }
+});
+
+router.post("/crawl/company", async (request, response, next) => {
+  try {
+    const company = String(request.body?.company || "").trim().replace(/\s+/g, " ");
+    if (company.length < 2 || company.length > 80) {
+      return response.status(400).json({ error: "Company name must be 2 to 80 characters." });
+    }
+    const run = await crawlManager.start(company);
+    return response.status(202).json({ run });
+  } catch (error) {
+    if (error.message.includes("already running")) return response.status(409).json({ error: error.message });
+    if (error.message.startsWith("No career sources")) return response.status(404).json({ error: error.message });
+    return next(error);
+  }
+});
+
+router.post("/companies/pause", async (request, response, next) => {
+  try {
+    const company = String(request.body?.company || "").trim().replace(/\s+/g, " ");
+    const paused = request.body?.paused;
+    if (company.length < 2 || company.length > 80 || typeof paused !== "boolean") {
+      return response.status(400).json({ error: "Provide a valid company and paused boolean." });
+    }
+    return response.json(await crawlManager.setCompanyPaused(company, paused));
+  } catch (error) {
+    if (error.message.startsWith("No career sources") || error.message.includes("required")) {
+      return response.status(404).json({ error: error.message });
+    }
+    return next(error);
+  }
+});
+
+router.post("/crawl/skip", async (_request, response, next) => {
+  try {
+    response.status(202).json({ run: await crawlManager.skipCurrent() });
+  } catch (error) {
+    if (error.message.includes("No crawl") || error.message.includes("did not accept")) {
+      return response.status(409).json({ error: error.message });
+    }
+    return next(error);
   }
 });
 

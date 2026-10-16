@@ -7,7 +7,7 @@ Add one career page per line to ``career_urls.txt``. Both formats below work:
 
 Rendered job-page content is saved by company under ``jobs_by_company/`` and a
 combined machine-readable copy is saved to ``jobs_by_company.json``. A company
-is skipped when that file shows a crawl attempt within the last six hours; the
+is skipped when that file shows a crawl attempt within the last 200 hours; the
 remaining companies continue normally.
 """
 
@@ -15,9 +15,11 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import contextlib
 import json
 import os
 import re
+import signal
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -54,7 +56,44 @@ DEFAULT_FORMATTED_OUTPUT_DIR = DEFAULT_PARSING_OUTPUT_DIR / "by_company"
 DEFAULT_EXTRACTION_REPORT = DEFAULT_PARSING_OUTPUT_DIR / "extraction_report.json"
 DEFAULT_WAIT_SECONDS = 15.0
 DEFAULT_DETAIL_WAIT_SECONDS = 2.0
-CRAWL_COOLDOWN = timedelta(hours=6)
+DEFAULT_HARD_TIMEOUT_SECONDS = 120.0
+CRAWL_COOLDOWN = timedelta(hours=200)
+
+
+class SkipCurrentSource(Exception):
+    """Raised when an operator asks the crawler to advance to the next company."""
+
+
+async def crawl_until_done_or_skipped(
+    crawl_operation: object,
+    timeout_seconds: float,
+    skip_event: asyncio.Event,
+) -> object:
+    """Run one page request while allowing SIGUSR1 to cancel the current source."""
+    crawl_task = asyncio.create_task(crawl_operation)
+    skip_task = asyncio.create_task(skip_event.wait())
+    try:
+        done, _ = await asyncio.wait(
+            {crawl_task, skip_task},
+            timeout=timeout_seconds,
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        if skip_task in done:
+            skip_event.clear()
+            crawl_task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await crawl_task
+            raise SkipCurrentSource
+        if crawl_task in done:
+            return await crawl_task
+        crawl_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await crawl_task
+        raise TimeoutError(f"Crawler request exceeded {timeout_seconds:g} seconds")
+    finally:
+        skip_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await skip_task
 
 
 def company_from_url(url: str) -> str:
@@ -230,6 +269,14 @@ async def crawl_pages(
     crawl_job_details: bool = False,
     max_jobs_per_company: int = 100,
     detail_wait_seconds: float = DEFAULT_DETAIL_WAIT_SECONDS,
+    hard_timeout_seconds: float = DEFAULT_HARD_TIMEOUT_SECONDS,
+    resume_company_position: int | None = None,
+    resume_detail_position: int = 1,
+    force_crawl: bool = False,
+    skip_event: asyncio.Event | None = None,
+    structured_json: Path = DEFAULT_STRUCTURED_JSON_FILE,
+    formatted_output_dir: Path = DEFAULT_FORMATTED_OUTPUT_DIR,
+    extraction_report: Path = DEFAULT_EXTRACTION_REPORT,
 ) -> tuple[list[dict], int, int]:
     existing_records = load_existing_records(json_file)
     records_by_key: dict[tuple[str, str], dict] = {}
@@ -240,7 +287,7 @@ async def crawl_pages(
 
     last_crawled_by_company = latest_crawls(existing_records)
     now = datetime.now(timezone.utc)
-    if not any(
+    if not force_crawl and not any(
         cooldown_end(last_crawled_by_company.get(company_key(company)), now) is None
         for company, _ in pages
     ):
@@ -250,7 +297,7 @@ async def crawl_pages(
                 last_crawled_by_company.get(company_key(company)), now
             )
             print(
-                f"[{position}/{total}] Skipping {company}: crawled within the last 6 hours; "
+                f"[{position}/{total}] Skipping {company}: crawled within the last 200 hours; "
                 f"eligible again at {eligible_at.isoformat()}"
             )
         return list(records_by_key.values()), 0, total
@@ -288,26 +335,44 @@ async def crawl_pages(
 
     attempted = 0
     skipped = 0
+    skip_event = skip_event or asyncio.Event()
+    if hasattr(signal, "SIGUSR1"):
+        try:
+            asyncio.get_running_loop().add_signal_handler(signal.SIGUSR1, skip_event.set)
+        except (NotImplementedError, RuntimeError, ValueError):
+            pass
     async with AsyncWebCrawler(config=browser_config) as crawler:
         total = len(pages)
         for position, (company, url) in enumerate(pages, start=1):
+            if resume_company_position is not None and position < resume_company_position:
+                skipped += 1
+                print(
+                    f"[{position}/{total}] Resume: keeping previously saved data for {company}"
+                )
+                continue
+
             normalized_company = company_key(company)
             now = datetime.now(timezone.utc)
             eligible_at = cooldown_end(
                 last_crawled_by_company.get(normalized_company), now
             )
-            if eligible_at is not None:
+            if eligible_at is not None and not force_crawl:
                 skipped += 1
                 print(
-                    f"[{position}/{total}] Skipping {company}: crawled within the last 6 hours; "
+                    f"[{position}/{total}] Skipping {company}: crawled within the last 200 hours; "
                     f"eligible again at {eligible_at.isoformat()}"
                 )
                 continue
 
             print(f"[{position}/{total}] Crawling {company}: {url}")
             attempted += 1
+            source_skipped = False
             try:
-                result = await crawler.arun(url=url, config=crawler_config)
+                result = await crawl_until_done_or_skipped(
+                    crawler.arun(url=url, config=crawler_config),
+                    hard_timeout_seconds,
+                    skip_event,
+                )
                 success = bool(getattr(result, "success", False))
                 crawled_at = datetime.now(timezone.utc)
                 listing_markdown = markdown_text(result) if success else ""
@@ -345,13 +410,30 @@ async def crawl_pages(
                         detail_dir = output_dir / slugify(company)
                         detail_dir.mkdir(parents=True, exist_ok=True)
                         for job_position, job_url in enumerate(discovered_links, start=1):
+                            if (
+                                position == resume_company_position
+                                and job_position < resume_detail_position
+                            ):
+                                print(
+                                    f"[{position}/{total}] {company}: resume keeping detail "
+                                    f"{job_position}/{len(discovered_links)} {job_url}"
+                                )
+                                fallback = fallback_by_url.get(job_url.split("#", 1)[0])
+                                if fallback:
+                                    detailed_jobs.append(fallback)
+                                continue
+
                             print(
                                 f"[{position}/{total}] {company}: detail "
                                 f"{job_position}/{len(discovered_links)} {job_url}"
                             )
                             fallback = fallback_by_url.get(job_url.split("#", 1)[0])
                             try:
-                                detail_result = await crawler.arun(url=job_url, config=detail_config)
+                                detail_result = await crawl_until_done_or_skipped(
+                                    crawler.arun(url=job_url, config=detail_config),
+                                    hard_timeout_seconds,
+                                    skip_event,
+                                )
                                 if not bool(getattr(detail_result, "success", False)):
                                     if fallback:
                                         detailed_jobs.append(fallback)
@@ -390,6 +472,14 @@ async def crawl_pages(
                                     detailed_jobs.append(parsed_job)
                                 elif fallback:
                                     detailed_jobs.append(fallback)
+                            except SkipCurrentSource:
+                                source_skipped = True
+                                skipped += 1
+                                print(
+                                    f"[{position}/{total}] {company}: skip requested; "
+                                    "saving collected results and moving to the next company"
+                                )
+                                break
                             except Exception as detail_exc:
                                 print(
                                     f"[{position}/{total}] {company}: detail failed for "
@@ -409,6 +499,12 @@ async def crawl_pages(
                             not in detailed_urls
                         )
                         record["jobs"] = detailed_jobs
+            except SkipCurrentSource:
+                skipped += 1
+                print(
+                    f"[{position}/{total}] {company}: skip requested; moving to the next company"
+                )
+                continue
             except Exception as exc:  # Continue so one company cannot stop the batch.
                 crawled_at = datetime.now(timezone.utc)
                 record = {
@@ -424,7 +520,31 @@ async def crawl_pages(
             last_crawled_by_company[normalized_company] = crawled_at
             records_by_key[(normalized_company, url)] = record
             write_outputs(list(records_by_key.values()), output_dir, json_file)
-            state = "saved" if record["success"] else f"failed: {record['error']}"
+            # Publish a website-ready feed checkpoint after every company, so
+            # the backend can import it before the whole crawl batch finishes.
+            markdown_jobs, unresolved = format_markdown_directory_one_by_one(
+                output_dir,
+                structured_json,
+                formatted_output_dir,
+                extraction_report,
+            )
+            jobs_by_identity = {job_identity(job): job for job in markdown_jobs}
+            for job in parse_saved_detail_pages(output_dir):
+                jobs_by_identity[job_identity(job)] = job
+            for saved_record in records_by_key.values():
+                for job in saved_record.get("jobs", []):
+                    jobs_by_identity[job_identity(job)] = job
+            write_structured_outputs(
+                list(jobs_by_identity.values()),
+                unresolved,
+                structured_json,
+                formatted_output_dir,
+                extraction_report,
+            )
+            print(f"FEED_CHECKPOINT_COMPLETE: {company}", flush=True)
+            state = "saved partial results" if source_skipped else (
+                "saved" if record["success"] else f"failed: {record['error']}"
+            )
             print(f"[{position}/{total}] {company}: {state}")
 
     return list(records_by_key.values()), attempted, skipped
@@ -476,6 +596,34 @@ def parse_args() -> argparse.Namespace:
         help=f"Seconds to wait on each detail page (default: {DEFAULT_DETAIL_WAIT_SECONDS:g}).",
     )
     parser.add_argument(
+        "--hard-timeout",
+        type=float,
+        default=DEFAULT_HARD_TIMEOUT_SECONDS,
+        help=(
+            "Maximum seconds allowed for any listing or detail request "
+            f"(default: {DEFAULT_HARD_TIMEOUT_SECONDS:g})."
+        ),
+    )
+    parser.add_argument(
+        "--resume-company-position",
+        type=int,
+        help="Resume at this 1-based company position, keeping earlier saved companies.",
+    )
+    parser.add_argument(
+        "--resume-detail-position",
+        type=int,
+        default=1,
+        help=(
+            "For the resumed company, continue at this 1-based detail position "
+            "(default: 1)."
+        ),
+    )
+    parser.add_argument(
+        "--force-crawl",
+        action="store_true",
+        help="Ignore the crawl cooldown (used for an admin-requested company refresh).",
+    )
+    parser.add_argument(
         "--structured-json",
         type=Path,
         default=DEFAULT_STRUCTURED_JSON_FILE,
@@ -498,8 +646,16 @@ def parse_args() -> argparse.Namespace:
         parser.error("--wait must be zero or greater")
     if args.detail_wait < 0:
         parser.error("--detail-wait must be zero or greater")
+    if args.hard_timeout <= 0:
+        parser.error("--hard-timeout must be greater than zero")
     if args.max_jobs_per_company < 1:
         parser.error("--max-jobs-per-company must be at least 1")
+    if args.resume_company_position is not None and args.resume_company_position < 1:
+        parser.error("--resume-company-position must be at least 1")
+    if args.resume_detail_position < 1:
+        parser.error("--resume-detail-position must be at least 1")
+    if args.resume_detail_position > 1 and args.resume_company_position is None:
+        parser.error("--resume-detail-position requires --resume-company-position")
     return args
 
 
@@ -514,6 +670,13 @@ async def main() -> None:
         crawl_job_details=not args.skip_job_details,
         max_jobs_per_company=args.max_jobs_per_company,
         detail_wait_seconds=args.detail_wait,
+        hard_timeout_seconds=args.hard_timeout,
+        resume_company_position=args.resume_company_position,
+        resume_detail_position=args.resume_detail_position,
+        force_crawl=args.force_crawl,
+        structured_json=args.structured_json,
+        formatted_output_dir=args.formatted_output_dir,
+        extraction_report=args.extraction_report,
     )
     print("Parsing crawled Markdown into the structured website job feed...")
     markdown_jobs, unresolved = format_markdown_directory_one_by_one(

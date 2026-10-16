@@ -14,7 +14,7 @@ export function createApp() {
       methods: ["GET", "POST"],
     })
   );
-  app.use(express.json({ limit: "32kb" }));
+  app.use(express.json({ limit: "4mb" }));
   app.use("/api", publicRoutes);
   app.use("/api/admin", adminRoutes);
 

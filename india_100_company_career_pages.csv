@@ -1,0 +1,101 @@
+﻿ID,Company,Industry / Domain,Official Career Page URL,Portal Type,Link Check,Crawling Notes,Checked On
+1,Zepto,"E-commerce, Quick Commerce & Logistics",https://www.zepto.com/s/careers,Careers landing,Verified,Open positions linked,2026-10-16
+2,Blinkit,"E-commerce, Quick Commerce & Logistics",https://blinkit.com/careers/jobs,Job listings,Verified,Displayed 0 positions in indexed snapshot,2026-10-16
+3,Amazon India,"E-commerce, Quick Commerce & Logistics",https://www.amazon.jobs/en/search?country%5B%5D=IND,India job search,Verified,Location-filtered India jobs,2026-10-16
+4,Flipkart,"E-commerce, Quick Commerce & Logistics",https://www.flipkartcareers.com/jobslist,Job listings,Verified,Searchable listing,2026-10-16
+5,Meesho,"E-commerce, Quick Commerce & Logistics",https://www.meesho.io/jobs,Job listings,Verified,Client-side loading; job detail pages indexed,2026-10-16
+6,Swiggy,"E-commerce, Quick Commerce & Logistics",https://careers.swiggy.in/explore-jobs,Job listings,Verified,Role and location filters,2026-10-16
+7,Zomato,"E-commerce, Quick Commerce & Logistics",https://www.eternal.com/careers/,Parent careers / referral route,Verified,Eternal parent (Zomato); employee referrals only per company page,2026-10-16
+8,BigBasket,"E-commerce, Quick Commerce & Logistics",https://careers.bigbasket.com/,Careers portal,Verified,Careers with opportunities link,2026-10-16
+9,Reliance Retail / AJIO,"E-commerce, Quick Commerce & Logistics",https://rcareers.ril.com/,Recruitment portal,Verified,Includes AJIO and other retail units,2026-10-16
+10,Myntra,"E-commerce, Quick Commerce & Logistics",https://jobs.myntra.com/jobs,Job listings,Needs recheck,Structural anti-bot block on page (observed in crawler); manual verification needed,2026-10-16
+11,Nykaa,"E-commerce, Quick Commerce & Logistics",https://www.nykaa.com/who_are_we,Careers contact,Verified,CV by email; not structured jobs portal,2026-10-16
+12,Lenskart,"E-commerce, Quick Commerce & Logistics",https://www.lenskart.com/careers-at-lenskart,Careers landing,Verified,Careers page redirects here,2026-10-16
+13,FirstCry,"E-commerce, Quick Commerce & Logistics",https://www.firstcry.com/careers,Careers listing,Verified,Current openings page,2026-10-16
+14,Urban Company,"E-commerce, Quick Commerce & Logistics",https://careers.urbancompany.com/jobs,Job listings,Verified,Indexed snapshot sometimes shows zero; validate,2026-10-16
+15,Cleartrip,"E-commerce, Quick Commerce & Logistics",https://cleartrip.hire.trakstar.com/jobs,ATS - Trakstar,Verified,Travel commerce; open roles,2026-10-16
+16,Delhivery,"E-commerce, Quick Commerce & Logistics",https://www.delhivery.com/about,Careers section,Verified,About page links to job openings,2026-10-16
+17,XpressBees,"E-commerce, Quick Commerce & Logistics",https://www.xpressbees.com/career,Job listings,Verified,Listings include analytics/logistics,2026-10-16
+18,Shadowfax,"E-commerce, Quick Commerce & Logistics",https://shadowfax.in/careers,Careers page,Verified,Page indicated no corporate openings,2026-10-16
+19,Porter,"E-commerce, Quick Commerce & Logistics",https://porter.in/careers,Careers landing,Verified,Open-position link,2026-10-16
+20,Reliance Jio,"E-commerce, Quick Commerce & Logistics",https://careers.jio.com/,Job search,Verified,Includes student/campus jobs,2026-10-16
+21,PhonePe,"Fintech, Payments & Insurance",https://www.phonepe.com/careers/job-openings/,Job listings,Verified,JavaScript data may load dynamically,2026-10-16
+22,Paytm,"Fintech, Payments & Insurance",https://jobs.lever.co/paytm,ATS - Lever,Verified,Public job board,2026-10-16
+23,Razorpay,"Fintech, Payments & Insurance",https://razorpay.com/careers/,Careers landing,Verified,Link to all jobs,2026-10-16
+24,CRED,"Fintech, Payments & Insurance",https://careers.cred.club/openings,Job listings,Verified,Company-run listings,2026-10-16
+25,BharatPe,"Fintech, Payments & Insurance",https://bharatpe.com/careers,Careers landing,Verified,Site may route through root page,2026-10-16
+26,Groww,"Fintech, Payments & Insurance",https://groww.in/careers,Careers landing,Verified,Openings on linked Greenhouse,2026-10-16
+27,Zerodha,"Fintech, Payments & Insurance",https://careers.zerodha.com/,Careers portal,Verified,Page reachable; dynamically generated,2026-10-16
+28,Upstox,"Fintech, Payments & Insurance",https://upstox.com/careers/,Job listings,Verified,"Role, location, work-type filters",2026-10-16
+29,Policybazaar,"Fintech, Payments & Insurance",https://www.policybazaar.com/careers/,Careers landing,Verified,Technology and sales opportunities,2026-10-16
+30,ACKO,"Fintech, Payments & Insurance",https://www.acko.com/careers/,Careers landing,Verified,Official careers page,2026-10-16
+31,Pine Labs,"Fintech, Payments & Insurance",https://www.pinelabs.com/careers,Careers landing,Verified,Linked open opportunities,2026-10-16
+32,MobiKwik,"Fintech, Payments & Insurance",https://www.mobikwik.com/careers,Careers landing,Verified,Official careers page,2026-10-16
+33,Navi,"Fintech, Payments & Insurance",https://navi.com/careers,Careers landing,Verified,Official careers page,2026-10-16
+34,Jupiter Money,"Fintech, Payments & Insurance",https://jupiter.money/careers/,Careers landing,Verified,Official careers page,2026-10-16
+35,slice,"Fintech, Payments & Insurance",https://slice.bank.in/careers,Careers landing,Verified,Current canonical careers domain,2026-10-16
+36,Zoho,"SaaS, Consumer Tech & Startups",https://www.zoho.com/careers/,Careers landing,Verified,Links to Zoho candidate portal,2026-10-16
+37,Freshworks,"SaaS, Consumer Tech & Startups",https://www.freshworks.com/company/careers/,Careers landing,Verified,Links to SmartRecruiters,2026-10-16
+38,BrowserStack,"SaaS, Consumer Tech & Startups",https://www.browserstack.com/careers,Careers landing,Verified,Role openings linked,2026-10-16
+39,Postman,"SaaS, Consumer Tech & Startups",https://www.postman.com/company/careers/,Careers landing,Verified,Official careers page,2026-10-16
+40,Chargebee,"SaaS, Consumer Tech & Startups",https://www.chargebee.com/company/careers/,Careers landing,Verified,Jobs may use third-party applications,2026-10-16
+41,InMobi,"SaaS, Consumer Tech & Startups",https://job-boards.greenhouse.io/inmobi,ATS - Greenhouse,Verified,Job list with global locations,2026-10-16
+42,Dream Sports,"SaaS, Consumer Tech & Startups",https://www.dreamsports.group/lifeatdreamsports,Careers landing,Verified,Corporate careers redirected here,2026-10-16
+43,ShareChat / Moj,"SaaS, Consumer Tech & Startups",https://sharechat.com/careers,Careers landing,Verified,Official careers page,2026-10-16
+44,Unacademy,"SaaS, Consumer Tech & Startups",https://unacademy.com/careers,Careers landing,Verified,View openings,2026-10-16
+45,Rapido,"SaaS, Consumer Tech & Startups",https://www.rapido.bike/Careers,Careers landing,Verified,View jobs,2026-10-16
+46,Uber,"SaaS, Consumer Tech & Startups",https://jobs.uber.com/en/,Job search,Verified,Filter by India,2026-10-16
+47,Ola Electric,"SaaS, Consumer Tech & Startups",https://www.olaelectric.com/careers,Careers listing,Verified,Official listings,2026-10-16
+48,MakeMyTrip,"SaaS, Consumer Tech & Startups",https://careers.makemytrip.com/,Careers portal,Verified,Site has minimal server-side text,2026-10-16
+49,LeadSquared,"SaaS, Consumer Tech & Startups",https://www.leadsquared.com/careers/,Careers landing,Verified,Links to recruitment board on Darwinbox,2026-10-16
+50,NoBroker,"SaaS, Consumer Tech & Startups",https://www.nobroker.in/careers,Careers landing,Verified,Official careers page,2026-10-16
+51,Whatfix,"SaaS, Consumer Tech & Startups",https://whatfix.com/careers/,Careers listing,Verified,Official careers page,2026-10-16
+52,Hasura / PromptQL,"SaaS, Consumer Tech & Startups",https://promptql.io/careers,Careers landing,Verified,Hasura careers redirected here,2026-10-16
+53,Plivo,"SaaS, Consumer Tech & Startups",https://jobs.lever.co/plivo,ATS - Lever,Verified,Public job board; example Bangalore job indexed,2026-10-16
+54,Drivetrain,"SaaS, Consumer Tech & Startups",https://jobs.lever.co/drivetrain/?location=India,ATS - Lever,Verified,"India jobs, including remote roles",2026-10-16
+55,Exotel,"SaaS, Consumer Tech & Startups",https://exotel.com/about-us/careers/,Careers landing,Verified,B2B communications careers,2026-10-16
+56,TCS,Indian IT Services & Engineering,https://www.tcs.com/careers/india,Careers landing,Verified,India-specific careers,2026-10-16
+57,Infosys,Indian IT Services & Engineering,https://career.infosys.com/jobs?countrycode=IN,India jobs,Verified,"India-specific listings (1,665 observed)",2026-10-16
+58,Wipro,Indian IT Services & Engineering,https://careers.wipro.com/,Careers portal,Verified,Verify direct jobs link,2026-10-16
+59,HCLTech,Indian IT Services & Engineering,https://www.hcltech.com/careers/careers-in-india,Job search,Verified,India role filters,2026-10-16
+60,Tech Mahindra,Indian IT Services & Engineering,https://careers.techmahindra.com/Home.aspx,Job search,Verified,Current opportunities search,2026-10-16
+61,LTIMindtree,Indian IT Services & Engineering,https://www.ltm.com/india-careers,India careers,Verified,India page and links to jobs,2026-10-16
+62,Mphasis,Indian IT Services & Engineering,https://careers.mphasis.com/,Careers portal,Verified,Verify current official URL,2026-10-16
+63,Persistent Systems,Indian IT Services & Engineering,https://careers.persistent.com/explore-opportunities,Job listings,Verified,India location filter,2026-10-16
+64,Coforge,Indian IT Services & Engineering,https://careers.coforge.com/,Job search,Verified,"Includes IT, BPS, fresher",2026-10-16
+65,Hexaware,Indian IT Services & Engineering,https://hexaware.com/careers/,Careers landing,Verified,Reachable; little server-side content,2026-10-16
+66,Birlasoft,Indian IT Services & Engineering,https://jobs.birlasoft.com/go/India/684744/,India jobs,Verified,SuccessFactors jobs listing,2026-10-16
+67,Zensar,Indian IT Services & Engineering,https://www.zensar.com/careers,Careers landing,Verified,India/APAC job links,2026-10-16
+68,KPIT Technologies,Indian IT Services & Engineering,https://www.kpit.com/careers-overview/,Careers landing,Verified,Redirected canonical page,2026-10-16
+69,Tata Elxsi,Indian IT Services & Engineering,https://www.tataelxsi.com/careers/job-openings,Job listings,Verified,India country filter,2026-10-16
+70,Cyient,Indian IT Services & Engineering,https://careers.cyient.com/,Careers listing,Verified,Recruitment portal,2026-10-16
+71,L&T Technology Services,Indian IT Services & Engineering,https://www.ltts.com/careers/job-opportunities/india,India roles,Verified,India jobs and skill clusters,2026-10-16
+72,IBM,Indian IT Services & Engineering,https://www.ibm.com/careers/search,Job search,Verified,Apply India location filter,2026-10-16
+73,Accenture,Indian IT Services & Engineering,https://www.accenture.com/in-en/careers/jobsearch,Job search,Verified,India jobs search,2026-10-16
+74,Capgemini,Indian IT Services & Engineering,https://www.capgemini.com/in-en/careers/join-capgemini/job-search/,Job search,Verified,Country careers path,2026-10-16
+75,Cognizant,Indian IT Services & Engineering,https://careers.cognizant.com/india-en/,India careers,Verified,Country job listing,2026-10-16
+76,Microsoft,"Global Product, Cloud & Semiconductors",https://careers.microsoft.com/v2/global/en/locations/india.html,India jobs,Verified,India specific searchable roles,2026-10-16
+77,Google,"Global Product, Cloud & Semiconductors",https://www.google.com/about/careers/applications/jobs/results/?location=India,India jobs,Verified,Country-filtered results indexed; locations may update,2026-10-16
+78,Adobe,"Global Product, Cloud & Semiconductors",https://careers.adobe.com/us/en/,Careers portal,Verified,Filter by India,2026-10-16
+79,Oracle,"Global Product, Cloud & Semiconductors",https://careers.oracle.com/en/sites/jobsearch/jobs?location=India,India jobs,Verified,Oracle cloud careers filter,2026-10-16
+80,Salesforce,"Global Product, Cloud & Semiconductors",https://careers.salesforce.com/en/jobs/?country=India,India jobs,Verified,Country India job search,2026-10-16
+81,SAP,"Global Product, Cloud & Semiconductors",https://careers.sap.com/go/SAP-Jobs-in-India/851201/,India jobs,Verified,India jobs with pagination,2026-10-16
+82,NVIDIA,"Global Product, Cloud & Semiconductors",https://jobs.nvidia.com/careers,Careers portal,Verified,Filter to India,2026-10-16
+83,Intel,"Global Product, Cloud & Semiconductors",https://jobs.intel.com/,Careers portal,Verified,Filter to India,2026-10-16
+84,Qualcomm,"Global Product, Cloud & Semiconductors",https://careers.qualcomm.com/careers,Careers portal,Verified,Filter to India,2026-10-16
+85,Dell Technologies,"Global Product, Cloud & Semiconductors",https://jobs.dell.com/en/,Careers portal,Verified,Redirects to company applicant portal,2026-10-16
+86,HP,"Global Product, Cloud & Semiconductors",https://jobs.hp.com/,Careers portal,Verified,Filter to India,2026-10-16
+87,Cisco,"Global Product, Cloud & Semiconductors",https://careers.cisco.com/global/en,Careers portal,Verified,Official company search,2026-10-16
+88,ServiceNow,"Global Product, Cloud & Semiconductors",https://careers.servicenow.com/,Careers portal,Verified,Filter to India,2026-10-16
+89,Atlassian,"Global Product, Cloud & Semiconductors",https://www.atlassian.com/company/careers/all-jobs,Jobs listing,Verified,Filter to India,2026-10-16
+90,Walmart Global Tech,"Global Product, Cloud & Semiconductors",https://careers.walmart.com/us/en/home/careers-areas/technology,Careers landing,Verified,Technology roles; filter India,2026-10-16
+91,Reliance Industries,"Manufacturing, Automotive & Pharma",https://careers.ril.com/rilcareers/frmJobSearch.aspx,Jobs listing,Verified,"Roles include manufacturing, tech, HR",2026-10-16
+92,Tata Motors,"Manufacturing, Automotive & Pharma",https://careers.tatamotors.com/viewalljobs/,Jobs listing,Verified,All job opportunities,2026-10-16
+93,Mahindra Group,"Manufacturing, Automotive & Pharma",https://www.mahindra.com/career,Careers landing,Verified,Find a job,2026-10-16
+94,Bosch India,"Manufacturing, Automotive & Pharma",https://www.bosch.in/careers/job-offers/,India jobs,Verified,Country job search,2026-10-16
+95,Siemens,"Manufacturing, Automotive & Pharma",https://jobs.siemens.com/careers,Careers portal,Verified,Official global recruiting,2026-10-16
+96,Sun Pharma,"Manufacturing, Automotive & Pharma",https://jobs.sunpharma.com/en,Job search,Verified,Company vacancy search,2026-10-16
+97,Cipla,"Manufacturing, Automotive & Pharma",https://www.cipla.com/careers,Careers listing,Verified,"Search by jobs, location and function",2026-10-16
+98,Dr. Reddy's Laboratories,"Manufacturing, Automotive & Pharma",https://careers.drreddys.com/jobs,Job search,Verified,Filter Location=INDIA,2026-10-16
+99,Biocon,"Manufacturing, Automotive & Pharma",https://www.biocon.com/careers/,Careers landing,Verified,Search current roles,2026-10-16
+100,Lupin,"Manufacturing, Automotive & Pharma",https://careers.lupin.com/go/Lupin-India/9891200/,India jobs,Verified,India position list,2026-10-16

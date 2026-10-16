@@ -1,4 +1,5 @@
 import json
+import asyncio
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -120,6 +121,11 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
         self.root = Path(self.temp_dir.name)
         self.json_file = self.root / "jobs.json"
         self.output_dir = self.root / "companies"
+        self.output_kwargs = {
+            "structured_json": self.root / "structured.json",
+            "formatted_output_dir": self.root / "formatted",
+            "extraction_report": self.root / "report.json",
+        }
 
     def tearDown(self):
         self.temp_dir.cleanup()
@@ -139,7 +145,7 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
         ]
         with patch.object(crawler, "AsyncWebCrawler", FakeCrawler):
             records, attempted, skipped = await crawler.crawl_pages(
-                pages, 0, self.output_dir, self.json_file
+                pages, 0, self.output_dir, self.json_file, **self.output_kwargs
             )
 
         self.assertEqual(FakeCrawler.calls, ["https://other.example/jobs"])
@@ -151,7 +157,7 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
         old = saved_record(
             "Acme",
             "https://acme.example/jobs",
-            datetime.now(timezone.utc) - timedelta(hours=7),
+            datetime.now(timezone.utc) - timedelta(hours=201),
         )
         self.write_records([old])
 
@@ -161,6 +167,7 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
                 0,
                 self.output_dir,
                 self.json_file,
+                **self.output_kwargs,
             )
 
         self.assertEqual(FakeCrawler.calls, ["https://acme.example/jobs"])
@@ -168,6 +175,26 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(records), 1)
         self.assertEqual(records[0]["openings_and_descriptions"], "Fresh jobs")
         self.assertNotEqual(records[0]["crawled_at"], old["crawled_at"])
+
+    async def test_forced_company_recrawl_bypasses_cooldown(self):
+        recent = saved_record(
+            "Acme", "https://acme.example/jobs", datetime.now(timezone.utc)
+        )
+        self.write_records([recent])
+
+        with patch.object(crawler, "AsyncWebCrawler", FakeCrawler):
+            records, attempted, skipped = await crawler.crawl_pages(
+                [("Acme", "https://acme.example/jobs")],
+                0,
+                self.output_dir,
+                self.json_file,
+                force_crawl=True,
+                **self.output_kwargs,
+            )
+
+        self.assertEqual(FakeCrawler.calls, ["https://acme.example/jobs"])
+        self.assertEqual((attempted, skipped), (1, 0))
+        self.assertEqual(records[0]["openings_and_descriptions"], "Fresh jobs")
 
     async def test_all_recent_companies_skip_without_starting_browser(self):
         recent = saved_record(
@@ -181,18 +208,36 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
                 0,
                 self.output_dir,
                 self.json_file,
+                **self.output_kwargs,
             )
 
         crawler_class.assert_not_called()
         self.assertEqual((attempted, skipped), (0, 1))
         self.assertEqual(records, [recent])
 
-    def test_six_hour_cooldown_boundary(self):
+    def test_200_hour_cooldown_boundary(self):
         now = datetime.now(timezone.utc)
         self.assertIsNotNone(
-            crawler.cooldown_end(now - timedelta(hours=5, minutes=59), now)
+            crawler.cooldown_end(now - timedelta(hours=199, minutes=59), now)
         )
-        self.assertIsNone(crawler.cooldown_end(now - timedelta(hours=6), now))
+        self.assertIsNone(crawler.cooldown_end(now - timedelta(hours=200), now))
+
+    async def test_skip_event_cancels_in_flight_page(self):
+        skip_event = asyncio.Event()
+        cancelled = asyncio.Event()
+
+        async def slow_page():
+            try:
+                await asyncio.sleep(60)
+            finally:
+                cancelled.set()
+
+        skip_event.set()
+        with self.assertRaises(crawler.SkipCurrentSource):
+            await crawler.crawl_until_done_or_skipped(slow_page(), 120, skip_event)
+
+        self.assertTrue(cancelled.is_set())
+        self.assertFalse(skip_event.is_set())
 
     async def test_detail_pages_are_followed_and_normalized(self):
         DetailCrawler.calls = []
@@ -204,6 +249,7 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
                 self.json_file,
                 crawl_job_details=True,
                 detail_wait_seconds=0,
+                **self.output_kwargs,
             )
 
         self.assertEqual((attempted, skipped), (1, 0))
@@ -220,6 +266,30 @@ class CrawlCooldownTests(unittest.IsolatedAsyncioTestCase):
             "https://acme.example/careers/jobDetails/abc123/apply",
         )
         self.assertTrue((self.output_dir / "acme" / "abc123.md").exists())
+
+    async def test_resume_skips_completed_companies_and_detail_pages(self):
+        DetailCrawler.calls = []
+        pages = [
+            ("Earlier", "https://earlier.example/careers"),
+            ("Acme", "https://acme.example/careers"),
+        ]
+        with patch.object(crawler, "AsyncWebCrawler", DetailCrawler):
+            records, attempted, skipped = await crawler.crawl_pages(
+                pages,
+                0,
+                self.output_dir,
+                self.json_file,
+                crawl_job_details=True,
+                detail_wait_seconds=0,
+                resume_company_position=2,
+                resume_detail_position=2,
+                **self.output_kwargs,
+            )
+
+        self.assertEqual((attempted, skipped), (1, 1))
+        self.assertEqual(DetailCrawler.calls, ["https://acme.example/careers"])
+        self.assertEqual(records[0]["jobs"][0]["title"], "Backend Developer")
+        self.assertFalse((self.output_dir / "acme" / "abc123.md").exists())
 
 
 if __name__ == "__main__":

@@ -29,7 +29,8 @@
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "react-leaflet": "5.0.0"
+    "react-leaflet": "5.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "concurrently": "9.2.5"

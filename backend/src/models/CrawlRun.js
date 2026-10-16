@@ -9,6 +9,8 @@ const crawlRunSchema = new mongoose.Schema(
       index: true,
     },
     startedAt: { type: Date, default: null },
+    processId: { type: Number, default: null },
+    targetCompany: { type: String, default: null },
     finishedAt: { type: Date, default: null },
     exitCode: { type: Number, default: null },
     importedJobs: { type: Number, default: 0 },

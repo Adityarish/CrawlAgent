@@ -10,3 +10,100 @@ Amazon | https://amazon.jobs/content/en/career-programs/university/internships-f
 Blinkit | https://www.naukri.com/blinkit-jobs-careers-1390572
 Lenskart | https://www.lenskart.com/careers-at-lenskart
 Capgemini | https://www.capgemini.com/in-en/careers/join-capgemini/job-search/?page=1&size=11&country_code=in-en
+Zepto | https://www.zepto.com/s/careers
+Blinkit | https://blinkit.com/careers/jobs
+Amazon India | https://www.amazon.jobs/en/search?country%5B%5D=IND
+Flipkart | https://www.flipkartcareers.com/jobslist
+Meesho | https://www.meesho.io/jobs
+Swiggy | https://careers.swiggy.in/explore-jobs
+Zomato | https://www.eternal.com/careers/
+BigBasket | https://careers.bigbasket.com/
+Reliance Retail / AJIO | https://rcareers.ril.com/
+Nykaa | https://www.nykaa.com/who_are_we
+FirstCry | https://www.firstcry.com/careers
+Urban Company | https://careers.urbancompany.com/jobs
+Cleartrip | https://cleartrip.hire.trakstar.com/jobs
+Delhivery | https://www.delhivery.com/about
+XpressBees | https://www.xpressbees.com/career
+Shadowfax | https://shadowfax.in/careers
+Porter | https://porter.in/careers
+Reliance Jio | https://careers.jio.com/
+PhonePe | https://www.phonepe.com/careers/job-openings/
+Paytm | https://jobs.lever.co/paytm
+Razorpay | https://razorpay.com/careers/
+CRED | https://careers.cred.club/openings
+BharatPe | https://bharatpe.com/careers
+Groww | https://groww.in/careers
+Zerodha | https://careers.zerodha.com/
+Upstox | https://upstox.com/careers/
+Policybazaar | https://www.policybazaar.com/careers/
+ACKO | https://www.acko.com/careers/
+Pine Labs | https://www.pinelabs.com/careers
+MobiKwik | https://www.mobikwik.com/careers
+Navi | https://navi.com/careers
+Jupiter Money | https://jupiter.money/careers/
+slice | https://slice.bank.in/careers
+Zoho | https://www.zoho.com/careers/
+Freshworks | https://www.freshworks.com/company/careers/
+BrowserStack | https://www.browserstack.com/careers
+Postman | https://www.postman.com/company/careers/
+Chargebee | https://www.chargebee.com/company/careers/
+InMobi | https://job-boards.greenhouse.io/inmobi
+Dream Sports | https://www.dreamsports.group/lifeatdreamsports
+ShareChat / Moj | https://sharechat.com/careers
+Unacademy | https://unacademy.com/careers
+Rapido | https://www.rapido.bike/Careers
+Uber | https://jobs.uber.com/en/
+Ola Electric | https://www.olaelectric.com/careers
+MakeMyTrip | https://careers.makemytrip.com/
+LeadSquared | https://www.leadsquared.com/careers/
+NoBroker | https://www.nobroker.in/careers
+Whatfix | https://whatfix.com/careers/
+Hasura / PromptQL | https://promptql.io/careers
+Plivo | https://jobs.lever.co/plivo
+Drivetrain | https://jobs.lever.co/drivetrain/?location=India
+Exotel | https://exotel.com/about-us/careers/
+Infosys | https://career.infosys.com/jobs?countrycode=IN
+Wipro | https://careers.wipro.com/
+HCLTech | https://www.hcltech.com/careers/careers-in-india
+Tech Mahindra | https://careers.techmahindra.com/Home.aspx
+LTIMindtree | https://www.ltm.com/india-careers
+Mphasis | https://careers.mphasis.com/
+Persistent Systems | https://careers.persistent.com/explore-opportunities
+Coforge | https://careers.coforge.com/
+Hexaware | https://hexaware.com/careers/
+Birlasoft | https://jobs.birlasoft.com/go/India/684744/
+Zensar | https://www.zensar.com/careers
+KPIT Technologies | https://www.kpit.com/careers-overview/
+Tata Elxsi | https://www.tataelxsi.com/careers/job-openings
+Cyient | https://careers.cyient.com/
+L&T Technology Services | https://www.ltts.com/careers/job-opportunities/india
+IBM | https://www.ibm.com/careers/search
+Accenture | https://www.accenture.com/in-en/careers/jobsearch
+Capgemini | https://www.capgemini.com/in-en/careers/join-capgemini/job-search/
+Cognizant | https://careers.cognizant.com/india-en/
+Microsoft | https://careers.microsoft.com/v2/global/en/locations/india.html
+Google | https://www.google.com/about/careers/applications/jobs/results/?location=India
+Adobe | https://careers.adobe.com/us/en/
+Oracle | https://careers.oracle.com/en/sites/jobsearch/jobs?location=India
+Salesforce | https://careers.salesforce.com/en/jobs/?country=India
+SAP | https://careers.sap.com/go/SAP-Jobs-in-India/851201/
+NVIDIA | https://jobs.nvidia.com/careers
+Intel | https://jobs.intel.com/
+Qualcomm | https://careers.qualcomm.com/careers
+Dell Technologies | https://jobs.dell.com/en/
+HP | https://jobs.hp.com/
+Cisco | https://careers.cisco.com/global/en
+ServiceNow | https://careers.servicenow.com/
+Atlassian | https://www.atlassian.com/company/careers/all-jobs
+Walmart Global Tech | https://careers.walmart.com/us/en/home/careers-areas/technology
+Reliance Industries | https://careers.ril.com/rilcareers/frmJobSearch.aspx
+Tata Motors | https://careers.tatamotors.com/viewalljobs/
+Mahindra Group | https://www.mahindra.com/career
+Bosch India | https://www.bosch.in/careers/job-offers/
+Siemens | https://jobs.siemens.com/careers
+Sun Pharma | https://jobs.sunpharma.com/en
+Cipla | https://www.cipla.com/careers
+Dr. Reddy's Laboratories | https://careers.drreddys.com/jobs
+Biocon | https://www.biocon.com/careers/
+Lupin | https://careers.lupin.com/go/Lupin-India/9891200/

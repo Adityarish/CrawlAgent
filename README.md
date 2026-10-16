@@ -22,7 +22,10 @@ MongoDB ← REST API ← Next.js frontend
 - `backend/` — Express API, Mongoose models, crawler orchestration, and Node tests
 
 The API imports `crawler/parsing/output/structured_jobs.json` with idempotent
-MongoDB upserts on startup and after every successful crawler run.
+MongoDB upserts on startup and after every successful crawler run. During that
+import, Indian job locations are matched to `dataset/District.csv`; its district
+centroids are stored with each job and used by the map instead of hardcoded
+city coordinates.
 
 ## Local setup
 
@@ -59,6 +62,10 @@ npm run parse      # Reparse stored crawler evidence without network requests
 npm test           # Node API unit tests and Python crawler/parser tests
 ```
 
+While a crawl is running, use **Skip current company** in the admin console to
+cancel the in-flight page and advance to the next source. From another terminal,
+the equivalent command is `kill -USR1 $(pgrep -f "python.*-m crawler")`.
+
 ## API
 
 Public endpoints:
@@ -73,7 +80,9 @@ Admin endpoints require a short-lived bearer token returned by
 `POST /api/admin/login`:
 
 - `GET|POST /api/admin/sources`
+- `POST /api/admin/sources/upload` (CSV or Excel with `Company` and `Link` columns)
 - `GET|POST /api/admin/crawl`
+- `POST /api/admin/crawl/skip` (cancel the current source and continue)
 
 ## Crawling and parsing
 
@@ -88,6 +97,8 @@ Run the crawler directly when needed:
 ```bash
 npm run crawl
 ```
+
+Each source is eligible for another crawl after 200 hours.
 
 Or reparse the stored Markdown without revisiting any website:
 

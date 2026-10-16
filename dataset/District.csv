@@ -1,0 +1,785 @@
+district_code,district,state,latitude,longitude,coordinate_basis,boundary_name,state_code
+603,Nicobars,Andaman And Nicobar Islands,7.027802,93.807114,polygon_centroid_fuzzy,Nicobar,35
+632,North And Middle Andaman,Andaman And Nicobar Islands,12.603184,92.83047,polygon_centroid,North and Middle Andaman,35
+602,South Andamans,Andaman And Nicobar Islands,11.852259,92.670956,polygon_centroid_fuzzy,South Andaman,35
+745,Alluri Sitharama Raju,Andhra Pradesh,18.045402,82.540432,polygon_centroid,Alluri Sitharama Raju,28
+744,Anakapalli,Andhra Pradesh,17.660856,82.795617,polygon_centroid,Anakapalli,28
+502,Ananthapuramu,Andhra Pradesh,14.783986,77.406371,polygon_centroid_fuzzy,Anantapuram,28
+753,Annamayya,Andhra Pradesh,13.739723,78.620139,polygon_centroid,Annamayya,28
+750,Bapatla,Andhra Pradesh,15.951159,80.504936,polygon_centroid,Bapatla,28
+503,Chittoor,Andhra Pradesh,13.137669,78.870565,polygon_centroid,Chittoor,28
+747,Dr. B.R. Ambedkar Konaseema,Andhra Pradesh,16.61688,81.998873,polygon_centroid_alias,Konaseema,28
+505,East Godavari,Andhra Pradesh,17.01539,81.749882,polygon_centroid,East Godavari,28
+748,Eluru,Andhra Pradesh,16.979517,81.184102,polygon_centroid,Eluru,28
+506,Guntur,Andhra Pradesh,16.284799,80.467921,polygon_centroid,Guntur,28
+746,Kakinada,Andhra Pradesh,17.164197,82.251846,polygon_centroid,Kakinada,28
+510,Krishna,Andhra Pradesh,16.266249,80.993655,polygon_centroid,Krishna district,28
+511,Kurnool,Andhra Pradesh,15.601045,77.539042,polygon_centroid,Kurnool,28
+790,Markapuram,Andhra Pradesh,15.624135,79.213553,polygon_centroid,Markapuram,28
+755,Nandyal,Andhra Pradesh,15.476501,78.375733,polygon_centroid,Nandyal,28
+749,Ntr,Andhra Pradesh,16.686905,80.50217,polygon_centroid,NTR,28
+751,Palnadu,Andhra Pradesh,16.362436,79.810683,polygon_centroid,Palnadu,28
+743,Parvathipuram Manyam,Andhra Pradesh,18.747777,83.485875,polygon_centroid,Parvathipuram Manyam,28
+791,Polavaram,Andhra Pradesh,17.610605,81.688803,polygon_centroid,Polavaram,28
+517,Prakasam,Andhra Pradesh,15.5562,79.858782,polygon_centroid,Prakasam,28
+519,Srikakulam,Andhra Pradesh,18.5813,84.114403,polygon_centroid,Srikakulam,28
+515,Sri Potti Sriramulu Nellore,Andhra Pradesh,14.595415,79.686853,polygon_centroid,Sri Potti Sriramulu Nellore,28
+754,Sri Sathya Sai,Andhra Pradesh,14.136514,77.762819,polygon_centroid,Sri Sathya Sai,28
+752,Tirupati,Andhra Pradesh,13.792112,79.599161,polygon_centroid,Tirupati,28
+520,Visakhapatnam,Andhra Pradesh,17.820726,83.287763,polygon_centroid,Visakhapatnam,28
+521,Vizianagaram,Andhra Pradesh,18.279547,83.413478,polygon_centroid,Vizianagaram,28
+523,West Godavari,Andhra Pradesh,16.599371,81.591471,polygon_centroid,West Godavari,28
+504,Y.S.R. Kadapa,Andhra Pradesh,14.593931,78.69812,polygon_centroid,YSR Kadapa,28
+628,Anjaw,Arunachal Pradesh,28.110488,96.812193,polygon_centroid,Anjaw district,12
+787,Bichom,Arunachal Pradesh,27.532365,92.598149,polygon_centroid,Bichom,12
+229,Changlang,Arunachal Pradesh,27.362716,96.339213,polygon_centroid,Changlang,12
+230,Dibang Valley,Arunachal Pradesh,28.847162,95.912353,polygon_centroid,Dibang Valley,12
+231,East Kameng,Arunachal Pradesh,27.592598,92.945716,polygon_centroid,East Kameng,12
+232,East Siang,Arunachal Pradesh,28.045132,95.355428,polygon_centroid,East Siang,12
+718,Kamle,Arunachal Pradesh,27.745443,94.106048,polygon_centroid,Kamle,12
+786,Keyi Panyor,Arunachal Pradesh,27.496749,93.707747,polygon_centroid,Keyi Panyor,12
+677,Kra Daadi,Arunachal Pradesh,27.979773,93.699528,polygon_centroid,Kra Daadi,12
+233,Kurung Kumey,Arunachal Pradesh,28.006674,93.202832,polygon_centroid,Kurung Kumey,12
+724,Leparada,Arunachal Pradesh,27.929806,94.729561,polygon_centroid,Lepa Rada,12
+234,Lohit,Arunachal Pradesh,27.937681,96.289898,polygon_centroid,Lohit,12
+666,Longding,Arunachal Pradesh,26.852153,95.325881,polygon_centroid,Longding,12
+235,Lower Dibang Valley,Arunachal Pradesh,28.252635,95.853225,polygon_centroid,Lower Dibang Valley,12
+719,Lower Siang,Arunachal Pradesh,27.772476,94.684589,polygon_centroid,Lower Siang,12
+236,Lower Subansiri,Arunachal Pradesh,27.604189,93.866939,polygon_centroid,Lower Subansiri,12
+678,Namsai,Arunachal Pradesh,27.702442,96.046989,polygon_centroid,Namsai,12
+723,Pakke Kessang,Arunachal Pradesh,27.106854,93.03955,polygon_centroid,Pakke-Kessang,12
+237,Papum Pare,Arunachal Pradesh,27.270071,93.58665,polygon_centroid,Papum Pare,12
+725,Shi Yomi,Arunachal Pradesh,28.67212,94.259595,polygon_centroid,Shi Yomi,12
+679,Siang,Arunachal Pradesh,28.404061,94.80319,polygon_centroid,Siang,12
+238,Tawang,Arunachal Pradesh,27.659408,91.975753,polygon_centroid,Tawang district,12
+239,Tirap,Arunachal Pradesh,27.025488,95.527837,polygon_centroid,Tirap,12
+240,Upper Siang,Arunachal Pradesh,28.815038,94.93643,polygon_centroid,Upper Siang,12
+241,Upper Subansiri,Arunachal Pradesh,28.319942,93.909426,polygon_centroid,Upper Subansiri,12
+242,West Kameng,Arunachal Pradesh,27.238422,92.35511,polygon_centroid,West Kameng,12
+243,West Siang,Arunachal Pradesh,28.162192,94.625735,polygon_centroid,West Siang,12
+739,Bajali,Assam,26.522583,91.144416,polygon_centroid,Bajali,18
+616,Baksa,Assam,26.66631,91.200729,polygon_centroid,Baksa,18
+280,Barpeta,Assam,26.299389,90.973367,polygon_centroid,Barpeta,18
+705,Biswanath,Assam,26.828513,93.385511,polygon_centroid,Biswanath,18
+281,Bongaigaon,Assam,26.359747,90.619234,polygon_centroid,Bongaigaon,18
+282,Cachar,Assam,24.812229,92.855684,polygon_centroid,Cachar,18
+708,Charaideo,Assam,27.062962,95.051083,polygon_centroid,Charaideo,18
+612,Chirang,Assam,26.65967,90.602076,polygon_centroid,Chirang,18
+283,Darrang,Assam,26.446531,92.029983,polygon_centroid,Darrang,18
+284,Dhemaji,Assam,27.593316,94.77687,polygon_centroid,Dhemaji,18
+285,Dhubri,Assam,26.159409,89.815123,polygon_centroid,Dhubri,18
+286,Dibrugarh,Assam,27.366968,95.051459,polygon_centroid,Dibrugarh,18
+299,Dima Hasao,Assam,25.379072,93.031615,polygon_centroid,Dima Hasao,18
+287,Goalpara,Assam,26.05197,90.604507,polygon_centroid,Goalpara,18
+288,Golaghat,Assam,26.47668,93.833763,polygon_centroid,Golaghat,18
+289,Hailakandi,Assam,24.495887,92.58666,polygon_centroid,Hailakandi district,18
+709,Hojai,Assam,25.978753,92.981145,polygon_centroid,Hojai,18
+290,Jorhat,Assam,26.713898,94.264923,polygon_centroid,Jorhat,18
+291,Kamrup,Assam,26.103172,91.416509,polygon_centroid,Kamrup,18
+618,Kamrup Metro,Assam,26.130097,91.891529,polygon_centroid_alias,Kamrup Metropolitan,18
+292,Karbi Anglong,Assam,26.156611,93.405171,polygon_centroid,Karbi Anglong,18
+294,Kokrajhar,Assam,26.494458,90.119505,polygon_centroid,Kokrajhar,18
+295,Lakhimpur,Assam,27.176719,94.14075,polygon_centroid,Lakhimpur,18
+706,Majuli,Assam,27.000495,94.290309,polygon_centroid,Majuli,18
+296,Marigaon,Assam,26.282891,92.285204,polygon_centroid,Marigaon,18
+297,Nagaon,Assam,26.363857,92.755516,polygon_centroid,Nagaon,18
+298,Nalbari,Assam,26.373511,91.381413,polygon_centroid,Nalbari,18
+300,Sivasagar,Assam,26.970498,94.66026,polygon_centroid,Sivasagar,18
+301,Sonitpur,Assam,26.759346,92.698543,polygon_centroid,Sonitpur,18
+707,South Salmara Mancachar,Assam,25.816026,89.961127,polygon_centroid_fuzzy,South Salmara-Mankachar,18
+293,Sribhumi,Assam,24.578247,92.38009,polygon_centroid_alias,Karimganj,18
+756,Tamulpur,Assam,26.657319,91.623104,polygon_centroid,Tamulpur,18
+302,Tinsukia,Assam,27.580594,95.620386,polygon_centroid,Tinsukia,18
+617,Udalguri,Assam,26.730997,92.031728,polygon_centroid,Udalguri,18
+710,West Karbi Anglong,Assam,25.851277,92.533354,polygon_centroid,West Karbi Anglong,18
+188,Araria,Bihar,26.198914,87.362548,polygon_centroid,Araria District,10
+611,Arwal,Bihar,25.162677,84.678671,polygon_centroid,Arwal,10
+189,Aurangabad,Bihar,24.791037,84.407683,polygon_centroid,Aurangabad,10
+190,Banka,Bihar,24.854293,86.837207,polygon_centroid,Banka,10
+191,Begusarai,Bihar,25.496601,86.128011,polygon_centroid,Begusarai,10
+192,Bhagalpur,Bihar,25.26969,87.083378,polygon_centroid,Bhagalpur,10
+193,Bhojpur,Bihar,25.47083,84.543244,polygon_centroid,Bhojpur,10
+194,Buxar,Bihar,25.49212,84.098766,polygon_centroid,Buxar,10
+195,Darbhanga,Bihar,26.084869,86.052887,polygon_centroid,Darbhanga,10
+196,Gaya,Bihar,24.696572,84.935211,polygon_centroid,Gaya,10
+197,Gopalganj,Bihar,26.443336,84.372566,polygon_centroid,Gopalganj,10
+198,Jamui,Bihar,24.785457,86.291882,polygon_centroid,Jamui,10
+199,Jehanabad,Bihar,25.155114,85.016755,polygon_centroid,Jehanabad,10
+200,Kaimur (Bhabua),Bihar,24.990727,83.605679,polygon_centroid_alias,Kaimur,10
+201,Katihar,Bihar,25.548271,87.640019,polygon_centroid,Katihar,10
+202,Khagaria,Bihar,25.510249,86.602717,polygon_centroid,Khagaria,10
+203,Kishanganj,Bihar,26.29732,87.936004,polygon_centroid,Kishanganj,10
+204,Lakhisarai,Bihar,25.161414,86.137714,polygon_centroid,Lakhisarai,10
+205,Madhepura,Bihar,25.823907,86.899472,polygon_centroid,Madhepura,10
+206,Madhubani,Bihar,26.401864,86.221946,polygon_centroid,Madhubani,10
+207,Munger,Bihar,25.208793,86.527432,polygon_centroid,Munger,10
+208,Muzaffarpur,Bihar,26.151866,85.328622,polygon_centroid,Muzaffarpur,10
+209,Nalanda,Bihar,25.219104,85.448222,polygon_centroid,Nalanda,10
+210,Nawada,Bihar,24.811909,85.59069,polygon_centroid,Nawada,10
+211,Pashchim Champaran,Bihar,27.078651,84.338973,polygon_centroid_alias,West Champaran,10
+212,Patna,Bihar,25.455209,85.224463,polygon_centroid,Patna,10
+213,Purbi Champaran,Bihar,26.617202,84.924189,polygon_centroid_alias,East Champaran,10
+214,Purnia,Bihar,25.814484,87.402658,polygon_centroid,Purnia,10
+215,Rohtas,Bihar,24.981828,84.025275,polygon_centroid,Rohtas,10
+216,Saharsa,Bihar,25.814719,86.591323,polygon_centroid,Saharsa,10
+217,Samastipur,Bihar,25.773135,85.866199,polygon_centroid,Samastipur,10
+218,Saran,Bihar,25.906595,84.822198,polygon_centroid,Saran,10
+219,Sheikhpura,Bihar,25.125959,85.839205,polygon_centroid,Sheikhpura,10
+220,Sheohar,Bihar,26.497568,85.302834,polygon_centroid,Sheohar,10
+221,Sitamarhi,Bihar,26.584241,85.552533,polygon_centroid,Sitamarhi,10
+222,Siwan,Bihar,26.161311,84.387459,polygon_centroid,Siwan,10
+223,Supaul,Bihar,26.245232,86.809345,polygon_centroid,Supaul,10
+224,Vaishali,Bihar,25.762974,85.368291,polygon_centroid,Vaishali,10
+44,Chandigarh,Chandigarh,30.728011,76.779487,polygon_centroid,Chandigarh,4
+646,Balod,Chhattisgarh,20.741786,81.188751,polygon_centroid,Balod,22
+644,Balodabazar-Bhatapara,Chhattisgarh,21.575728,82.243682,polygon_centroid_alias,Baloda Bazar,22
+649,Balrampur-Ramanujganj,Chhattisgarh,23.592217,83.500345,polygon_centroid_alias,Balrampur,22
+374,Bastar,Chhattisgarh,19.101092,81.869379,polygon_centroid,Bastar,22
+650,Bemetara,Chhattisgarh,21.707897,81.523595,polygon_centroid,Bemetara,22
+636,Bijapur,Chhattisgarh,18.84099,80.776844,polygon_centroid,Bijapur,22
+375,Bilaspur,Chhattisgarh,22.180038,82.115705,polygon_centroid,Bilaspur,22
+376,Dakshin Bastar Dantewada,Chhattisgarh,18.85815,81.373088,polygon_centroid_alias,Dantewada,22
+377,Dhamtari,Chhattisgarh,20.556345,81.809349,polygon_centroid,Dhamtari,22
+378,Durg,Chhattisgarh,21.219575,81.382582,polygon_centroid,Durg,22
+645,Gariyaband,Chhattisgarh,20.452451,82.233246,polygon_centroid_fuzzy,Gariaband,22
+734,Gaurela-Pendra-Marwahi,Chhattisgarh,22.805062,81.997393,polygon_centroid,Gaurela-Pendra-Marwahi,22
+379,Janjgir-Champa,Chhattisgarh,21.955496,82.559894,polygon_centroid,Janjgir-Champa,22
+380,Jashpur,Chhattisgarh,22.800336,83.862283,polygon_centroid,Jashpur,22
+382,Kabeerdham,Chhattisgarh,22.092853,81.223099,polygon_centroid_alias,Kabirdham,22
+759,Khairagarh-Chhuikhadan-Gandai,Chhattisgarh,21.530577,80.938428,polygon_centroid,Khairagarh-Chhuikhadan-Gandai,22
+643,Kondagaon,Chhattisgarh,19.737698,81.664958,polygon_centroid,Kondagaon,22
+383,Korba,Chhattisgarh,22.533912,82.60817,polygon_centroid,Korba,22
+384,Korea,Chhattisgarh,23.46687,82.494299,polygon_centroid_alias,Koriya,22
+385,Mahasamund,Chhattisgarh,21.2083,82.608837,polygon_centroid,Mahasamund,22
+760,Manendragarh-Chirmiri-Bharatpur(M C B),Chhattisgarh,23.470136,82.111961,polygon_centroid_fuzzy,Manendragarh-Chirimiri-Bharatpur,22
+761,Mohla-Manpur-Ambagarh Chouki,Chhattisgarh,20.512526,80.712104,polygon_centroid_fuzzy,Mohla-Manpur-Ambagarh Chowki,22
+647,Mungeli,Chhattisgarh,22.240711,81.730424,polygon_centroid,Mungeli,22
+637,Narayanpur,Chhattisgarh,19.566598,81.083853,polygon_centroid,Narayanpur,22
+386,Raigarh,Chhattisgarh,22.226092,83.33669,polygon_centroid,Raigarh,22
+387,Raipur,Chhattisgarh,21.285524,81.82039,polygon_centroid,Raipur,22
+388,Rajnandgaon,Chhattisgarh,21.088268,80.817069,polygon_centroid,Rajnandgaon,22
+762,Sakti,Chhattisgarh,21.890288,82.973166,polygon_centroid,Sakti,22
+763,Sarangarh-Bilaigarh,Chhattisgarh,21.576805,83.055878,polygon_centroid,Sarangarh-Bilaigarh,22
+642,Sukma,Chhattisgarh,18.255121,81.346711,polygon_centroid,Sukma,22
+648,Surajpur,Chhattisgarh,23.401102,82.881899,polygon_centroid,Surajpur,22
+389,Surguja,Chhattisgarh,22.927684,83.227359,polygon_centroid,Surguja,22
+381,Uttar Bastar Kanker,Chhattisgarh,20.137706,81.121874,polygon_centroid,Uttar Bastar Kanker,22
+77,Central,Delhi,28.643458,77.163556,polygon_centroid_alias,Central Delhi,7
+796,Central North,Delhi,28.691297,77.150781,polygon_centroid_alias,Central North Delhi,7
+78,East,Delhi,28.627536,77.293594,polygon_centroid_alias,East Delhi,7
+79,New Delhi,Delhi,28.595672,77.16598,polygon_centroid,New Delhi,7
+80,North,Delhi,28.743019,77.187529,polygon_centroid_alias,North Delhi,7
+81,North East,Delhi,28.703181,77.273199,polygon_centroid_alias,North East Delhi,7
+82,North West,Delhi,28.706146,77.09023,polygon_centroid_alias,North West Delhi,7
+795,Old Delhi,Delhi,28.662122,77.218508,polygon_centroid,Old Delhi,7
+794,Outer North,Delhi,28.774444,77.060419,polygon_centroid_alias,Outer North Delhi,7
+83,South,Delhi,28.49351,77.182986,polygon_centroid_alias,South Delhi,7
+670,South East,Delhi,28.546814,77.272871,polygon_centroid_alias,South East Delhi,7
+84,South West,Delhi,28.574189,76.978344,polygon_centroid_alias,South West Delhi,7
+85,West,Delhi,28.638629,77.074482,polygon_centroid_alias,West Delhi,7
+793,Kushavati,Goa,15.174381,74.155844,polygon_centroid,Kushavati,30
+551,North Goa,Goa,15.579864,73.971861,polygon_centroid,North Goa,30
+552,South Goa,Goa,15.333527,73.98199,polygon_centroid,South Goa,30
+438,Ahmedabad,Gujarat,22.769407,72.242684,polygon_centroid,Ahmedabad,24
+439,Amreli,Gujarat,21.42569,71.246067,polygon_centroid,Amreli,24
+440,Anand,Gujarat,22.457902,72.792495,polygon_centroid,Anand,24
+672,Arvalli,Gujarat,23.467423,73.328807,polygon_centroid_fuzzy,Aravalli,24
+441,Banas Kantha,Gujarat,24.254053,72.331712,polygon_centroid,Banaskantha,24
+442,Bharuch,Gujarat,21.787625,72.925381,polygon_centroid,Bharuch,24
+443,Bhavnagar,Gujarat,21.571118,71.893274,polygon_centroid,Bhavnagar,24
+676,Botad,Gujarat,22.112461,71.674635,polygon_centroid,Botad,24
+668,Chhotaudepur,Gujarat,22.219059,73.874554,polygon_centroid_fuzzy,Chhota Udaipur,24
+445,Dahod,Gujarat,22.861156,74.113252,polygon_centroid,Dahod,24
+444,Dangs,Gujarat,20.797965,73.698781,polygon_centroid_alias,Dang,24
+674,Devbhumi Dwarka,Gujarat,22.11952,69.455737,polygon_centroid_fuzzy,Devbhumi Dwaraka,24
+446,Gandhinagar,Gujarat,23.254929,72.693095,polygon_centroid,Gandhinagar,24
+675,Gir Somnath,Gujarat,20.904305,70.756086,polygon_centroid,Gir Somnath,24
+447,Jamnagar,Gujarat,22.331959,70.215178,polygon_centroid,Jamnagar,24
+448,Junagadh,Gujarat,21.372932,70.414154,polygon_centroid,Junagadh,24
+449,Kachchh,Gujarat,23.623195,69.934525,polygon_centroid_alias,Kutch,24
+450,Kheda,Gujarat,22.839209,72.953113,polygon_centroid,Kheda,24
+451,Mahesana,Gujarat,23.609166,72.467052,polygon_centroid,Mahesana,24
+669,Mahisagar,Gujarat,23.187483,73.647271,polygon_centroid,Mahisagar,24
+673,Morbi,Gujarat,22.828823,70.918114,polygon_centroid,Morbi,24
+452,Narmada,Gujarat,21.73607,73.646119,polygon_centroid,Narmada,24
+453,Navsari,Gujarat,20.815282,73.091731,polygon_centroid,Navsari,24
+454,Panch Mahals,Gujarat,22.720553,73.625986,polygon_centroid_fuzzy,Panchmahal,24
+455,Patan,Gujarat,23.770337,71.758871,polygon_centroid,Patan,24
+456,Porbandar,Gujarat,21.652604,69.779996,polygon_centroid,Porbandar,24
+457,Rajkot,Gujarat,22.020355,70.746518,polygon_centroid,Rajkot,24
+458,Sabar Kantha,Gujarat,23.807943,73.032719,polygon_centroid,Sabarkantha,24
+459,Surat,Gujarat,21.267461,73.069833,polygon_centroid,Surat,24
+460,Surendranagar,Gujarat,22.764758,71.594929,polygon_centroid,Surendranagar,24
+641,Tapi,Gujarat,21.190152,73.625619,polygon_centroid,Tapi,24
+461,Vadodara,Gujarat,22.248712,73.241962,polygon_centroid,Vadodara,24
+462,Valsad,Gujarat,20.416562,73.119066,polygon_centroid,Valsad,24
+789,Vav-Tharad,Gujarat,24.330543,71.621142,polygon_centroid,Vav-Tharad,24
+58,Ambala,Haryana,30.332269,76.942704,polygon_centroid,Ambala,6
+59,Bhiwani,Haryana,28.779888,75.890935,polygon_centroid,Bhiwani,6
+701,Charkhi Dadri,Haryana,28.576008,76.151136,polygon_centroid,Charkhi Dadri,6
+60,Faridabad,Haryana,28.353686,77.342984,polygon_centroid,Faridabad,6
+61,Fatehabad,Haryana,29.569611,75.578163,polygon_centroid,Fatehabad,6
+62,Gurugram,Haryana,28.369505,76.940926,polygon_centroid,Gurugram,6
+792,Hansi,Haryana,29.1053,75.9634,district_headquarters,Hansi,6
+63,Hisar,Haryana,29.210438,75.821443,polygon_centroid,Hisar,6
+64,Jhajjar,Haryana,28.605783,76.64665,polygon_centroid,Jhajjar,6
+65,Jind,Haryana,29.436054,76.305186,polygon_centroid,Jind,6
+66,Kaithal,Haryana,29.812434,76.413547,polygon_centroid,Kaithal,6
+67,Karnal,Haryana,29.693164,76.892773,polygon_centroid,Karnal,6
+68,Kurukshetra,Haryana,30.039534,76.784601,polygon_centroid,Kurukshetra,6
+69,Mahendragarh,Haryana,28.168113,76.138262,polygon_centroid,Mahendragarh,6
+604,Nuh,Haryana,27.985382,77.049689,polygon_centroid,Nuh,6
+619,Palwal,Haryana,28.062163,77.333809,polygon_centroid,Palwal,6
+70,Panchkula,Haryana,30.682035,76.977549,polygon_centroid,Panchkula,6
+71,Panipat,Haryana,29.33879,76.927164,polygon_centroid,Panipat,6
+72,Rewari,Haryana,28.24271,76.537135,polygon_centroid,Rewari,6
+73,Rohtak,Haryana,28.911999,76.530272,polygon_centroid,Rohtak,6
+74,Sirsa,Haryana,29.615261,74.902255,polygon_centroid,Sirsa,6
+75,Sonipat,Haryana,29.056267,76.875096,polygon_centroid,Sonipat,6
+76,Yamunanagar,Haryana,30.232174,77.299962,polygon_centroid,Yamunanagar,6
+15,Bilaspur,Himachal Pradesh,31.371787,76.67147,polygon_centroid,Bilaspur,2
+16,Chamba,Himachal Pradesh,32.675391,76.347943,polygon_centroid,Chamba,2
+17,Hamirpur,Himachal Pradesh,31.667808,76.525638,polygon_centroid,Hamirpur,2
+18,Kangra,Himachal Pradesh,32.109325,76.317154,polygon_centroid,Kangra,2
+19,Kinnaur,Himachal Pradesh,31.598218,78.404589,polygon_centroid,Kinnaur,2
+20,Kullu,Himachal Pradesh,31.901686,77.398193,polygon_centroid,Kullu,2
+21,Lahaul And Spiti,Himachal Pradesh,32.480951,77.614097,polygon_centroid,Lahaul and Spiti,2
+22,Mandi,Himachal Pradesh,31.634998,76.992139,polygon_centroid,Mandi,2
+23,Shimla,Himachal Pradesh,31.196561,77.632291,polygon_centroid,Shimla,2
+24,Sirmaur,Himachal Pradesh,30.66567,77.43063,polygon_centroid,Sirmaur,2
+25,Solan,Himachal Pradesh,31.044206,76.909119,polygon_centroid,Solan,2
+26,Una,Himachal Pradesh,31.581081,76.210099,polygon_centroid,Una,2
+1,Anantnag,Jammu And Kashmir,33.82704,75.320479,polygon_centroid,Anantnag,1
+623,Bandipora,Jammu And Kashmir,34.4949,74.874788,polygon_centroid_fuzzy,Bandipore,1
+3,Baramulla,Jammu And Kashmir,34.165917,74.309481,polygon_centroid,Baramulla,1
+2,Budgam,Jammu And Kashmir,33.914617,74.627731,polygon_centroid,Budgam,1
+4,Doda,Jammu And Kashmir,33.089786,75.704306,polygon_centroid,Doda,1
+626,Ganderbal,Jammu And Kashmir,34.287024,75.034898,polygon_centroid,Ganderbal,1
+5,Jammu,Jammu And Kashmir,32.79885,74.750413,polygon_centroid,Jammu district,1
+7,Kathua,Jammu And Kashmir,32.576653,75.588466,polygon_centroid,Kathua district,1
+620,Kishtwar,Jammu And Kashmir,33.547164,75.967635,polygon_centroid,Kishtwar,1
+622,Kulgam,Jammu And Kashmir,33.602656,74.841297,polygon_centroid,Kulgam,1
+8,Kupwara,Jammu And Kashmir,34.523697,74.200787,polygon_centroid,Kupwara District,1
+10,Poonch,Jammu And Kashmir,33.703367,74.268586,polygon_centroid,Poonch district,1
+11,Pulwama,Jammu And Kashmir,33.94147,75.019852,polygon_centroid,Pulwama,1
+12,Rajouri,Jammu And Kashmir,33.273275,74.384841,polygon_centroid,Rajouri District,1
+621,Ramban,Jammu And Kashmir,33.322614,75.194144,polygon_centroid,Ramban district,1
+627,Reasi,Jammu And Kashmir,33.229533,74.84156,polygon_centroid,Reasi district,1
+624,Samba,Jammu And Kashmir,32.578252,75.095654,polygon_centroid,Samba district,1
+625,Shopian,Jammu And Kashmir,33.733029,74.820625,polygon_centroid,Shopian,1
+13,Srinagar,Jammu And Kashmir,34.113686,74.89212,polygon_centroid,Srinagar,1
+14,Udhampur,Jammu And Kashmir,32.895126,75.301593,polygon_centroid,Udhampur district,1
+322,Bokaro,Jharkhand,23.694622,85.995231,polygon_centroid,Bokaro,20
+323,Chatra,Jharkhand,24.17185,84.886004,polygon_centroid,Chatra,20
+324,Deoghar,Jharkhand,24.328572,86.73797,polygon_centroid,Deoghar,20
+325,Dhanbad,Jharkhand,23.826188,86.471121,polygon_centroid,Dhanbad,20
+326,Dumka,Jharkhand,24.320182,87.264301,polygon_centroid,Dumka,20
+327,East Singhbum,Jharkhand,22.584092,86.449797,polygon_centroid_fuzzy,East Singhbhum,20
+328,Garhwa,Jharkhand,24.101395,83.697055,polygon_centroid,Garhwa,20
+329,Giridih,Jharkhand,24.29225,86.11002,polygon_centroid,Giridih,20
+330,Godda,Jharkhand,24.85989,87.308438,polygon_centroid,Godda,20
+331,Gumla,Jharkhand,23.103533,84.532108,polygon_centroid,Gumla,20
+332,Hazaribagh,Jharkhand,24.055128,85.420302,polygon_centroid,Hazaribagh,20
+333,Jamtara,Jharkhand,23.976096,86.909661,polygon_centroid,Jamtara,20
+606,Khunti,Jharkhand,22.994441,85.263227,polygon_centroid,Khunti,20
+334,Koderma,Jharkhand,24.498632,85.665566,polygon_centroid_fuzzy,Kodarma,20
+335,Latehar,Jharkhand,23.71857,84.442445,polygon_centroid,Latehar,20
+336,Lohardaga,Jharkhand,23.476691,84.668885,polygon_centroid,Lohardaga,20
+337,Pakur,Jharkhand,24.563479,87.660901,polygon_centroid,Pakur,20
+338,Palamu,Jharkhand,24.203567,84.16546,polygon_centroid,Palamu,20
+607,Ramgarh,Jharkhand,23.636235,85.562601,polygon_centroid,Ramgarh,20
+339,Ranchi,Jharkhand,23.32834,85.372998,polygon_centroid,Ranchi,20
+340,Sahebganj,Jharkhand,25.012269,87.678871,polygon_centroid_fuzzy,Sahibganj,20
+341,Saraikela Kharsawan,Jharkhand,22.848614,85.950123,polygon_centroid_fuzzy,Seraikela-Kharsawan,20
+342,Simdega,Jharkhand,22.582213,84.563914,polygon_centroid,Simdega,20
+343,West Singhbhum,Jharkhand,22.420763,85.518968,polygon_centroid,West Singhbhum,20
+524,Bagalkote,Karnataka,16.221101,75.626475,polygon_centroid,Bagalkote,29
+528,Ballari,Karnataka,15.266035,76.806168,polygon_centroid,Ballari,29
+527,Belagavi,Karnataka,16.120325,74.823501,polygon_centroid,Belagavi,29
+526,Bengaluru Rural,Karnataka,13.227504,77.574489,polygon_centroid_alias,Bengaluru North,29
+631,Bengaluru South,Karnataka,12.679242,77.335613,polygon_centroid,Bengaluru South,29
+525,Bengaluru Urban,Karnataka,12.951608,77.592918,polygon_centroid,Bengaluru Urban,29
+529,Bidar,Karnataka,17.953391,77.226093,polygon_centroid,Bidar,29
+531,Chamarajanagar,Karnataka,11.958726,77.09873,polygon_centroid,Chamarajanagar,29
+630,Chikkaballapura,Karnataka,13.578222,77.834748,polygon_centroid,Chikkaballapura,29
+532,Chikkamagaluru,Karnataka,13.454571,75.690817,polygon_centroid,Chikkamagaluru,29
+533,Chitradurga,Karnataka,14.168279,76.514447,polygon_centroid,Chitradurga,29
+534,Dakshina Kannada,Karnataka,12.853453,75.251252,polygon_centroid,Dakshina Kannada,29
+535,Davanagere,Karnataka,14.307804,75.944559,polygon_centroid,Davanagere,29
+536,Dharwad,Karnataka,15.390917,75.151932,polygon_centroid,Dharwad,29
+537,Gadag,Karnataka,15.430879,75.664121,polygon_centroid,Gadag,29
+539,Hassan,Karnataka,12.996634,76.108395,polygon_centroid,Hassan,29
+540,Haveri,Karnataka,14.738785,75.415316,polygon_centroid,Haveri,29
+538,Kalaburagi,Karnataka,17.260677,76.868892,polygon_centroid,Kalaburagi,29
+541,Kodagu,Karnataka,12.324241,75.800674,polygon_centroid_alias,Coorg,29
+542,Kolar,Karnataka,13.139672,78.217338,polygon_centroid,Kolar,29
+543,Koppal,Karnataka,15.562099,76.221112,polygon_centroid,Koppal,29
+544,Mandya,Karnataka,12.611588,76.797329,polygon_centroid,Mandya,29
+545,Mysuru,Karnataka,12.209928,76.440783,polygon_centroid,Mysuru District,29
+546,Raichur,Karnataka,16.090428,76.890958,polygon_centroid,Raichur,29
+547,Shivamogga,Karnataka,14.042609,75.219767,polygon_centroid_alias,Shimoga,29
+548,Tumakuru,Karnataka,13.426888,76.901391,polygon_centroid,Tumakuru,29
+549,Udupi,Karnataka,13.496874,74.870984,polygon_centroid,Udupi,29
+550,Uttara Kannada,Karnataka,14.79083,74.619106,polygon_centroid,Uttara Kannada,29
+738,Vijayanagara,Karnataka,14.89323,76.186149,polygon_centroid,Vijayanagara,29
+530,Vijayapura,Karnataka,16.794431,75.952571,polygon_centroid,Vijayapura,29
+635,Yadgir,Karnataka,16.627853,76.912496,polygon_centroid,Yadgir,29
+554,Alappuzha,Kerala,9.42775,76.448017,polygon_centroid,Alappuzha,32
+555,Ernakulam,Kerala,10.07817,76.526595,polygon_centroid,Ernakulam,32
+556,Idukki,Kerala,9.852512,77.054872,polygon_centroid,Idukki,32
+557,Kannur,Kerala,11.999609,75.522114,polygon_centroid,Kannur,32
+558,Kasaragod,Kerala,12.46201,75.149893,polygon_centroid,Kasaragod,32
+559,Kollam,Kerala,8.962534,76.872818,polygon_centroid,Kollam,32
+560,Kottayam,Kerala,9.637743,76.651025,polygon_centroid,Kottayam,32
+561,Kozhikode,Kerala,11.483044,75.830625,polygon_centroid,Kozhikode,32
+562,Malappuram,Kerala,11.13186,76.153246,polygon_centroid,Malappuram,32
+563,Palakkad,Kerala,10.796225,76.556227,polygon_centroid,Palakkad,32
+564,Pathanamthitta,Kerala,9.285814,76.927951,polygon_centroid,Pathanamthitta,32
+565,Thiruvananthapuram,Kerala,8.608206,77.014537,polygon_centroid,Thiruvananthapuram,32
+566,Thrissur,Kerala,10.470596,76.315758,polygon_centroid,Thrissur,32
+567,Wayanad,Kerala,11.712487,76.098143,polygon_centroid,Wayanad,32
+6,Kargil,Ladakh,34.254546,76.229145,polygon_centroid,Kargil district,37
+9,Leh Ladakh,Ladakh,33.360687,78.163553,polygon_centroid_alias,Leh district,37
+553,Lakshadweep District,Lakshadweep,8.286575,73.05293,polygon_centroid,Lakshadweep,31
+667,Agar-Malwa,Madhya Pradesh,23.825669,76.07166,polygon_centroid,Agar Malwa,23
+639,Alirajpur,Madhya Pradesh,22.315774,74.364368,polygon_centroid,Alirajpur,23
+390,Anuppur,Madhya Pradesh,23.056792,81.683023,polygon_centroid,Anuppur,23
+391,Ashoknagar,Madhya Pradesh,24.609086,77.875612,polygon_centroid,Ashoknagar,23
+392,Balaghat,Madhya Pradesh,21.881662,80.360462,polygon_centroid,Balaghat,23
+393,Barwani,Madhya Pradesh,21.787963,75.021327,polygon_centroid,Barwani,23
+394,Betul,Madhya Pradesh,21.8789,77.871729,polygon_centroid,Betul,23
+395,Bhind,Madhya Pradesh,26.421682,78.720692,polygon_centroid,Bhind,23
+396,Bhopal,Madhya Pradesh,23.469317,77.39082,polygon_centroid,Bhopal,23
+397,Burhanpur,Madhya Pradesh,21.37008,76.369444,polygon_centroid,Burhanpur,23
+398,Chhatarpur,Madhya Pradesh,24.799534,79.664396,polygon_centroid,Chhatarpur,23
+399,Chhindwara,Madhya Pradesh,22.216392,78.891604,polygon_centroid,Chhindwara,23
+400,Damoh,Madhya Pradesh,23.812359,79.526863,polygon_centroid,Damoh,23
+401,Datia,Madhya Pradesh,25.840189,78.614526,polygon_centroid,Datia,23
+402,Dewas,Madhya Pradesh,22.744039,76.455773,polygon_centroid,Dewas,23
+403,Dhar,Madhya Pradesh,22.497745,75.104553,polygon_centroid,Dhar,23
+404,Dindori,Madhya Pradesh,22.890454,81.050544,polygon_centroid,Dindori,23
+406,Guna,Madhya Pradesh,24.557956,77.198151,polygon_centroid,Guna,23
+407,Gwalior,Madhya Pradesh,26.039409,78.145675,polygon_centroid,Gwalior,23
+408,Harda,Madhya Pradesh,22.233477,77.122562,polygon_centroid,Harda,23
+410,Indore,Madhya Pradesh,22.713227,75.782346,polygon_centroid,Indore,23
+411,Jabalpur,Madhya Pradesh,23.233709,79.974238,polygon_centroid,Jabalpur,23
+412,Jhabua,Madhya Pradesh,22.893088,74.672561,polygon_centroid,Jhabua,23
+413,Katni,Madhya Pradesh,23.753157,80.400204,polygon_centroid,Katni,23
+405,Khandwa (East Nimar),Madhya Pradesh,21.93518,76.568306,polygon_centroid_alias,Khandwa,23
+414,Khargone (West Nimar),Madhya Pradesh,21.918752,75.771891,polygon_centroid_alias,Khargone,23
+784,Maihar,Madhya Pradesh,24.230616,80.963095,polygon_centroid,Maihar,23
+415,Mandla,Madhya Pradesh,22.639324,80.512169,polygon_centroid,Mandla,23
+416,Mandsaur,Madhya Pradesh,24.204086,75.404375,polygon_centroid,Mandsaur,23
+766,MAUGANJ,Madhya Pradesh,24.696651,81.916684,polygon_centroid,Mauganj,23
+417,Morena,Madhya Pradesh,26.412944,77.867084,polygon_centroid,Morena,23
+409,Narmadapuram,Madhya Pradesh,22.590834,77.991251,polygon_centroid,Narmadapuram,23
+418,Narsimhapur,Madhya Pradesh,22.935659,79.088331,polygon_centroid_alias,Narsinghpur,23
+419,Neemuch,Madhya Pradesh,24.592141,75.141551,polygon_centroid,Neemuch,23
+722,Niwari,Madhya Pradesh,25.284159,78.74839,polygon_centroid,Niwari,23
+785,Pandhurna,Madhya Pradesh,21.667198,78.671681,polygon_centroid,Pandhurna,23
+420,Panna,Madhya Pradesh,24.41649,80.187452,polygon_centroid,Panna,23
+421,Raisen,Madhya Pradesh,23.218773,78.120431,polygon_centroid,Raisen,23
+422,Rajgarh,Madhya Pradesh,23.86064,76.733189,polygon_centroid,Rajgarh,23
+423,Ratlam,Madhya Pradesh,23.503261,75.087892,polygon_centroid,Ratlam,23
+424,Rewa,Madhya Pradesh,24.780272,81.448429,polygon_centroid,Rewa,23
+425,Sagar,Madhya Pradesh,23.849595,78.760606,polygon_centroid,Sagar,23
+426,Satna,Madhya Pradesh,24.671823,80.769841,polygon_centroid,Satna,23
+427,Sehore,Madhya Pradesh,22.986789,77.125157,polygon_centroid,Sehore,23
+428,Seoni,Madhya Pradesh,22.316456,79.688687,polygon_centroid,Seoni,23
+429,Shahdol,Madhya Pradesh,23.629942,81.47315,polygon_centroid,Shahdol,23
+430,Shajapur,Madhya Pradesh,23.382223,76.559415,polygon_centroid,Shajapur,23
+431,Sheopur,Madhya Pradesh,25.753997,77.00771,polygon_centroid,Sheopur,23
+432,Shivpuri,Madhya Pradesh,25.365981,77.805744,polygon_centroid,Shivpuri,23
+433,Sidhi,Madhya Pradesh,24.2205,81.833879,polygon_centroid,Sidhi,23
+638,Singrauli,Madhya Pradesh,24.217202,82.419504,polygon_centroid,Singrauli,23
+434,Tikamgarh,Madhya Pradesh,24.882887,79.015226,polygon_centroid,Tikamgarh,23
+435,Ujjain,Madhya Pradesh,23.331112,75.669075,polygon_centroid,Ujjain,23
+436,Umaria,Madhya Pradesh,23.562972,80.971741,polygon_centroid,Umaria,23
+437,Vidisha,Madhya Pradesh,23.892717,77.812754,polygon_centroid,Vidisha,23
+466,Ahilyanagar,Maharashtra,19.205373,74.674469,polygon_centroid,Ahilyanagar District,27
+467,Akola,Maharashtra,20.74812,77.05581,polygon_centroid,Akola District,27
+468,Amravati,Maharashtra,21.187494,77.570846,polygon_centroid,Amravati,27
+470,Beed,Maharashtra,18.946955,75.837257,polygon_centroid,Beed District,27
+471,Bhandara,Maharashtra,21.1153,79.764017,polygon_centroid,Bhandara,27
+472,Buldhana,Maharashtra,20.511118,76.406909,polygon_centroid,Buldhana District,27
+473,Chandrapur,Maharashtra,20.118249,79.441352,polygon_centroid,Chandrapur,27
+469,Chhatrapati Sambhajinagar,Maharashtra,20.022214,75.273133,polygon_centroid,Chhatrapati Sambhajinagar District,27
+488,Dharashiv,Maharashtra,18.187663,76.038688,polygon_centroid,Dharashiv District,27
+474,Dhule,Maharashtra,21.110925,74.600769,polygon_centroid,Dhule District,27
+475,Gadchiroli,Maharashtra,19.788076,80.241488,polygon_centroid,Gadchiroli,27
+476,Gondia,Maharashtra,21.166358,80.218886,polygon_centroid_fuzzy,Gondiya,27
+477,Hingoli,Maharashtra,19.619288,77.101608,polygon_centroid,Hingoli,27
+478,Jalgaon,Maharashtra,20.932484,75.487819,polygon_centroid,Jalgaon District,27
+479,Jalna,Maharashtra,19.809129,75.980886,polygon_centroid,Jalna District,27
+480,Kolhapur,Maharashtra,16.470496,74.158383,polygon_centroid,Kolhapur District,27
+481,Latur,Maharashtra,18.373899,76.759015,polygon_centroid,Latur District,27
+482,Mumbai,Maharashtra,18.986942,72.837923,polygon_centroid_alias,Mumbai City District,27
+483,Mumbai Suburban,Maharashtra,19.139301,72.878619,polygon_centroid,Mumbai Suburban District,27
+484,Nagpur,Maharashtra,21.178203,79.08532,polygon_centroid,Nagpur,27
+485,Nanded,Maharashtra,19.112851,77.617441,polygon_centroid,Nanded District,27
+486,Nandurbar,Maharashtra,21.549943,74.217785,polygon_centroid,Nandurbar,27
+487,Nashik,Maharashtra,20.259367,74.070486,polygon_centroid,Nashik District,27
+665,Palghar,Maharashtra,19.794274,73.015048,polygon_centroid,Palghar,27
+489,Parbhani,Maharashtra,19.271095,76.678404,polygon_centroid,Parbhani District,27
+490,Pune,Maharashtra,18.570431,74.069718,polygon_centroid,Pune District,27
+491,Raigad,Maharashtra,18.5099,73.223128,polygon_centroid,Raigad,27
+492,Ratnagiri,Maharashtra,17.274489,73.454365,polygon_centroid,Ratnagiri,27
+493,Sangli,Maharashtra,17.113052,74.767674,polygon_centroid,Sangli District,27
+494,Satara,Maharashtra,17.670056,74.173041,polygon_centroid,Satara,27
+495,Sindhudurg,Maharashtra,16.134053,73.737284,polygon_centroid,Sindhudurg,27
+496,Solapur,Maharashtra,17.791741,75.483286,polygon_centroid,Solapur District,27
+497,Thane,Maharashtra,19.363748,73.323238,polygon_centroid,Thane,27
+498,Wardha,Maharashtra,20.79718,78.586353,polygon_centroid,Wardha,27
+499,Washim,Maharashtra,20.233504,77.214722,polygon_centroid,Washim,27
+500,Yavatmal,Maharashtra,20.083826,78.161683,polygon_centroid,Yavatmal District,27
+252,Bishnupur,Manipur,24.550495,93.802563,polygon_centroid,Bishnupur district,14
+253,Chandel,Manipur,24.140343,94.013781,polygon_centroid,Chandel district,14
+254,Churachandpur,Manipur,24.302082,93.603775,polygon_centroid,Churachandpur district,14
+255,Imphal East,Manipur,24.822427,94.012734,polygon_centroid,Imphal East,14
+256,Imphal West,Manipur,24.767113,93.868729,polygon_centroid,Imphal West,14
+713,Jiribam,Manipur,24.719227,93.138278,polygon_centroid,Jiribam district,14
+711,Kakching,Manipur,24.45983,93.920384,polygon_centroid,Kakching district,14
+717,Kamjong,Manipur,24.82215,94.431003,polygon_centroid,Kamjong district,14
+712,Kangpokpi,Manipur,25.00649,93.939079,polygon_centroid,Kangpokpi district,14
+714,Noney,Manipur,24.758535,93.503698,polygon_centroid,Noney district,14
+715,Pherzawl,Manipur,24.325379,93.219169,polygon_centroid,Pherzawl district,14
+257,Senapati,Manipur,25.397299,94.126137,polygon_centroid,Senapati,14
+258,Tamenglong,Manipur,25.075416,93.527394,polygon_centroid,Tamenglong district,14
+716,Tengnoupal,Manipur,24.426183,94.227242,polygon_centroid,Tengnoupal,14
+259,Thoubal,Manipur,24.617979,94.010686,polygon_centroid,Thoubal district,14
+260,Ukhrul,Manipur,25.233632,94.428898,polygon_centroid,Ukhrul district,14
+740,Eastern West Khasi Hills,Meghalaya,25.650225,91.588425,polygon_centroid,Eastern West Khasi Hills,17
+273,East Garo Hills,Meghalaya,25.622545,90.632186,polygon_centroid,East Garo Hills,17
+657,East Jaintia Hills,Meghalaya,25.258406,92.470252,polygon_centroid,East Jaintia Hills,17
+274,East Khasi Hills,Meghalaya,25.383228,91.805034,polygon_centroid,East Khasi Hills,17
+656,North Garo Hills,Meghalaya,25.854928,90.663341,polygon_centroid,North Garo Hills,17
+276,Ri Bhoi,Meghalaya,25.874504,91.885271,polygon_centroid,Ri-Bhoi,17
+277,South Garo Hills,Meghalaya,25.302508,90.582781,polygon_centroid,South Garo Hills,17
+663,South West Garo Hills,Meghalaya,25.440725,89.990458,polygon_centroid,South West Garo Hills,17
+658,South West Khasi Hills,Meghalaya,25.325746,91.258332,polygon_centroid,South West Khasi Hills,17
+278,West Garo Hills,Meghalaya,25.652517,90.194457,polygon_centroid,West Garo Hills,17
+275,West Jaintia Hills,Meghalaya,25.484623,92.286512,polygon_centroid,West Jaintia Hills,17
+279,West Khasi Hills,Meghalaya,25.584574,91.10071,polygon_centroid,West Khasi Hills,17
+261,Aizawl,Mizoram,23.83492,92.829014,polygon_centroid,Aizawl,15
+262,Champhai,Mizoram,23.568046,93.27004,polygon_centroid,Champhai district,15
+726,Hnahthial,Mizoram,22.952137,92.986933,polygon_centroid,Hnahthial,15
+728,Khawzawl,Mizoram,23.486966,93.150092,polygon_centroid,Khawzawl,15
+263,Kolasib,Mizoram,24.15879,92.726853,polygon_centroid,Kolasib,15
+264,Lawngtlai,Mizoram,22.431693,92.766905,polygon_centroid,Lawngtlai,15
+265,Lunglei,Mizoram,22.978815,92.652163,polygon_centroid,Lunglei,15
+266,Mamit,Mizoram,23.751271,92.465741,polygon_centroid,Mamit,15
+727,Saitual,Mizoram,23.827404,93.017637,polygon_centroid,Saitual,15
+268,Serchhip,Mizoram,23.309842,92.945633,polygon_centroid,Serchhip,15
+267,Siaha,Mizoram,22.297201,93.002528,polygon_centroid_alias,Saiha,15
+758,Chumoukedima,Nagaland,25.76595,93.783007,polygon_centroid,Chümoukedima,13
+244,Dimapur,Nagaland,25.900528,93.719679,polygon_centroid,Dimapur,13
+614,Kiphire,Nagaland,25.84486,94.82141,polygon_centroid,Kiphire,13
+245,Kohima,Nagaland,25.712823,94.090165,polygon_centroid,Kohima,13
+615,Longleng,Nagaland,26.554995,94.79719,polygon_centroid,Longleng,13
+788,Meluri,Nagaland,25.621137,94.70898,polygon_centroid,Meluri district,13
+246,Mokokchung,Nagaland,26.472701,94.528236,polygon_centroid,Mokokchung,13
+247,Mon,Nagaland,26.679379,95.016576,polygon_centroid,Mon,13
+764,Niuland,Nagaland,25.850325,93.906268,polygon_centroid,Niuland,13
+736,Noklak,Nagaland,26.114852,95.020332,polygon_centroid,Noklak,13
+613,Peren,Nagaland,25.49813,93.613122,polygon_centroid,Peren,13
+248,Phek,Nagaland,25.67047,94.372953,polygon_centroid,Phek,13
+765,Shamator,Nagaland,26.083265,94.865055,polygon_centroid,Shamator,13
+757,Tseminyu,Nagaland,25.940775,94.160817,polygon_centroid,Tseminyü,13
+249,Tuensang,Nagaland,26.247129,94.758164,polygon_centroid,Tuensang,13
+250,Wokha,Nagaland,26.187043,94.191488,polygon_centroid,Wokha,13
+251,Zunheboto,Nagaland,25.997537,94.483964,polygon_centroid,Zünheboto,13
+344,Anugola,Odisha,20.986838,84.904653,polygon_centroid_alias,Angul,21
+345,Balangir,Odisha,20.590473,83.171063,polygon_centroid,Balangir,21
+346,Baleshwar,Odisha,21.493591,86.908141,polygon_centroid,Baleshwar,21
+347,Baragada,Odisha,21.219348,83.348914,polygon_centroid_alias,Bargarh,21
+348,Bhadrak,Odisha,20.981805,86.620283,polygon_centroid,Bhadrak,21
+349,Boudh,Odisha,20.644266,84.16924,polygon_centroid,Boudh,21
+351,Debagada,Odisha,21.467337,84.786441,polygon_centroid_alias,Debagarh,21
+352,Dhenkanal,Odisha,20.826564,85.522524,polygon_centroid,Dhenkanal,21
+353,Gajapati,Odisha,19.184315,84.16232,polygon_centroid,Gajapati,21
+354,Ganjam,Odisha,19.624917,84.673667,polygon_centroid,Ganjam,21
+355,Jagatsinghapur,Odisha,20.218828,86.334132,polygon_centroid,Jagatsinghapur,21
+356,Jajpur,Odisha,20.856798,86.149589,polygon_centroid,Jajpur,21
+357,Jharsuguda,Odisha,21.807055,83.943241,polygon_centroid,Jharsuguda,21
+358,Kalahandi,Odisha,19.867456,83.108029,polygon_centroid,Kalahandi,21
+359,Kandhamala,Odisha,20.128039,84.045526,polygon_centroid_fuzzy,Kandhamal,21
+350,Kataka,Odisha,20.452367,85.698456,polygon_centroid_alias,Cuttack,21
+360,Kendrapada,Odisha,20.553538,86.609077,polygon_centroid_fuzzy,Kendrapara,21
+361,Kendujhar,Odisha,21.537327,85.702733,polygon_centroid,Kendujhar,21
+362,Khordha,Odisha,20.091303,85.513917,polygon_centroid,Khordha,21
+363,Koraput,Odisha,18.813182,82.720301,polygon_centroid,Koraput,21
+364,Malkangiri,Odisha,18.259313,81.951119,polygon_centroid,Malkangiri,21
+365,Mayurbhanj,Odisha,21.895099,86.40942,polygon_centroid,Mayurbhanj,21
+366,Nabarangpur,Odisha,19.576329,82.334823,polygon_centroid_fuzzy,Nabarangapur,21
+367,Nayagada,Odisha,20.212561,84.998755,polygon_centroid_alias,Nayagarh,21
+368,Nuapada,Odisha,20.465632,82.576915,polygon_centroid,Nuapada,21
+369,Puri,Odisha,19.87803,85.726816,polygon_centroid,Puri,21
+370,Rayagada,Odisha,19.362857,83.512783,polygon_centroid,Rayagada,21
+371,Sambalpur,Odisha,21.45287,84.273456,polygon_centroid,Sambalpur,21
+372,Subarnapur,Odisha,20.931286,83.821588,polygon_centroid,Subarnapur,21
+373,Sundaragada,Odisha,22.269506,84.744955,polygon_centroid_alias,Sundargarh,21
+598,Karaikal,Puducherry,10.932109,79.804727,polygon_centroid,Karaikal District,34
+600,Puducherry,Puducherry,11.914329,79.768315,polygon_centroid,Puducherry,34
+27,Amritsar,Punjab,31.70572,74.900874,polygon_centroid,Amritsar,3
+605,Barnala,Punjab,30.387923,75.498733,polygon_centroid,Barnala,3
+28,Bathinda,Punjab,30.183565,75.040573,polygon_centroid,Bathinda,3
+29,Faridkot,Punjab,30.613332,74.778631,polygon_centroid,Faridkot,3
+30,Fatehgarh Sahib,Punjab,30.642385,76.376484,polygon_centroid,Fatehgarh Sahib,3
+651,Fazilka,Punjab,30.276178,74.162874,polygon_centroid,Fazilka,3
+31,Ferozepur,Punjab,30.913316,74.704694,polygon_centroid_alias,Firozpur,3
+32,Gurdaspur,Punjab,31.916574,75.291557,polygon_centroid,Gurdaspur,3
+33,Hoshiarpur,Punjab,31.624468,75.858482,polygon_centroid,Hoshiarpur,3
+34,Jalandhar,Punjab,31.213059,75.565008,polygon_centroid,Jalandhar,3
+35,Kapurthala,Punjab,31.373206,75.316898,polygon_centroid,Kapurthala,3
+36,Ludhiana,Punjab,30.805118,75.834836,polygon_centroid,Ludhiana,3
+737,Malerkotla,Punjab,30.540788,75.888923,polygon_centroid,Malerkotla,3
+37,Mansa,Punjab,29.907242,75.437916,polygon_centroid,Mansa,3
+38,Moga,Punjab,30.76355,75.171089,polygon_centroid,Moga,3
+662,Pathankot,Punjab,32.296972,75.616889,polygon_centroid,Pathankot,3
+41,Patiala,Punjab,30.283875,76.351416,polygon_centroid,Patiala,3
+42,Rupnagar,Punjab,31.064503,76.487642,polygon_centroid,Rupnagar,3
+43,Sangrur,Punjab,30.136003,75.865536,polygon_centroid,Sangrur,3
+608,S.A.S Nagar,Punjab,30.682124,76.736927,polygon_centroid_alias,Sahibzada Ajit Singh Nagar,3
+40,Shahid Bhagat Singh Nagar,Punjab,31.109826,76.156006,polygon_centroid_fuzzy,Shaheed Bhagat Singh Nagar,3
+39,Sri Muktsar Sahib,Punjab,30.300598,74.537973,polygon_centroid,Sri Muktsar Sahib,3
+609,Tarn Taran,Punjab,31.336597,74.840884,polygon_centroid,Tarn Taran,3
+86,Ajmer,Rajasthan,26.284073,74.864664,polygon_centroid,Ajmer,8
+87,Alwar,Rajasthan,27.378818,76.642998,polygon_centroid,Alwar,8
+775,Balotra,Rajasthan,25.875732,72.129853,polygon_centroid,Balotra,8
+88,Banswara,Rajasthan,23.477074,74.362708,polygon_centroid,Banswara,8
+89,Baran,Rajasthan,24.995717,76.747782,polygon_centroid,Baran,8
+90,Barmer,Rajasthan,25.656138,71.108497,polygon_centroid,Barmer,8
+774,Beawar,Rajasthan,26.092225,74.194542,polygon_centroid,Beawar,8
+91,Bharatpur,Rajasthan,27.049258,77.317792,polygon_centroid,Bharatpur,8
+92,Bhilwara,Rajasthan,25.46559,74.742639,polygon_centroid,Bhilwara,8
+93,Bikaner,Rajasthan,28.176977,73.174261,polygon_centroid,Bikaner,8
+94,Bundi,Rajasthan,25.487418,75.791004,polygon_centroid,Bundi,8
+95,Chittorgarh,Rajasthan,24.816293,74.585774,polygon_centroid,Chittorgarh,8
+96,Churu,Rajasthan,28.344428,74.696027,polygon_centroid,Churu,8
+97,Dausa,Rajasthan,26.857884,76.511163,polygon_centroid,Dausa,8
+767,Deeg,Rajasthan,27.512876,77.219836,polygon_centroid,Deeg,8
+98,Dholpur,Rajasthan,26.680769,77.701781,polygon_centroid_alias,Dhaulpur,8
+768,Didwana-Kuchaman,Rajasthan,27.189308,74.665584,polygon_centroid,Didwana-Kuchaman,8
+99,Dungarpur,Rajasthan,23.73241,73.853148,polygon_centroid,Dungarpur,8
+100,Ganganagar,Rajasthan,29.395597,73.570838,polygon_centroid_alias,Sri Ganganagar,8
+101,Hanumangarh,Rajasthan,29.265418,74.561544,polygon_centroid,Hanumangarh,8
+102,Jaipur,Rajasthan,26.897752,75.667905,polygon_centroid,Jaipur,8
+103,Jaisalmer,Rajasthan,27.074271,70.899727,polygon_centroid,Jaisalmer,8
+104,Jalore,Rajasthan,25.098678,72.210722,polygon_centroid,Jalore,8
+105,Jhalawar,Rajasthan,24.336009,76.191068,polygon_centroid,Jhalawar,8
+106,Jhunjhunu,Rajasthan,28.093401,75.548877,polygon_centroid,Jhunjhunu,8
+107,Jodhpur,Rajasthan,26.445857,73.009932,polygon_centroid,Jodhpur,8
+108,Karauli,Rajasthan,26.522743,76.959415,polygon_centroid,Karauli,8
+770,Khairthal-Tijara,Rajasthan,27.921746,76.709479,polygon_centroid,Khairthal-Tijara,8
+109,Kota,Rajasthan,25.109969,76.105329,polygon_centroid,Kota,8
+782,Kotputli-Behror,Rajasthan,27.697632,76.241026,polygon_centroid,Kotputli-Behror,8
+110,Nagaur,Rajasthan,26.989819,73.8714,polygon_centroid,Nagaur,8
+111,Pali,Rajasthan,25.582925,73.384152,polygon_centroid,Pali,8
+772,Phalodi,Rajasthan,27.159403,72.478544,polygon_centroid,Phalodi,8
+629,Pratapgarh,Rajasthan,24.029538,74.65157,polygon_centroid,Pratapgarh,8
+112,Rajsamand,Rajasthan,25.206477,73.880294,polygon_centroid,Rajsamand,8
+777,Salumbar,Rajasthan,24.190493,74.017573,polygon_centroid,Salumbar,8
+113,Sawai Madhopur,Rajasthan,26.217711,76.462079,polygon_centroid,Sawai Madhopur,8
+114,Sikar,Rajasthan,27.632626,75.288209,polygon_centroid,Sikar,8
+115,Sirohi,Rajasthan,24.761669,72.776611,polygon_centroid,Sirohi,8
+116,Tonk,Rajasthan,26.148954,75.665147,polygon_centroid,Tonk,8
+117,Udaipur,Rajasthan,24.4846,73.595667,polygon_centroid,Udaipur,8
+225,Gangtok,Sikkim,27.336711,88.654693,polygon_centroid,Gangtok,11
+228,Gyalshing,Sikkim,27.405817,88.179552,polygon_centroid,Gyalshing,11
+226,Mangan,Sikkim,27.743859,88.526257,polygon_centroid,Mangan,11
+227,Namchi,Sikkim,27.274862,88.389256,polygon_centroid,Namchi,11
+741,Pakyong,Sikkim,27.237806,88.692284,polygon_centroid,Pakyong,11
+742,Soreng,Sikkim,27.191589,88.17764,polygon_centroid,Soreng,11
+610,Ariyalur,Tamil Nadu,11.162748,79.242332,polygon_centroid,Ariyalur,33
+730,Chengalpattu,Tamil Nadu,12.574704,79.995606,polygon_centroid,Chengalpattu,33
+568,Chennai,Tamil Nadu,13.008365,80.224402,polygon_centroid,Chennai,33
+569,Coimbatore,Tamil Nadu,10.877217,76.975371,polygon_centroid,Coimbatore,33
+570,Cuddalore,Tamil Nadu,11.534565,79.450633,polygon_centroid,Cuddalore,33
+571,Dharmapuri,Tamil Nadu,12.102065,78.195052,polygon_centroid,Dharmapuri,33
+572,Dindigul,Tamil Nadu,10.391774,77.820783,polygon_centroid,Dindigul,33
+573,Erode,Tamil Nadu,11.51813,77.413128,polygon_centroid,Erode,33
+729,Kallakurichi,Tamil Nadu,11.798794,79.011092,polygon_centroid,Kallakurichi,33
+574,Kancheepuram,Tamil Nadu,12.827179,79.827866,polygon_centroid_alias,Kanchipuram,33
+575,Kanniyakumari,Tamil Nadu,8.305882,77.358118,polygon_centroid,Kanniyakumari,33
+576,Karur,Tamil Nadu,10.844663,78.132868,polygon_centroid,Karur,33
+577,Krishnagiri,Tamil Nadu,12.490932,78.03133,polygon_centroid,Krishnagiri,33
+578,Madurai,Tamil Nadu,9.921848,78.00392,polygon_centroid,Madurai,33
+735,Mayiladuthurai,Tamil Nadu,11.152469,79.709285,polygon_centroid,Mayiladuthurai,33
+579,Nagapattinam,Tamil Nadu,10.550056,79.74543,polygon_centroid,Nagapattinam District,33
+580,Namakkal,Tamil Nadu,11.318747,78.136258,polygon_centroid,Namakkal,33
+581,Perambalur,Tamil Nadu,11.275368,78.889882,polygon_centroid,Perambalur,33
+582,Pudukkottai,Tamil Nadu,10.358918,78.881824,polygon_centroid,Pudukkottai,33
+583,Ramanathapuram,Tamil Nadu,9.452319,78.674138,polygon_centroid,Ramanathapuram,33
+731,Ranipet,Tamil Nadu,12.950907,79.459659,polygon_centroid,Ranipet,33
+584,Salem,Tamil Nadu,11.677443,78.221843,polygon_centroid,Salem,33
+585,Sivaganga,Tamil Nadu,9.921072,78.590127,polygon_centroid_fuzzy,Sivagangai,33
+733,Tenkasi,Tamil Nadu,9.097626,77.472279,polygon_centroid,Tenkasi,33
+586,Thanjavur,Tamil Nadu,10.671658,79.241562,polygon_centroid,Thanjavur,33
+588,Theni,Tamil Nadu,9.892755,77.4378,polygon_centroid,Theni,33
+587,The Nilgiris,Tamil Nadu,11.45728,76.64038,polygon_centroid,Nilgiris,33
+589,Thiruvallur,Tamil Nadu,13.238145,79.946214,polygon_centroid,Thiruvallur,33
+590,Thiruvarur,Tamil Nadu,10.70094,79.529101,polygon_centroid,Thiruvarur,33
+594,Thoothukkudi,Tamil Nadu,8.891514,78.002383,polygon_centroid_fuzzy,Thoothukudi,33
+591,Tiruchirappalli,Tamil Nadu,10.888914,78.569281,polygon_centroid,Tiruchirappalli,33
+592,Tirunelveli,Tamil Nadu,8.573507,77.589546,polygon_centroid,Tirunelveli,33
+732,Tirupathur,Tamil Nadu,12.585397,78.643328,polygon_centroid_fuzzy,Tirupattur,33
+634,Tiruppur,Tamil Nadu,10.840253,77.407727,polygon_centroid,Tiruppur,33
+593,Tiruvannamalai,Tamil Nadu,12.432014,79.165519,polygon_centroid,Tiruvannamalai,33
+595,Vellore,Tamil Nadu,12.90239,78.955127,polygon_centroid,Vellore,33
+596,Viluppuram,Tamil Nadu,12.119543,79.529576,polygon_centroid,Viluppuram,33
+597,Virudhunagar,Tamil Nadu,9.491971,77.904829,polygon_centroid,Virudhunagar,33
+501,Adilabad,Telangana,19.519925,78.563488,polygon_centroid,Adilabad,36
+690,Bhadradri Kothagudem,Telangana,17.687424,80.710442,polygon_centroid,Bhadradri Kothagudem,36
+686,Hanumakonda,Telangana,18.062072,79.532061,polygon_centroid,Hanumakonda,36
+507,Hyderabad,Telangana,17.393428,78.466634,polygon_centroid,Hyderabad,36
+681,Jagitial,Telangana,18.83333,78.875107,polygon_centroid_fuzzy,Jagtial,36
+689,Jangoan,Telangana,17.750699,79.276826,polygon_centroid_alias,Jangaon,36
+687,Jayashankar Bhupalapally,Telangana,18.501518,79.926466,polygon_centroid,Jayashankar Bhupalapally,36
+695,Jogulamba Gadwal,Telangana,16.072152,77.781102,polygon_centroid,Jogulamba Gadwal,36
+685,Kamareddy,Telangana,18.326381,78.062038,polygon_centroid,Kamareddy,36
+508,Karimnagar,Telangana,18.37982,79.239806,polygon_centroid,Karimnagar,36
+509,Khammam,Telangana,17.199157,80.355965,polygon_centroid,Khammam,36
+699,Kumuram Bheem Asifabad,Telangana,19.359395,79.416659,polygon_centroid,Kumuram Bheem Asifabad,36
+688,Mahabubabad,Telangana,17.664769,79.985154,polygon_centroid,Mahabubabad,36
+512,Mahabubnagar,Telangana,16.755627,77.990208,polygon_centroid,Mahabubnagar,36
+684,Mancherial,Telangana,18.994726,79.515995,polygon_centroid,Mancherial,36
+513,Medak,Telangana,17.956636,78.258911,polygon_centroid,Medak,36
+700,Medchal Malkajgiri,Telangana,17.542583,78.557556,polygon_centroid,Medchal–Malkajgiri,36
+720,Mulugu,Telangana,18.291245,80.339003,polygon_centroid,Mulugu,36
+694,Nagarkurnool,Telangana,16.388566,78.589027,polygon_centroid,Nagarkurnool,36
+514,Nalgonda,Telangana,16.876019,79.191637,polygon_centroid,Nalgonda,36
+721,Narayanpet,Telangana,16.647413,77.580231,polygon_centroid,Narayanpet,36
+680,Nirmal,Telangana,19.113709,78.315971,polygon_centroid,Nirmal,36
+516,Nizamabad,Telangana,18.702801,78.204694,polygon_centroid,Nizamabad,36
+682,Peddapalli,Telangana,18.621726,79.45506,polygon_centroid,Peddapalli,36
+683,Rajanna Sircilla,Telangana,18.426226,78.760419,polygon_centroid,Rajanna Sircilla,36
+518,Ranga Reddy,Telangana,17.132704,78.411933,polygon_centroid,Ranga Reddy,36
+691,Sangareddy,Telangana,17.786395,77.874641,polygon_centroid,Sangareddy,36
+692,Siddipet,Telangana,18.010035,78.848619,polygon_centroid,Siddipet,36
+696,Suryapet,Telangana,17.0801,79.754368,polygon_centroid,Suryapet,36
+698,Vikarabad,Telangana,17.255515,77.747925,polygon_centroid,Vikarabad,36
+693,Wanaparthy,Telangana,16.294423,78.036916,polygon_centroid,Wanaparthy,36
+522,Warangal,Telangana,17.868939,79.755286,polygon_centroid,Warangal,36
+697,Yadadri Bhuvanagiri,Telangana,17.456364,78.995039,polygon_centroid,Yadadri Bhuvanagiri,36
+465,Dadra And Nagar Haveli,Dadra and Nagar Haveli and Daman and Diu,20.25974,73.058197,polygon_centroid,Dadra and Nagar Haveli,38
+463,Daman,Dadra and Nagar Haveli and Daman and Diu,20.413187,72.856476,polygon_centroid,Daman,38
+464,Diu,Dadra and Nagar Haveli and Daman and Diu,20.718677,70.931223,polygon_centroid,Diu,38
+269,Dhalai,Tripura,23.838564,91.923532,polygon_centroid,Dhalai,16
+654,Gomati,Tripura,23.514115,91.626392,polygon_centroid,Gomati,16
+652,Khowai,Tripura,23.945828,91.657675,polygon_centroid,Khowai,16
+270,North Tripura,Tripura,24.104733,92.211384,polygon_centroid,North Tripura,16
+653,Sepahijala,Tripura,23.585847,91.331314,polygon_centroid_fuzzy,Sipahijala,16
+271,South Tripura,Tripura,23.194317,91.579208,polygon_centroid,South Tripura,16
+655,Unakoti,Tripura,24.191464,92.040651,polygon_centroid,Unakoti,16
+272,West Tripura,Tripura,23.886239,91.397334,polygon_centroid,West Tripura,16
+45,Almora,Uttarakhand,29.69143,79.502738,polygon_centroid,Almora,5
+46,Bageshwar,Uttarakhand,29.997585,79.860271,polygon_centroid,Bageshwar,5
+47,Chamoli,Uttarakhand,30.493413,79.577194,polygon_centroid,Chamoli,5
+48,Champawat,Uttarakhand,29.281383,80.069465,polygon_centroid,Champawat,5
+49,Dehradun,Uttarakhand,30.471458,77.967552,polygon_centroid,Dehradun,5
+50,Haridwar,Uttarakhand,29.881964,77.995981,polygon_centroid,Haridwar,5
+51,Nainital,Uttarakhand,29.31708,79.464071,polygon_centroid,Nainital,5
+52,Pauri Garhwal,Uttarakhand,29.879851,78.763952,polygon_centroid,Pauri Garhwal,5
+53,Pithoragarh,Uttarakhand,30.111623,80.34515,polygon_centroid,Pithoragarh district,5
+54,Rudraprayag,Uttarakhand,30.505915,79.051963,polygon_centroid,Rudraprayag,5
+55,Tehri Garhwal,Uttarakhand,30.43776,78.535924,polygon_centroid,Tehri Garhwal,5
+56,Udham Singh Nagar,Uttarakhand,29.04237,79.471088,polygon_centroid,Udham Singh Nagar,5
+57,Uttarkashi,Uttarakhand,30.973862,78.608705,polygon_centroid,Uttarkashi,5
+118,Agra,Uttar Pradesh,27.036844,78.078694,polygon_centroid,Agra,9
+119,Aligarh,Uttar Pradesh,27.925576,78.065259,polygon_centroid,Aligarh,9
+121,Ambedkar Nagar,Uttar Pradesh,26.418795,82.665911,polygon_centroid,Ambedkar Nagar,9
+640,Amethi,Uttar Pradesh,26.324008,81.669625,polygon_centroid,Amethi,9
+154,Amroha,Uttar Pradesh,28.835111,78.370144,polygon_centroid,Amroha,9
+122,Auraiya,Uttar Pradesh,26.656786,79.478844,polygon_centroid,Auraiya,9
+140,Ayodhya,Uttar Pradesh,26.657072,81.996552,polygon_centroid,Ayodhya,9
+123,Azamgarh,Uttar Pradesh,26.045893,83.067287,polygon_centroid,Azamgarh,9
+124,Baghpat,Uttar Pradesh,29.057515,77.308059,polygon_centroid,Baghpat,9
+125,Bahraich,Uttar Pradesh,27.698004,81.492316,polygon_centroid,Bahraich,9
+126,Ballia,Uttar Pradesh,25.876362,84.102232,polygon_centroid,Ballia,9
+127,Balrampur,Uttar Pradesh,27.484618,82.374889,polygon_centroid,Balrampur,9
+128,Banda,Uttar Pradesh,25.469288,80.55724,polygon_centroid,Banda,9
+129,Bara Banki,Uttar Pradesh,26.938718,81.33227,polygon_centroid,Barabanki,9
+130,Bareilly,Uttar Pradesh,28.457665,79.430953,polygon_centroid,Bareilly,9
+131,Basti,Uttar Pradesh,26.8205,82.625453,polygon_centroid,Basti,9
+179,Bhadohi,Uttar Pradesh,25.34739,82.463721,polygon_centroid_alias,Sant Ravidas Nagar,9
+132,Bijnor,Uttar Pradesh,29.386148,78.388352,polygon_centroid,Bijnor,9
+133,Budaun,Uttar Pradesh,28.077611,79.042258,polygon_centroid_alias,Badaun,9
+134,Bulandshahr,Uttar Pradesh,28.362545,78.01418,polygon_centroid,Bulandshahr,9
+135,Chandauli,Uttar Pradesh,25.141306,83.259522,polygon_centroid,Chandauli,9
+136,Chitrakoot,Uttar Pradesh,25.206432,81.077836,polygon_centroid,Chitrakoot,9
+137,Deoria,Uttar Pradesh,26.423604,83.835596,polygon_centroid,Deoria,9
+138,Etah,Uttar Pradesh,27.515298,78.716573,polygon_centroid,Etah,9
+139,Etawah,Uttar Pradesh,26.763977,79.095451,polygon_centroid,Etawah,9
+141,Farrukhabad,Uttar Pradesh,27.431241,79.458115,polygon_centroid,Farrukhabad,9
+142,Fatehpur,Uttar Pradesh,25.874763,80.807497,polygon_centroid,Fatehpur,9
+143,Firozabad,Uttar Pradesh,27.18708,78.527384,polygon_centroid,Firozabad,9
+144,Gautam Buddha Nagar,Uttar Pradesh,28.394244,77.554262,polygon_centroid,Gautam Buddha Nagar,9
+145,Ghaziabad,Uttar Pradesh,28.768653,77.477469,polygon_centroid,Ghaziabad,9
+146,Ghazipur,Uttar Pradesh,25.624977,83.555188,polygon_centroid,Ghazipur,9
+147,Gonda,Uttar Pradesh,27.08327,82.023507,polygon_centroid,Gonda,9
+148,Gorakhpur,Uttar Pradesh,26.655818,83.358555,polygon_centroid,Gorakhpur,9
+149,Hamirpur,Uttar Pradesh,25.751408,79.866585,polygon_centroid,Hamirpur,9
+661,Hapur,Uttar Pradesh,28.723915,77.893817,polygon_centroid,Hapur,9
+150,Hardoi,Uttar Pradesh,27.330118,80.161425,polygon_centroid,Hardoi,9
+163,Hathras,Uttar Pradesh,27.581568,78.165346,polygon_centroid,Hathras,9
+151,Jalaun,Uttar Pradesh,26.091073,79.386026,polygon_centroid,Jalaun,9
+152,Jaunpur,Uttar Pradesh,25.745616,82.5753,polygon_centroid,Jaunpur,9
+153,Jhansi,Uttar Pradesh,25.505384,78.954953,polygon_centroid,Jhansi,9
+155,Kannauj,Uttar Pradesh,27.013113,79.688601,polygon_centroid,Kannauj,9
+156,Kanpur Dehat,Uttar Pradesh,26.440372,79.852249,polygon_centroid,Kanpur Dehat,9
+157,Kanpur Nagar,Uttar Pradesh,26.391103,80.208048,polygon_centroid,Kanpur Nagar,9
+633,Kasganj,Uttar Pradesh,27.773516,78.844666,polygon_centroid,Kasganj,9
+158,Kaushambi,Uttar Pradesh,25.498206,81.414825,polygon_centroid,Kaushambi,9
+159,Kheri,Uttar Pradesh,28.120581,80.666021,polygon_centroid_alias,Lakhimpur Kheri,9
+160,Kushinagar,Uttar Pradesh,26.862689,83.933152,polygon_centroid,Kushinagar,9
+161,Lalitpur,Uttar Pradesh,24.655224,78.561906,polygon_centroid,Lalitpur,9
+162,Lucknow,Uttar Pradesh,26.8407,80.905096,polygon_centroid,Lucknow,9
+165,Mahoba,Uttar Pradesh,25.368436,79.734539,polygon_centroid,Mahoba,9
+164,Mahrajganj,Uttar Pradesh,27.199169,83.529353,polygon_centroid,Mahrajganj,9
+166,Mainpuri,Uttar Pradesh,27.182546,79.052662,polygon_centroid,Mainpuri,9
+167,Mathura,Uttar Pradesh,27.596967,77.626342,polygon_centroid,Mathura,9
+168,Mau,Uttar Pradesh,26.045655,83.557481,polygon_centroid,Mau,9
+169,Meerut,Uttar Pradesh,29.036812,77.782566,polygon_centroid,Meerut,9
+170,Mirzapur,Uttar Pradesh,24.98587,82.606663,polygon_centroid,Mirzapur,9
+171,Moradabad,Uttar Pradesh,28.885732,78.803666,polygon_centroid,Moradabad,9
+172,Muzaffarnagar,Uttar Pradesh,29.4157,77.725886,polygon_centroid,Muzaffarnagar,9
+173,Pilibhit,Uttar Pradesh,28.530517,79.993614,polygon_centroid,Pilibhit,9
+174,Pratapgarh,Uttar Pradesh,25.872941,81.829484,polygon_centroid,Pratapgarh,9
+120,Prayagraj,Uttar Pradesh,25.303994,81.959899,polygon_centroid,Prayagraj,9
+175,Rae Bareli,Uttar Pradesh,26.204671,81.191193,polygon_centroid,Raebareli,9
+176,Rampur,Uttar Pradesh,28.810279,79.114438,polygon_centroid,Rampur,9
+177,Saharanpur,Uttar Pradesh,29.950497,77.545466,polygon_centroid,Saharanpur,9
+659,Sambhal,Uttar Pradesh,28.451834,78.558784,polygon_centroid,Sambhal,9
+178,Sant Kabir Nagar,Uttar Pradesh,26.775695,83.027506,polygon_centroid,Sant Kabir Nagar,9
+180,Shahjahanpur,Uttar Pradesh,27.95003,79.820415,polygon_centroid,Shahjahanpur,9
+660,Shamli,Uttar Pradesh,29.500426,77.283315,polygon_centroid,Shamli,9
+181,Shrawasti,Uttar Pradesh,27.71857,81.90201,polygon_centroid_alias,Sharavasti,9
+182,Siddharthnagar,Uttar Pradesh,27.270079,82.874662,polygon_centroid,Siddharthnagar,9
+183,Sitapur,Uttar Pradesh,27.517211,80.85207,polygon_centroid,Sitapur,9
+184,Sonbhadra,Uttar Pradesh,24.408,83.051753,polygon_centroid,Sonbhadra,9
+185,Sultanpur,Uttar Pradesh,26.262004,82.194473,polygon_centroid,Sultanpur,9
+186,Unnao,Uttar Pradesh,26.608454,80.560774,polygon_centroid,Unnao,9
+187,Varanasi,Uttar Pradesh,25.387104,82.914879,polygon_centroid,Varanasi,9
+664,Alipurduar,West Bengal,26.63279,89.462085,polygon_centroid,Alipurduar,19
+305,Bankura,West Bengal,23.138844,87.135955,polygon_centroid,Bankura,19
+307,Birbhum,West Bengal,23.954873,87.664905,polygon_centroid,Birbhum,19
+308,Cooch Behar,West Bengal,26.292266,89.345408,polygon_centroid,Cooch Behar,19
+310,Dakshin Dinajpur,West Bengal,25.368043,88.574555,polygon_centroid,Dakshin Dinajpur,19
+309,Darjeeling,West Bengal,26.849324,88.263359,polygon_centroid,Darjeeling,19
+312,Hooghly,West Bengal,22.885176,88.077041,polygon_centroid,Hooghly,19
+313,Howrah,West Bengal,22.520253,88.063611,polygon_centroid,Howrah,19
+314,Jalpaiguri,West Bengal,26.682198,88.76296,polygon_centroid,Jalpaiguri District,19
+703,Jhargram,West Bengal,22.363136,86.95538,polygon_centroid,Jhargram,19
+702,Kalimpong,West Bengal,27.034297,88.631219,polygon_centroid,Kalimpong,19
+315,Kolkata,West Bengal,22.526091,88.357654,polygon_centroid,Kolkata,19
+316,Malda,West Bengal,25.135408,88.094394,polygon_centroid_alias,Maldah,19
+319,Murshidabad,West Bengal,24.165775,88.226405,polygon_centroid,Murshidabad,19
+320,Nadia,West Bengal,23.479679,88.51569,polygon_centroid,Nadia,19
+303,North 24 Parganas,West Bengal,22.728315,88.729696,polygon_centroid,North 24 Parganas,19
+704,Paschim Bardhaman,West Bengal,23.662016,87.159947,polygon_centroid,Paschim Bardhaman,19
+318,Paschim Medinipur,West Bengal,22.440838,87.417051,polygon_centroid,Paschim Medinipur,19
+306,Purba Bardhaman,West Bengal,23.358493,87.946947,polygon_centroid,Purba Bardhaman,19
+317,Purba Medinipur,West Bengal,22.032312,87.778471,polygon_centroid,Purba Medinipur,19
+321,Purulia,West Bengal,23.278189,86.422993,polygon_centroid,Purulia,19
+304,South 24 Parganas,West Bengal,22.216983,88.45896,polygon_centroid,South 24 Parganas,19
+311,Uttar Dinajpur,West Bengal,25.687254,88.114642,polygon_centroid,Uttar Dinajpur,19

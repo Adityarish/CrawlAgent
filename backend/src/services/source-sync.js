@@ -53,6 +53,11 @@ export async function syncSourcesFromFile(filePath = defaultSourcesFile) {
 }
 
 export async function appendSourceToFile(source, filePath = defaultSourcesFile) {
+  return appendSourcesToFile([source], filePath);
+}
+
+export async function appendSourcesToFile(sources, filePath = defaultSourcesFile) {
+  if (!sources.length) return;
   let previous = "";
   try {
     previous = await fs.readFile(filePath, "utf8");
@@ -60,5 +65,6 @@ export async function appendSourceToFile(source, filePath = defaultSourcesFile) 
     if (error.code !== "ENOENT") throw error;
   }
   const prefix = previous && !previous.endsWith("\n") ? "\n" : "";
-  await fs.appendFile(filePath, `${prefix}${source.company} | ${source.url}\n`, "utf8");
+  const lines = sources.map(({ company, url }) => `${company} | ${url}`).join("\n");
+  await fs.appendFile(filePath, `${prefix}${lines}\n`, "utf8");
 }

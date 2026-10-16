@@ -1,6 +1,7 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 import { Job } from "../models/Job.js";
+import { crawlManager } from "../services/crawl-manager.js";
 
 const router = Router();
 
@@ -49,6 +50,15 @@ router.get("/health", async (_request, response) => {
     database: connected ? "connected" : "disconnected",
     adminConfigured: Boolean(process.env.ADMIN_PASSWORD),
   });
+});
+
+router.get("/crawl/status", async (_request, response, next) => {
+  try {
+    const run = await crawlManager.status();
+    response.json({ state: run?.state || "idle" });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/jobs", async (request, response, next) => {
