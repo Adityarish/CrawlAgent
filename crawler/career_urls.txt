@@ -1,0 +1,12 @@
+# Add one company career page per line.
+# Format: Company name | URL
+# A plain URL also works; the company name will be inferred from its domain.
+Zepto | https://zepto.darwinbox.in/ms/candidatev2/main/careers/allJobs
+Myntra | https://jobs.myntra.com/jobs
+Flipkart | https://www.naukri.com/flipkart-jobs-careers-530713
+Infosys | https://career.infosys.com/jobs?companyhiringtype=IL&countrycode=IN&searchJob=india
+Razorpay | https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited
+Amazon | https://amazon.jobs/content/en/career-programs/university/internships-for-students?country%5B%5D=IN
+Blinkit | https://www.naukri.com/blinkit-jobs-careers-1390572
+Lenskart | https://www.lenskart.com/careers-at-lenskart
+Capgemini | https://www.capgemini.com/in-en/careers/join-capgemini/job-search/?page=1&size=11&country_code=in-en

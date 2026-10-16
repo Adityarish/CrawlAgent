@@ -52,9 +52,9 @@ pnpm-debug.log*
 .crawler_runtime/
 .crawl4ai/
 .cache/
-jobs_by_company/
-jobs_by_company.json
-parsing/output/
+crawler/jobs_by_company/
+crawler/jobs_by_company.json
+crawler/parsing/output/
 
 # Logs and temporary files
 *.log
@@ -66,3 +66,6 @@ parsing/output/
 .DS_Store
 .idea/
 .vscode/
+
+
+job-crawler/problems/*

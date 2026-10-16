@@ -1,16 +1,35 @@
 {
-  "name": "jobatlas-web",
-  "version": "1.0.0",
+  "name": "jobatlas-men-stack",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
+  "description": "A modern MongoDB, Express, Next.js and Node.js job discovery platform.",
   "scripts": {
-    "dev": "concurrently -k -n api,next -c yellow,cyan \"./venv/bin/python server.py\" \"next dev\"",
-    "build": "next build",
-    "start": "concurrently -k -n api,next -c yellow,cyan \"./venv/bin/python server.py\" \"next start\""
+    "dev": "concurrently -k -n api,web -c magenta,cyan \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "node --watch backend/src/server.js",
+    "dev:web": "next dev frontend",
+    "build": "next build frontend",
+    "start": "concurrently -k -n api,web -c magenta,cyan \"npm run start:api\" \"npm run start:web\"",
+    "start:api": "node backend/src/server.js",
+    "start:web": "next start frontend",
+    "seed": "node backend/src/scripts/import-jobs.js",
+    "crawl": "./venv/bin/python -m crawler",
+    "parse": "./venv/bin/python -m crawler.parsing",
+    "test": "node --test backend/test/*.test.js && ./venv/bin/python -m unittest discover -s crawler/tests -v"
   },
   "dependencies": {
+    "cors": "2.8.5",
+    "dotenv": "17.2.3",
+    "express": "5.1.0",
+    "helmet": "8.1.0",
+    "jsonwebtoken": "9.0.2",
+    "leaflet": "1.9.4",
+    "lucide-react": "0.468.0",
+    "mongoose": "8.24.5",
     "next": "16.4.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-leaflet": "5.0.0"
   },
   "devDependencies": {
     "concurrently": "9.2.5"

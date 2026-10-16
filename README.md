@@ -1,153 +1,99 @@
-# JobAtlas: Indian job crawler and interactive jobs website
+# JobAtlas
 
-This project uses the open-source Crawl4AI browser locally, respects each
-site's `robots.txt`, saves the raw page content as Markdown, follows likely job
-detail links, and produces JSON shaped for the website/backend.
+JobAtlas is a modern job discovery platform built with **MongoDB, Express,
+Next.js, and Node.js**. The existing Python Crawl4AI pipeline remains focused
+on crawling and deterministic normalization; the application layer is now
+entirely JavaScript.
 
-It does not generate backend-owned fields such as `id`, `company_id`,
-`content_fingerprint`, timestamps, confidence, or coordinates.
+## Architecture
 
-## Run the website
+```text
+Company career pages
+        ↓
+Python Crawl4AI + parser
+        ↓ structured_jobs.json
+Node.js / Express importer
+        ↓
+MongoDB ← REST API ← Next.js frontend
+```
 
-The Next.js app reads the normalized records from
-`parsing/output/structured_jobs.json` through the Python API. It provides
-full-text search, company, multi-location, function and experience filters,
-responsive job details, and an interactive Leaflet map of Indian job locations.
+- `crawler/` — Crawl4AI runner, source list, raw evidence, parser, and Python tests
+- `frontend/` — Next.js App Router UI
+- `backend/` — Express API, Mongoose models, crawler orchestration, and Node tests
 
-Create the local admin configuration (the real `.env` is ignored by Git):
+The API imports `crawler/parsing/output/structured_jobs.json` with idempotent
+MongoDB upserts on startup and after every successful crawler run.
+
+## Local setup
+
+Requirements: Node.js 20+, MongoDB, and the existing Python virtual environment
+for crawler operations.
 
 ```bash
 cp .env.example .env
-# Edit ADMIN_PASSWORD and ADMIN_SESSION_SECRET in .env
-```
+# Configure MONGODB_URI, ADMIN_PASSWORD, and ADMIN_SESSION_SECRET
 
-Install the Next.js dependencies and start both the Next.js app and Python API:
-
-```bash
+docker compose up -d mongodb
 npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>. The public jobs view never receives the admin
-password. Use **Admin** to sign in, add a `Company | URL` career source, and
-start the existing crawler from the website. The crawler runs as one guarded
-background process; progress and its latest log lines appear in the admin
-panel. Each completed crawl automatically parses the saved Markdown and
-detail-page data into `parsing/output/structured_jobs.json`; when parsing
-finishes, the website reloads that structured feed.
+Open <http://localhost:3000>. The Next.js development server proxies `/api/*`
+to Express at <http://127.0.0.1:8000>.
 
-Leaflet and OpenStreetMap tiles are loaded from their public CDNs, so the map
-layer requires an internet connection. The job list and filters remain usable
-without map tiles.
-
-For production, run `npm run build` followed by `npm start`. The Python API
-starts alongside Next.js and remains responsible for job data and crawler
-operations; Next.js proxies `/api/*` requests to it. Set
-`JOBATLAS_API_ORIGIN` if the API is hosted somewhere other than
-`http://127.0.0.1:8000`.
-
-## Setup
+If MongoDB is already running, seed or refresh it manually with:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-crawl4ai-setup
+npm run seed
 ```
 
-The current workspace already has Crawl4AI 0.9.5 installed in `venv`.
-
-## Parse the Markdown already in `jobs_by_company`
+## Commands
 
 ```bash
-./venv/bin/python -m parsing
+npm run dev        # Next.js and Express in watch mode
+npm run build      # Production Next.js build
+npm start          # Start the production web app and API
+npm run seed       # Import normalized crawler output into MongoDB
+npm run crawl      # Run Crawl4AI and refresh normalized output
+npm run parse      # Reparse stored crawler evidence without network requests
+npm test           # Node API unit tests and Python crawler/parser tests
 ```
 
-This is offline: it does not revisit any website. It creates:
+## API
 
-- `parsing/output/structured_jobs.json`: website-ready JSON records
-- `parsing/output/by_company/*.md`: readable normalized Markdown
-- `parsing/output/extraction_report.json`: cards rejected or left unresolved rather than
-  filling required fields with made-up values
+Public endpoints:
 
-The formatter processes the Markdown files sequentially, merges any richer
-detail-page jobs saved in `jobs_by_company.json`, deduplicates them, and
-checkpoints outputs after every company. It is deterministic Python only: no
-LLM, AI API, or network request is used during formatting.
+- `GET /api/health`
+- `GET /api/jobs`
+- `GET /api/jobs/:id`
+- `GET /api/filters`
+- `GET /api/stats`
 
-## Crawl listings and job detail pages
+Admin endpoints require a short-lived bearer token returned by
+`POST /api/admin/login`:
 
-Add one source per line in `career_urls.txt`:
+- `GET|POST /api/admin/sources`
+- `GET|POST /api/admin/crawl`
+
+## Crawling and parsing
+
+Career sources use one entry per line in `crawler/career_urls.txt`:
 
 ```text
 Company name | https://company.example/careers
 ```
 
-Then run:
+Run the crawler directly when needed:
 
 ```bash
-./venv/bin/python crawler.py
+npm run crawl
 ```
 
-The default run:
-
-1. opens each career page in headless Chromium;
-2. checks `robots.txt` for every requested page;
-3. scrolls and renders JavaScript content;
-4. saves each raw listing to `jobs_by_company/<company>.md`;
-5. discovers likely job-detail URLs and follows at most 100 per company;
-6. saves detail evidence under `jobs_by_company/<company>/`;
-7. prefers Schema.org `JobPosting` JSON-LD for structured fields, with a
-   deterministic Markdown fallback;
-8. validates all required fields before writing
-   `parsing/output/structured_jobs.json`.
-
-Useful controls:
+Or reparse the stored Markdown without revisiting any website:
 
 ```bash
-# Quick listing-only refresh
-./venv/bin/python crawler.py --skip-job-details
-
-# Smaller test crawl
-./venv/bin/python crawler.py --max-jobs-per-company 10 --wait 5 --detail-wait 1
+npm run parse
 ```
 
-`source_url` remains the listing page where the job was discovered. The detail
-page is retained as `raw_payload.detail_url`. `application_url` is upgraded to
-an explicit Apply link when the detail page exposes one; otherwise the job's
-actionable detail link is retained.
-
-The crawler waits six hours after a company's latest crawl attempt before
-recrawling it. Other eligible companies in the same run continue normally.
-`robots.txt`
-permission is not a substitute for a site's terms of service: keep crawl rates
-reasonable and do not attempt to bypass authentication, CAPTCHAs, or access
-controls.
-
-## Current extraction status
-
-The checked-in raw Markdown produces 21 validated jobs. The six current Myntra
-cards are listed in `parsing/output/extraction_report.json` because their rendered Markdown
-contains no title or application URL. A new full crawl will try to discover
-their detail links from the rendered DOM. If the site still does not expose
-those links, a Myntra-specific DOM/API adapter will be needed; the normalizer
-will not fabricate titles.
-
-## Using or modifying open-source Crawl4AI
-
-For this project, installing the Python package is the simplest self-hosted
-option; no Crawl4AI cloud key is required. Crawl4AI is Apache-2.0 licensed, so
-you can also fork its GitHub repository if you need to change the crawling
-engine itself. Most application-specific behavior belongs in this repository's
-discovery and normalization layer rather than in a fork, which makes upstream
-updates easier to adopt.
-
-- Official repository: <https://github.com/unclecode/crawl4ai>
-- Official documentation: <https://docs.crawl4ai.com/>
-- Deep crawling guide: <https://docs.crawl4ai.com/core/deep-crawling/>
-
-## Tests
-
-```bash
-./venv/bin/python -m unittest -v
-```
+Do not commit `.env` or MongoDB credentials. JobAtlas respects `robots.txt` and
+does not attempt to bypass authentication, CAPTCHAs, or access controls.
