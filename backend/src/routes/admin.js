@@ -1,9 +1,10 @@
 import { timingSafeEqual } from "node:crypto";
 import { Router } from "express";
 import { createAdminToken, requireAdmin } from "../middleware/auth.js";
+import { Job } from "../models/Job.js";
 import { Source } from "../models/Source.js";
 import { crawlManager } from "../services/crawl-manager.js";
-import { appendSourceToFile, appendSourcesToFile } from "../services/source-sync.js";
+import { appendSourceToFile, appendSourcesToFile, removeSourceFromFile, removeSourcesFromFile } from "../services/source-sync.js";
 import * as XLSX from "xlsx";
 
 const router = Router();
@@ -22,6 +23,22 @@ function validateSource(company, rawUrl) {
     throw new Error("Enter a complete public HTTP or HTTPS career URL.");
   }
   return { company: name, url: url.toString() };
+}
+
+function sourceCompanyKey(value) {
+  const key = String(value || "")
+    .trim()
+    .toLocaleLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+  const aliases = {
+    "amazon india": "amazon",
+    "capgemini engineering": "capgemini",
+    "sharechat moj": "sharechat",
+    "l and t technology services": "larsen and toubro l and t",
+  };
+  return aliases[key] || key;
 }
 
 export function parseSourceUpload({ fileName, data }) {
@@ -77,6 +94,39 @@ router.get("/sources", async (_request, response, next) => {
   }
 });
 
+router.post("/sources/prune-without-jobs", async (_request, response, next) => {
+  try {
+    const [jobCompanies, sources] = await Promise.all([
+      Job.distinct("companyName"),
+      Source.find().select({ _id: 1, company: 1, url: 1 }).lean(),
+    ]);
+    if (!jobCompanies.length) {
+      return response.status(503).json({ error: "No job companies were found; no sources were removed." });
+    }
+    const companiesWithJobs = new Set(jobCompanies.map(sourceCompanyKey));
+    const sourcesToRemove = sources.filter((source) => !companiesWithJobs.has(sourceCompanyKey(source.company)));
+    if (!sourcesToRemove.length) {
+      return response.json({ removedSources: 0, removedCompanies: [] });
+    }
+
+    const result = await Source.deleteMany({ _id: { $in: sourcesToRemove.map((source) => source._id) } });
+    let fileSynced = true;
+    try {
+      await removeSourcesFromFile(sourcesToRemove.map((source) => source.url));
+    } catch (error) {
+      fileSynced = false;
+      console.error("Unable to sync pruned sources to career_urls.txt:", error.message);
+    }
+    return response.json({
+      removedSources: result.deletedCount,
+      removedCompanies: [...new Set(sourcesToRemove.map((source) => source.company))],
+      fileSynced,
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 router.post("/sources", async (request, response, next) => {
   try {
     const source = validateSource(request.body?.company, request.body?.url);
@@ -96,6 +146,22 @@ router.post("/sources", async (request, response, next) => {
     if (error.message?.startsWith("Company") || error.message?.startsWith("Enter")) {
       return response.status(400).json({ error: error.message });
     }
+    return next(error);
+  }
+});
+
+router.delete("/sources/:sourceId", async (request, response, next) => {
+  try {
+    const sourceId = String(request.params.sourceId || "");
+    if (!/^[a-f\d]{24}$/i.test(sourceId)) {
+      return response.status(400).json({ error: "Select a valid career source." });
+    }
+    const source = await Source.findById(sourceId);
+    if (!source) return response.status(404).json({ error: "That career source was not found." });
+    await removeSourceFromFile(source.url);
+    await Source.deleteOne({ _id: source._id });
+    return response.json({ removed: source.id, company: source.company, url: source.url });
+  } catch (error) {
     return next(error);
   }
 });
@@ -159,6 +225,25 @@ router.post("/crawl/company", async (request, response, next) => {
   }
 });
 
+router.post("/crawl/source", async (request, response, next) => {
+  try {
+    const sourceId = String(request.body?.sourceId || "");
+    if (!/^[a-f\d]{24}$/i.test(sourceId)) {
+      return response.status(400).json({ error: "Select a valid career source." });
+    }
+    const source = await Source.findById(sourceId).select({ company: 1, active: 1 });
+    if (!source || source.active === false) {
+      return response.status(404).json({ error: "That career source is unavailable or paused." });
+    }
+    const run = await crawlManager.start(source.company, sourceId);
+    return response.status(202).json({ run });
+  } catch (error) {
+    if (error.message.includes("already running")) return response.status(409).json({ error: error.message });
+    if (error.message.startsWith("No active career source")) return response.status(404).json({ error: error.message });
+    return next(error);
+  }
+});
+
 router.post("/companies/pause", async (request, response, next) => {
   try {
     const company = String(request.body?.company || "").trim().replace(/\s+/g, " ");
@@ -178,6 +263,20 @@ router.post("/companies/pause", async (request, response, next) => {
 router.post("/crawl/skip", async (_request, response, next) => {
   try {
     response.status(202).json({ run: await crawlManager.skipCurrent() });
+  } catch (error) {
+    if (error.message.includes("No crawl") || error.message.includes("did not accept")) {
+      return response.status(409).json({ error: error.message });
+    }
+    return next(error);
+  }
+});
+
+router.post("/crawl/pause", async (request, response, next) => {
+  try {
+    if (typeof request.body?.paused !== "boolean") {
+      return response.status(400).json({ error: "Provide a paused boolean." });
+    }
+    return response.json({ run: await crawlManager.setCrawlPaused(request.body.paused) });
   } catch (error) {
     if (error.message.includes("No crawl") || error.message.includes("did not accept")) {
       return response.status(409).json({ error: error.message });

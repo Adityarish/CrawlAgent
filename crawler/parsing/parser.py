@@ -113,14 +113,20 @@ class JsonLdParser(HTMLParser):
 class TextParser(HTMLParser):
     """Small HTML-to-text converter suitable for JSON-LD descriptions."""
 
-    BLOCK_TAGS = {"br", "p", "div", "li", "ul", "ol", "h1", "h2", "h3", "h4"}
+    BLOCK_TAGS = {
+        "article", "blockquote", "br", "dd", "div", "dl", "dt", "h1", "h2",
+        "h3", "h4", "h5", "h6", "li", "ol", "p", "section", "tr", "ul",
+    }
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.parts: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        if tag.lower() in self.BLOCK_TAGS:
+        tag = tag.lower()
+        if tag == "li":
+            self.parts.append("• " if self.parts and self.parts[-1].endswith("\n") else "\n• ")
+        elif tag in self.BLOCK_TAGS:
             self.parts.append("\n")
 
     def handle_endtag(self, tag: str) -> None:
@@ -141,7 +147,30 @@ def html_to_text(value: Any) -> str:
     except Exception:
         text = re.sub(r"<[^>]+>", " ", str(value))
     lines = [re.sub(r"\s+", " ", line).strip() for line in html.unescape(text).splitlines()]
-    return "\n".join(line for line in lines if line).strip()
+    # Keep one blank line between HTML blocks so paragraphs remain readable in
+    # plain-text consumers that render with white-space: pre-line.
+    normalized: list[str] = []
+    for line in lines:
+        if line:
+            normalized.append(line)
+        elif normalized and normalized[-1] != "":
+            normalized.append("")
+    return "\n".join(normalized).strip()
+
+
+def description_summary(description: str, limit: int = 500) -> str:
+    """Choose the first useful sentence instead of a standalone section title."""
+    lines = [line.strip(" \t-*•") for line in description.splitlines() if line.strip()]
+    section_heading = re.compile(
+        r"^(?:the\s+)?(?:opportunity|what you(?:'|’)ll do|what you will do|"
+        r"responsibilities|qualifications|requirements|about (?:the )?role|"
+        r"minimum qualifications|preferred qualifications|benefits|who you are)\s*:?$",
+        re.IGNORECASE,
+    )
+    for line in lines:
+        if not section_heading.fullmatch(line) and len(line) >= 35:
+            return line[:limit]
+    return next((line[:limit] for line in lines if not section_heading.fullmatch(line)), "")
 
 
 def blank_job(**values: Any) -> dict[str, Any]:
@@ -449,7 +478,7 @@ def job_from_json_ld(
         domain=domain,
         subdomain=subdomain,
         description=description,
-        summary=description.split("\n", 1)[0][:500] if description else None,
+        summary=description_summary(description) or None,
         responsibilities=as_list(payload.get("responsibilities")),
         required_qualifications=as_list(payload.get("qualifications")),
         preferred_qualifications=as_list(payload.get("preferredQualifications")),
@@ -829,9 +858,10 @@ def parse_job_detail(
         return job
     if fallback:
         enriched = dict(fallback)
-        detail_text = markdown.strip()
+        detail_text = html_to_text(markdown)
         if len(detail_text) > len(str(fallback.get("description") or "")):
             enriched["description"] = detail_text
+            enriched["summary"] = description_summary(detail_text) or fallback.get("summary")
             enriched["source_url"] = discovered_from or fallback.get("source_url") or detail_url
             enriched["application_url"] = _best_apply_link(links, detail_url)
             enriched["raw_payload"] = {
@@ -1096,7 +1126,7 @@ def parse_saved_detail_pages(input_dir: Path) -> list[dict[str, Any]]:
                 cleaned = clean_line(line)
                 if cleaned and cleaned.casefold() not in {"apply", "apply now", "save"}:
                     description_lines.append(cleaned)
-            description = "\n".join(description_lines).strip()
+            description = html_to_text("\n".join(description_lines))
             if len(description) < 40:
                 continue
 
@@ -1112,7 +1142,7 @@ def parse_saved_detail_pages(input_dir: Path) -> list[dict[str, Any]]:
                 domain=domain,
                 subdomain=subdomain,
                 description=description,
-                summary=description[:280],
+                summary=description_summary(description, 280),
                 full_location_text=full_location,
                 city=city,
                 state=state,

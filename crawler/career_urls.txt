@@ -84,7 +84,6 @@ Capgemini | https://www.capgemini.com/in-en/careers/join-capgemini/job-search/
 Cognizant | https://careers.cognizant.com/india-en/
 Microsoft | https://careers.microsoft.com/v2/global/en/locations/india.html
 Google | https://www.google.com/about/careers/applications/jobs/results/?location=India
-Adobe | https://careers.adobe.com/us/en/
 Oracle | https://careers.oracle.com/en/sites/jobsearch/jobs?location=India
 Salesforce | https://careers.salesforce.com/en/jobs/?country=India
 SAP | https://careers.sap.com/go/SAP-Jobs-in-India/851201/

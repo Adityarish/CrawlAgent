@@ -4,13 +4,14 @@ const crawlRunSchema = new mongoose.Schema(
   {
     state: {
       type: String,
-      enum: ["queued", "running", "succeeded", "failed"],
+      enum: ["queued", "running", "paused", "succeeded", "failed"],
       default: "queued",
       index: true,
     },
     startedAt: { type: Date, default: null },
     processId: { type: Number, default: null },
     targetCompany: { type: String, default: null },
+    targetSourceUrl: { type: String, default: null },
     finishedAt: { type: Date, default: null },
     exitCode: { type: Number, default: null },
     importedJobs: { type: Number, default: 0 },

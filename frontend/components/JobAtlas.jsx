@@ -31,11 +31,12 @@ import {
   Settings2,
   SkipForward,
   Sparkles,
+  Trash2,
   Upload,
   X,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Logo } from "./Logo";
 import { groupJobsByLocation } from "../lib/jobLocations";
 
@@ -229,9 +230,13 @@ function AdminPanel({ open, onClose }) {
   const [sources, setSources] = useState([]);
   const [companySearch, setCompanySearch] = useState("");
   const [workingCompany, setWorkingCompany] = useState("");
+  const [selectedSourceIds, setSelectedSourceIds] = useState({});
+  const [addLinkCompany, setAddLinkCompany] = useState("");
+  const [newLinkUrl, setNewLinkUrl] = useState("");
   const [run, setRun] = useState(null);
   const [form, setForm] = useState({ company: "", url: "" });
   const [uploadReport, setUploadReport] = useState(null);
+  const [pruneReport, setPruneReport] = useState(null);
 
   const companyGroups = useMemo(() => {
     const groups = new globalThis.Map();
@@ -378,6 +383,22 @@ function AdminPanel({ open, onClose }) {
     }
   }
 
+  async function setCrawlPaused(paused) {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await authorizedFetch("/api/admin/crawl/pause", {
+        method: "POST",
+        body: JSON.stringify({ paused }),
+      });
+      setRun(data.run);
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function recrawlCompany(company) {
     setWorkingCompany(company);
     setError("");
@@ -391,6 +412,75 @@ function AdminPanel({ open, onClose }) {
       setError(requestError.message);
     } finally {
       setWorkingCompany("");
+    }
+  }
+
+  async function crawlSource(source) {
+    setWorkingCompany(source.company);
+    setError("");
+    try {
+      const data = await authorizedFetch("/api/admin/crawl/source", {
+        method: "POST",
+        body: JSON.stringify({ sourceId: source.id }),
+      });
+      setRun(data.run);
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setWorkingCompany("");
+    }
+  }
+
+  async function addCompanyLink(event, company) {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      await authorizedFetch("/api/admin/sources", {
+        method: "POST",
+        body: JSON.stringify({ company, url: newLinkUrl }),
+      });
+      setNewLinkUrl("");
+      setAddLinkCompany("");
+      await refresh();
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function removeCompanyLink(source) {
+    setWorkingCompany(source.company);
+    setError("");
+    try {
+      await authorizedFetch(`/api/admin/sources/${source.id}`, { method: "DELETE" });
+      setSelectedSourceIds((current) => {
+        const next = { ...current };
+        delete next[source.company.trim().replace(/\s+/g, " ").toLocaleLowerCase()];
+        return next;
+      });
+      await refresh();
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setWorkingCompany("");
+    }
+  }
+
+  async function pruneSourcesWithoutJobs() {
+    if (!window.confirm("Remove source links for companies that currently have no matching jobs? Those companies will no longer be crawled until you add their sources again.")) return;
+    setLoading(true);
+    setError("");
+    setPruneReport(null);
+    try {
+      const report = await authorizedFetch("/api/admin/sources/prune-without-jobs", { method: "POST" });
+      setPruneReport(report);
+      await refresh();
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -432,19 +522,24 @@ function AdminPanel({ open, onClose }) {
             {error && <div className="form-error"><CircleAlert size={15} />{error}</div>}
             <section className="crawl-card">
               <div className="crawl-card-top"><div><span className="eyebrow">Crawler status</span><h3>{formatLabel(run?.state || "Ready")}</h3></div><span className={`status-dot ${run?.state || "idle"}`} /></div>
-              <p>{run?.state === "running" ? "Discovering and normalizing live career listings." : run?.finishedAt ? `Last finished ${relativeDate(run.finishedAt)} · ${run.importedJobs || 0} records synced.` : "Start a refresh when you’re ready."}</p>
-              <button className="primary-button" onClick={startCrawl} disabled={loading || run?.state === "running"}>
-                {run?.state === "running" ? <><LoaderCircle className="spin" size={17} />Crawling now</> : <><Play size={17} fill="currentColor" />Start new crawl</>}
+              <p>{run?.state === "running" ? "Discovering and normalizing live career listings." : run?.state === "paused" ? "Paused after the current page; resume when you’re ready." : run?.finishedAt ? `Last finished ${relativeDate(run.finishedAt)} · ${run.importedJobs || 0} records synced.` : "Start a refresh when you’re ready."}</p>
+              <button className="primary-button" onClick={startCrawl} disabled={loading || run?.state === "running" || run?.state === "paused"}>
+                {run?.state === "running" || run?.state === "paused" ? <><LoaderCircle className={run?.state === "running" ? "spin" : ""} size={17} />{run?.state === "paused" ? "Crawl paused" : "Crawling now"}</> : <><Play size={17} fill="currentColor" />Start new crawl</>}
               </button>
-              {run?.state === "running" && (
-                <button className="skip-button" onClick={skipCurrentSource} disabled={loading}>
-                  <SkipForward size={16} />Skip current company
-                </button>
+              {(run?.state === "running" || run?.state === "paused") && (
+                <div className="crawl-active-actions">
+                  <button className="skip-button icon-only-button" onClick={() => setCrawlPaused(run.state !== "paused")} disabled={loading} title={run.state === "paused" ? "Resume crawl" : "Pause crawl"} aria-label={run.state === "paused" ? "Resume crawl" : "Pause crawl"}>
+                    {run.state === "paused" ? <Play size={16} /> : <Pause size={16} />}
+                  </button>
+                  <button className="skip-button" onClick={skipCurrentSource} disabled={loading || run.state === "paused"}>
+                    <SkipForward size={16} />Skip current company
+                  </button>
+                </div>
               )}
               {!!run?.logs?.length && <pre className="crawl-log">{run.logs.slice(-8).join("\n")}</pre>}
             </section>
             <section className="source-section">
-              <div className="admin-section-title"><div><span className="eyebrow">Coverage</span><h3>Career sources</h3></div><span>{companyGroups.length}</span></div>
+              <div className="admin-section-title"><div><span className="eyebrow">Coverage</span><h3>Career sources</h3></div><div className="source-section-actions"><span>{companyGroups.length}</span><button className="source-prune-button" onClick={pruneSourcesWithoutJobs} disabled={loading || !sources.length}>Remove empty</button></div></div>
               <form className="source-form" onSubmit={addSource}>
                 <input value={form.company} onChange={(event) => setForm({ ...form, company: event.target.value })} placeholder="Company name" required />
                 <input type="url" value={form.url} onChange={(event) => setForm({ ...form, url: event.target.value })} placeholder="https://company.com/careers" required />
@@ -458,21 +553,50 @@ function AdminPanel({ open, onClose }) {
                 </label>
                 <small className="upload-hint">First worksheet · up to 2.8 MB</small>
                 {uploadReport && <div className="upload-report"><Check size={15} /><span>Added {uploadReport.added} of {uploadReport.totalRows} sources to MongoDB and the crawler list.{uploadReport.skipped.length > 0 && <small>{uploadReport.skipped.length} skipped: {uploadReport.skipped.slice(0, 3).map((item) => `row ${item.row}: ${item.reason}`).join("; ")}{uploadReport.skipped.length > 3 ? "; …" : ""}</small>}</span></div>}
+                {pruneReport && <div className="upload-report"><Check size={15} /><span>Removed {pruneReport.removedCompanies.length} companies and {pruneReport.removedSources} source links without matching jobs.{!pruneReport.fileSynced && <small>MongoDB was updated, but the local crawler source file could not be synced.</small>}</span></div>}
               </div>
               <label className="company-search"><Search size={15} /><input value={companySearch} onChange={(event) => setCompanySearch(event.target.value)} placeholder="Search companies" aria-label="Search companies" /></label>
               <div className="source-list">
-                {visibleCompanyGroups.map((group) => <div className="source-row" key={group.key}>
-                  <span className={`company-avatar tiny ${companyTone(group.company)}`}>{group.company.slice(0, 2).toUpperCase()}</span>
-                  <div className="company-copy"><strong>{group.company}</strong><small>{group.paused ? "Paused" : "Active"} · {group.sources.length} {group.sources.length === 1 ? "source" : "sources"}</small></div>
-                  <div className="company-actions">
-                    <button className="company-action recrawl" onClick={() => recrawlCompany(group.company)} disabled={loading || !!workingCompany || run?.state === "running"} title={`Recrawl ${group.company}`} aria-label={`Recrawl ${group.company}`}>
-                      {workingCompany === group.company ? <LoaderCircle className="spin" size={13} /> : <RefreshCw size={13} />}<span>Recrawl</span>
-                    </button>
-                    <button className={`company-action ${group.paused ? "resume" : "pause"}`} onClick={() => setCompanyPaused(group.company, !group.paused)} disabled={loading || !!workingCompany} title={`${group.paused ? "Resume" : "Pause"} ${group.company}`} aria-label={`${group.paused ? "Resume" : "Pause"} ${group.company}`}>
-                      {group.paused ? <Play size={13} /> : <Pause size={13} />}<span>{group.paused ? "Resume" : "Pause"}</span>
-                    </button>
-                  </div>
-                </div>)}
+                {visibleCompanyGroups.map((group) => {
+                  const chosenSourceId = selectedSourceIds[group.key] || group.sources.find((source) => source.active !== false)?.id || group.sources[0]?.id || "";
+                  const chosenSource = group.sources.find((source) => source.id === chosenSourceId);
+                  return <div className="company-source-group" key={group.key}>
+                    <div className="source-row">
+                      <span className={`company-avatar tiny ${companyTone(group.company)}`}>{group.company.slice(0, 2).toUpperCase()}</span>
+                      <div className="company-copy"><strong>{group.company}</strong><small>{group.paused ? "Paused" : "Active"} · {group.sources.length} {group.sources.length === 1 ? "source" : "sources"}</small></div>
+                      <div className="company-actions">
+                        <button className="company-action icon-only-button recrawl" onClick={() => recrawlCompany(group.company)} disabled={loading || !!workingCompany || run?.state === "running" || run?.state === "paused"} title={`Crawl all ${group.company} links`} aria-label={`Crawl all ${group.company} links`}>
+                          {workingCompany === group.company ? <LoaderCircle className="spin" size={14} /> : <RefreshCw size={14} />}
+                        </button>
+                        <button className={`company-action icon-only-button ${group.paused ? "resume" : "pause"}`} onClick={() => setCompanyPaused(group.company, !group.paused)} disabled={loading || !!workingCompany} title={`${group.paused ? "Resume" : "Pause"} ${group.company}`} aria-label={`${group.paused ? "Resume" : "Pause"} ${group.company}`}>
+                          {group.paused ? <Play size={14} /> : <Pause size={14} />}
+                        </button>
+                        <button className="add-link-toggle icon-only-button" onClick={() => { setAddLinkCompany(addLinkCompany === group.key ? "" : group.key); setNewLinkUrl(""); }} disabled={loading} title={`Add a link for ${group.company}`} aria-label={`Add a link for ${group.company}`}>
+                          <Plus size={15} />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="company-source-controls">
+                      <select
+                        aria-label={`Select a source link for ${group.company}`}
+                        value={chosenSourceId}
+                        onChange={(event) => setSelectedSourceIds((current) => ({ ...current, [group.key]: event.target.value }))}
+                      >
+                        {group.sources.map((source) => <option key={source.id} value={source.id} disabled={source.active === false}>{source.url}{source.active === false ? " (paused)" : ""}</option>)}
+                      </select>
+                      <button className="company-action icon-only-button crawl-link" onClick={() => chosenSource && crawlSource(chosenSource)} disabled={loading || !!workingCompany || run?.state === "running" || run?.state === "paused" || !chosenSource || chosenSource.active === false} title={`Crawl selected ${group.company} link`} aria-label={`Crawl selected ${group.company} link`}>
+                        {workingCompany === group.company ? <LoaderCircle className="spin" size={14} /> : <Play size={14} fill="currentColor" />}
+                      </button>
+                      <button className="company-action icon-only-button remove-link" onClick={() => chosenSource && removeCompanyLink(chosenSource)} disabled={loading || !!workingCompany || !chosenSource} title={`Remove selected link for ${group.company}`} aria-label={`Remove selected link for ${group.company}`}>
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    {addLinkCompany === group.key && <form className="add-link-form" onSubmit={(event) => addCompanyLink(event, group.company)}>
+                      <input type="url" value={newLinkUrl} onChange={(event) => setNewLinkUrl(event.target.value)} placeholder="https://company.com/careers" aria-label={`New career link for ${group.company}`} required />
+                      <button className="company-action" disabled={loading || !newLinkUrl}><Plus size={13} />Save link</button>
+                    </form>}
+                  </div>;
+                })}
                 {!visibleCompanyGroups.length && <p className="source-empty">No companies match that search.</p>}
               </div>
             </section>
@@ -484,6 +608,7 @@ function AdminPanel({ open, onClose }) {
 }
 
 export function JobAtlas() {
+  const crawlPollCount = useRef(0);
   const [jobs, setJobs] = useState([]);
   const [filters, setFilters] = useState(emptyFilters);
   const [filterOptions, setFilterOptions] = useState({ companies: [], locations: [], domains: [], employmentTypes: [], workplaceTypes: [] });
@@ -495,6 +620,8 @@ export function JobAtlas() {
   const [saved, setSaved] = useState(new Set());
   const [view, setView] = useState("explore");
   const [currentPage, setCurrentPage] = useState(1);
+  const [jobPages, setJobPages] = useState(1);
+  const [jobTotal, setJobTotal] = useState(0);
   const [detailOpen, setDetailOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -503,6 +630,9 @@ export function JobAtlas() {
   const [mapJobs, setMapJobs] = useState([]);
   const [mapLoading, setMapLoading] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapPage, setMapPage] = useState(0);
+  const [mapPages, setMapPages] = useState(1);
+  const [mapTotal, setMapTotal] = useState(0);
   const [mapError, setMapError] = useState("");
   const [mapSearch, setMapSearch] = useState("");
   const [selectedMapLocation, setSelectedMapLocation] = useState("");
@@ -523,25 +653,26 @@ export function JobAtlas() {
   const loadJobs = useCallback(async (quiet = false) => {
     if (!quiet) setLoading(true);
     if (!quiet) setError("");
-    const params = new URLSearchParams({ limit: "200" });
+    const params = new URLSearchParams({ limit: "10", page: String(currentPage) });
     if (debouncedSearch) params.set("search", debouncedSearch);
     Object.entries(filters).forEach(([key, value]) => {
       if (Array.isArray(value) && value.length) params.set(key, value.join(","));
       else if (value) params.set(key, String(value));
     });
+    if (view === "saved") params.set("ids", [...saved].join(","));
     try {
-      const allJobs = [];
-      let page = 1;
-      let pages = 1;
-      do {
-        params.set("page", String(page));
-        const data = await fetchJson(`/api/jobs?${params}`);
-        allJobs.push(...data.jobs);
-        pages = data.pages;
-        page += 1;
-      } while (page <= pages);
-      setJobs(allJobs);
-      setSelectedJob((current) => allJobs.find((job) => job.id === current?.id) || allJobs[0] || null);
+      if (view === "saved" && saved.size === 0) {
+        setJobs([]);
+        setJobTotal(0);
+        setJobPages(1);
+        setSelectedJob(null);
+        return;
+      }
+      const data = await fetchJson(`/api/jobs?${params}`);
+      setJobs(data.jobs);
+      setJobTotal(data.total);
+      setJobPages(data.pages);
+      setSelectedJob((current) => data.jobs.find((job) => job.id === current?.id) || data.jobs[0] || null);
     } catch (requestError) {
       if (!quiet) {
         setError(requestError.message);
@@ -551,25 +682,31 @@ export function JobAtlas() {
     } finally {
       if (!quiet) setLoading(false);
     }
-  }, [debouncedSearch, filters]);
+  }, [currentPage, debouncedSearch, filters, saved, view]);
 
   useEffect(() => { loadJobs(); }, [loadJobs]);
   useEffect(() => { setCurrentPage(1); }, [debouncedSearch, filters, view]);
+  useEffect(() => { if (currentPage > jobPages) setCurrentPage(jobPages); }, [currentPage, jobPages]);
 
-  const loadMapJobs = useCallback(async (quiet = false) => {
+  const loadMapJobs = useCallback(async (quiet = false, reset = true) => {
     if (!quiet) setMapLoading(true);
     if (!quiet) setMapError("");
+    const page = reset ? 1 : mapPage + 1;
+    if (reset) {
+      setMapJobs([]);
+      setMapLoaded(false);
+      setMapPage(0);
+    }
     try {
-      const allJobs = [];
-      let page = 1;
-      let pages = 1;
-      do {
-        const data = await fetchJson(`/api/jobs?limit=200&page=${page}`);
-        allJobs.push(...data.jobs);
-        pages = data.pages;
-        page += 1;
-      } while (page <= pages);
-      setMapJobs(allJobs);
+      const data = await fetchJson(`/api/jobs?limit=100&page=${page}&compact=true`);
+      setMapJobs((current) => {
+        if (reset) return data.jobs;
+        const existingIds = new Set(current.map((job) => job.id));
+        return [...current, ...data.jobs.filter((job) => !existingIds.has(job.id))];
+      });
+      setMapPage(data.page);
+      setMapPages(data.pages);
+      setMapTotal(data.total);
     } catch (requestError) {
       if (!quiet) {
         setMapError(requestError.message);
@@ -579,7 +716,7 @@ export function JobAtlas() {
       setMapLoaded(true);
       if (!quiet) setMapLoading(false);
     }
-  }, []);
+  }, [mapPage]);
 
   useEffect(() => {
     if (view === "map" && !mapLoaded) loadMapJobs();
@@ -594,15 +731,14 @@ export function JobAtlas() {
         const active = status.state === "running";
         setCrawlActive(active);
         if (!active) return;
-        const [options, summary] = await Promise.all([
-          fetchJson("/api/filters"),
-          fetchJson("/api/stats"),
-          loadJobs(true),
-          view === "map" && mapLoaded ? loadMapJobs(true) : Promise.resolve(),
-        ]);
-        if (!stopped) {
-          setFilterOptions(options);
-          setStats(summary);
+        await loadJobs(true);
+        crawlPollCount.current += 1;
+        if (crawlPollCount.current % 5 === 0) {
+          const [options, summary] = await Promise.all([fetchJson("/api/filters"), fetchJson("/api/stats")]);
+          if (!stopped) {
+            setFilterOptions(options);
+            setStats(summary);
+          }
         }
       } catch {
         // Keep the last good feed visible if a background refresh briefly fails.
@@ -611,11 +747,11 @@ export function JobAtlas() {
     refreshWhileCrawling();
     const interval = setInterval(refreshWhileCrawling, crawlActive ? 4000 : 2500);
     return () => { stopped = true; clearInterval(interval); };
-  }, [crawlActive, loadJobs, loadMapJobs, mapLoaded, view]);
+  }, [crawlActive, loadJobs, view]);
 
-  const visibleJobs = useMemo(() => view === "saved" ? jobs.filter((job) => saved.has(job.id)) : jobs, [jobs, saved, view]);
-  const pageCount = Math.max(1, Math.ceil(visibleJobs.length / 10));
-  const paginatedJobs = visibleJobs.slice((currentPage - 1) * 10, currentPage * 10);
+  const visibleJobs = jobs;
+  const pageCount = Math.max(1, jobPages);
+  const paginatedJobs = visibleJobs;
   const activeFilterCount = Object.values(filters).filter((value) => Array.isArray(value) ? value.length > 0 : Boolean(value)).length;
   const searchedMapJobs = useMemo(() => {
     const query = mapSearch.trim().toLowerCase();
@@ -682,7 +818,7 @@ export function JobAtlas() {
             <div className="map-page-heading">
               <span className="eyebrow"><MapPin size={13} />Location explorer</span>
               <h1>Find your next role on the map</h1>
-              <p>{mappedMapJobCount} mapped roles across {mapGroups.length} districts{unmappedMapJobCount > 0 ? ` · ${unmappedMapJobCount} awaiting a district match` : ""}</p>
+              <p>Showing {mapJobs.length} of {mapTotal} roles · {mappedMapJobCount} mapped across {mapGroups.length} districts{unmappedMapJobCount > 0 ? ` · ${unmappedMapJobCount} awaiting a district match` : ""}</p>
             </div>
             <div className="map-page-actions">
               <label className="map-search-field">
@@ -690,13 +826,14 @@ export function JobAtlas() {
                 <input value={mapSearch} onChange={(event) => { setMapSearch(event.target.value); setSelectedMapLocation(""); }} placeholder="Search roles or companies" />
                 {mapSearch && <button onClick={() => setMapSearch("")} aria-label="Clear map search"><X size={15} /></button>}
               </label>
+              {mapPage < mapPages && <button className="secondary-button" onClick={() => loadMapJobs(false, false)} disabled={mapLoading}>{mapLoading ? "Loading…" : "Load 100 more"}</button>}
               <button className="map-refresh-button" onClick={loadMapJobs} disabled={mapLoading} aria-label="Refresh map jobs"><RefreshCw className={mapLoading ? "spin" : ""} size={17} /></button>
             </div>
           </div>
 
           <div className="map-stage">
             {mapLoading && !mapJobs.length ? (
-              <div className="map-page-state"><LoaderCircle className="spin" size={24} /><span>Loading every opportunity</span></div>
+              <div className="map-page-state"><LoaderCircle className="spin" size={24} /><span>Loading the first batch</span></div>
             ) : mapError ? (
               <div className="map-page-state error"><CircleAlert size={24} /><strong>We couldn’t load the map</strong><span>{mapError}</span><button className="secondary-button" onClick={loadMapJobs}>Try again</button></div>
             ) : !searchedMapJobs.length ? (
@@ -785,12 +922,12 @@ export function JobAtlas() {
           <FilterSelect icon={Globe2} label="Work style" value={filters.workplaceType} options={filterOptions.workplaceTypes} onChange={(workplaceType) => setFilters({ ...filters, workplaceType })} />
           <label className="check-filter"><button className={filters.fresher ? "checked" : ""} onClick={() => setFilters({ ...filters, fresher: !filters.fresher })}>{filters.fresher && <Check size={13} />}</button><span><strong>Early career</strong><small>0 years experience</small></span></label>
           <div className="index-card"><div><Database size={17} /><span>Source-first data</span></div><p>Every role links directly to its original career page.</p></div>
-          <button className="mobile-apply" onClick={() => setFiltersOpen(false)}>Show {jobs.length} roles</button>
+          <button className="mobile-apply" onClick={() => setFiltersOpen(false)}>Show {jobTotal} roles</button>
         </aside>
 
         <section className="results-panel">
           <div className="results-toolbar">
-            <div><span className="eyebrow">{view === "saved" ? "Your shortlist" : "Opportunities"}</span><h2>{view === "saved" ? `${visibleJobs.length} saved roles` : `${jobs.length} roles for you`}</h2></div>
+            <div><span className="eyebrow">{view === "saved" ? "Your shortlist" : "Opportunities"}</span><h2>{view === "saved" ? `${jobTotal} saved roles` : `${jobTotal} roles for you`}</h2></div>
             <div className="toolbar-actions">
               <button className="filter-mobile-button" onClick={() => setFiltersOpen(true)}><Filter size={16} />Filters{activeFilterCount > 0 && <span>{activeFilterCount}</span>}</button>
               <button className="refresh-button" onClick={loadJobs}><RefreshCw size={15} />Refresh</button>

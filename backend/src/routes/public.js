@@ -22,6 +22,7 @@ export function buildJobQuery(query) {
   const domains = list(query.domain);
   const employmentTypes = list(query.employmentType);
   const workplaceTypes = list(query.workplaceType);
+  const ids = list(query.ids).filter((id) => mongoose.isValidObjectId(id));
 
   if (search) {
     const pattern = new RegExp(safePattern(search), "i");
@@ -37,6 +38,7 @@ export function buildJobQuery(query) {
   if (domains.length) filter.domain = { $in: domains };
   if (employmentTypes.length) filter.employmentType = { $in: employmentTypes };
   if (workplaceTypes.length) filter.workplaceType = { $in: workplaceTypes };
+  if (query.ids !== undefined) filter._id = { $in: ids };
   if (query.fresher === "true") {
     filter.$and = [{ $or: [{ fresherEligible: true }, { minExperience: 0 }] }];
   }
@@ -67,8 +69,11 @@ router.get("/jobs", async (request, response, next) => {
     const limit = Math.min(200, Math.max(1, Number.parseInt(request.query.limit, 10) || 20));
     const sort = request.query.sort === "title" ? { title: 1 } : { datePosted: -1, createdAt: -1 };
     const filter = buildJobQuery(request.query);
+    const projection = request.query.compact === "true"
+      ? "companyName title domain workplaceType datePosted fullLocationText city locationPoints applicationUrl employmentType minExperience fresherEligible skills"
+      : "-rawPayload -fingerprint";
     const [jobs, total] = await Promise.all([
-      Job.find(filter).sort(sort).skip((page - 1) * limit).limit(limit),
+      Job.find(filter).select(projection).sort(sort).skip((page - 1) * limit).limit(limit),
       Job.countDocuments(filter),
     ]);
     response.json({ jobs, total, page, pages: Math.max(1, Math.ceil(total / limit)), limit });

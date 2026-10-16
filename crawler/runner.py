@@ -96,6 +96,28 @@ async def crawl_until_done_or_skipped(
             await skip_task
 
 
+async def wait_if_paused(
+    pause_event: asyncio.Event,
+    resume_event: asyncio.Event,
+    skip_event: asyncio.Event,
+) -> None:
+    """Wait at a page boundary while paused, while still honoring skip requests."""
+    while pause_event.is_set():
+        resume_task = asyncio.create_task(resume_event.wait())
+        skip_task = asyncio.create_task(skip_event.wait())
+        done, pending = await asyncio.wait(
+            {resume_task, skip_task}, return_when=asyncio.FIRST_COMPLETED
+        )
+        for task in pending:
+            task.cancel()
+        for task in pending:
+            with contextlib.suppress(asyncio.CancelledError):
+                await task
+        if skip_task in done:
+            skip_event.clear()
+            raise SkipCurrentSource
+
+
 def company_from_url(url: str) -> str:
     """Derive a readable company name when it is not supplied in the file."""
     host_parts = (urlparse(url).hostname or "company").lower().split(".")
@@ -274,6 +296,8 @@ async def crawl_pages(
     resume_detail_position: int = 1,
     force_crawl: bool = False,
     skip_event: asyncio.Event | None = None,
+    pause_event: asyncio.Event | None = None,
+    resume_event: asyncio.Event | None = None,
     structured_json: Path = DEFAULT_STRUCTURED_JSON_FILE,
     formatted_output_dir: Path = DEFAULT_FORMATTED_OUTPUT_DIR,
     extraction_report: Path = DEFAULT_EXTRACTION_REPORT,
@@ -336,14 +360,35 @@ async def crawl_pages(
     attempted = 0
     skipped = 0
     skip_event = skip_event or asyncio.Event()
+    pause_event = pause_event or asyncio.Event()
+    resume_event = resume_event or asyncio.Event()
+    resume_event.set()
     if hasattr(signal, "SIGUSR1"):
         try:
             asyncio.get_running_loop().add_signal_handler(signal.SIGUSR1, skip_event.set)
         except (NotImplementedError, RuntimeError, ValueError):
             pass
+    if hasattr(signal, "SIGUSR2"):
+        def toggle_pause() -> None:
+            if pause_event.is_set():
+                pause_event.clear()
+                resume_event.set()
+            else:
+                pause_event.set()
+                resume_event.clear()
+        try:
+            asyncio.get_running_loop().add_signal_handler(signal.SIGUSR2, toggle_pause)
+        except (NotImplementedError, RuntimeError, ValueError):
+            pass
     async with AsyncWebCrawler(config=browser_config) as crawler:
         total = len(pages)
         for position, (company, url) in enumerate(pages, start=1):
+            try:
+                await wait_if_paused(pause_event, resume_event, skip_event)
+            except SkipCurrentSource:
+                skipped += 1
+                print(f"[{position}/{total}] {company}: skip requested; moving to the next company")
+                continue
             if resume_company_position is not None and position < resume_company_position:
                 skipped += 1
                 print(
@@ -410,6 +455,7 @@ async def crawl_pages(
                         detail_dir = output_dir / slugify(company)
                         detail_dir.mkdir(parents=True, exist_ok=True)
                         for job_position, job_url in enumerate(discovered_links, start=1):
+                            await wait_if_paused(pause_event, resume_event, skip_event)
                             if (
                                 position == resume_company_position
                                 and job_position < resume_detail_position
