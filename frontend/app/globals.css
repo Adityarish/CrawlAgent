@@ -172,6 +172,48 @@ a { color: inherit; }
 .job-map-marker b { transform: rotate(45deg); }
 .job-map-marker.selected { background: var(--acid); color: var(--forest); transform: rotate(-45deg) scale(1.14); }
 .job-map-marker-wrap span { line-height: 1; }
+.expense-map-marker-wrap { background: transparent !important; border: 0 !important; }
+.expense-map-marker { width: max-content; min-width: 38px; height: 32px; padding: 0 8px; border: 2px solid white; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 13px rgba(23, 45, 31, .27); font: 800 10px/1 Inter, sans-serif; white-space: nowrap; }
+.expense-map-marker.affordable, .map-expense-legend .affordable { background: #27805a; }
+.expense-map-marker.moderate, .map-expense-legend .moderate { background: #bd841c; }
+.expense-map-marker.expensive, .map-expense-legend .expensive { background: #b84d43; }
+.expense-map-marker.expense-cluster { width: 56px; height: 42px; border-radius: 21px; flex-direction: column; gap: 2px; }
+.expense-map-marker.expense-cluster b { font-size: 12px; }
+.expense-map-marker.expense-cluster small { font-size: 7px; font-weight: 650; opacity: .9; }
+.map-expense-controls { position: absolute; z-index: 610; top: auto; bottom: 18px; left: 50%; width: auto; max-width: calc(100% - 28px); padding: 5px; transform: translateX(-50%); border: 1px solid rgba(217,224,215,.92); border-radius: 11px; background: rgba(251,252,247,.97); box-shadow: 0 8px 24px rgba(23,61,44,.17); backdrop-filter: blur(12px); }
+.map-shell:not(.map-shell-full) .map-expense-controls { bottom: 54px; }
+.map-expense-controls.expanded { width: min(318px, calc(100% - 28px)); }
+.map-expense-toggle { width: auto; min-width: 112px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 7px; display: flex; align-items: center; gap: 7px; background: transparent; color: var(--forest); font-size: 10px; font-weight: 800; text-align: left; cursor: pointer; }
+.map-expense-controls.expanded .map-expense-toggle { width: 100%; }
+.map-expense-toggle.active { background: #edf3e9; }
+.map-expense-switch { width: 27px; height: 16px; margin-left: auto; padding: 2px; border-radius: 10px; background: #cbd3ca; transition: background .18s ease; }
+.map-expense-switch i { width: 12px; height: 12px; border-radius: 50%; display: block; background: white; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .18s ease; }
+.map-expense-toggle.active .map-expense-switch { background: var(--forest); }
+.map-expense-toggle.active .map-expense-switch i { transform: translateX(11px); }
+.map-expense-options { padding: 7px 5px 4px; border-top: 1px solid #e6ebe3; }
+.map-expense-selector { min-height: 34px; padding: 3px; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; border-radius: 8px; background: #eef1eb; }
+.map-expense-selector button { min-width: 0; padding: 0 4px; border: 0; border-radius: 6px; background: transparent; color: #65736a; font-size: 9px; font-weight: 750; cursor: pointer; }
+.map-expense-selector button.active { background: white; color: var(--forest); box-shadow: 0 1px 4px rgba(23,61,44,.12); }
+.map-expense-legend { margin-top: 12px; display: flex; align-items: center; gap: 5px; color: #65736a; font-size: 8px; font-weight: 700; white-space: nowrap; }
+.map-expense-legend span { width: 9px; height: 9px; margin-left: 4px; border: 1px solid rgba(0,0,0,.07); border-radius: 50%; }
+.map-expense-legend span:first-child { margin-left: 0; }
+.map-expense-caption { margin: 7px 0 1px; color: #7d8980; font-size: 8px; line-height: 1.45; }
+.map-expense-status { min-height: 40px; display: flex; align-items: center; gap: 7px; color: #68766c; font-size: 9px; }
+.map-expense-status.error { color: #a3483f; line-height: 1.4; }
+.expense-map-popup .leaflet-popup-content-wrapper { border-radius: 12px; }
+.expense-map-popup .leaflet-popup-content { width: min(280px, calc(100vw - 80px)) !important; max-width: 280px; margin: 14px; }
+.expense-popup-content { color: var(--ink); font-family: Inter, sans-serif; }
+.expense-popup-heading { padding-bottom: 10px; border-bottom: 1px solid #e8ece5; }
+.expense-popup-heading .eyebrow { color: #718078; font-size: 8px; letter-spacing: .05em; text-transform: uppercase; }
+.expense-popup-heading h3 { margin: 4px 0 2px; font-family: Georgia, serif; font-size: 19px; font-weight: 500; line-height: 1.15; }
+.expense-popup-heading p { margin: 0; color: #78847c; font-size: 9px; }
+.expense-breakdown-rows { padding: 7px 0; display: grid; gap: 7px; }
+.expense-breakdown-rows > div, .expense-breakdown-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 10px; }
+.expense-breakdown-rows span { color: #65736a; }
+.expense-breakdown-rows strong { font-variant-numeric: tabular-nums; }
+.expense-breakdown-total { padding-top: 9px; border-top: 1px solid #e8ece5; font-weight: 800; }
+.expense-breakdown-total strong { color: var(--forest); font-size: 14px; font-variant-numeric: tabular-nums; }
+.expense-popup-note { margin: 10px 0 0; color: #818b83; font-size: 8px; line-height: 1.45; }
 .leaflet-tooltip { padding: 8px 10px !important; border: 0 !important; border-radius: 7px !important; color: var(--ink) !important; font: 10px/1.5 Inter, sans-serif !important; box-shadow: 0 8px 22px rgba(20,45,29,.14) !important; }
 .map-key { position: absolute; z-index: 500; left: 12px; right: 12px; bottom: 12px; min-height: 36px; padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,.91); backdrop-filter: blur(8px); display: flex; align-items: center; gap: 8px; color: #66736b; font-size: 9px; box-shadow: 0 6px 20px rgba(24,49,34,.12); }
 .map-key span { width: 8px; height: 8px; border: 2px solid var(--forest); background: var(--acid); border-radius: 50%; }
@@ -435,6 +477,8 @@ footer > span { margin-left: auto; font-size: 9px; text-transform: uppercase; le
   .search-button { width: 44px; height: 44px; padding: 0; font-size: 0; }
   .workspace { display: block; padding: 60px 12px 30px; }
   .map-page { height: calc(100vh - 116px); }
+  .map-expense-controls { bottom: 12px; }
+  .map-shell:not(.map-shell-full) .map-expense-controls { bottom: 54px; }
   .map-jobs-drawer { width: min(390px, 94vw); }
   .results-panel { border-radius: 12px; }
   .results-toolbar { height: 72px; padding: 0 15px; }

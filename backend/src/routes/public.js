@@ -2,6 +2,7 @@ import { Router } from "express";
 import mongoose from "mongoose";
 import { Job } from "../models/Job.js";
 import { crawlManager } from "../services/crawl-manager.js";
+import { loadLivingExpenses } from "../services/living-expenses.js";
 
 const router = Router();
 
@@ -58,6 +59,16 @@ router.get("/crawl/status", async (_request, response, next) => {
   try {
     const run = await crawlManager.status();
     response.json({ state: run?.state || "idle" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/expenses", async (_request, response, next) => {
+  try {
+    const locations = await loadLivingExpenses();
+    response.set("Cache-Control", "public, max-age=3600");
+    response.json({ locations, period: "2026-10 monthly", currency: "INR", estimate: true });
   } catch (error) {
     next(error);
   }

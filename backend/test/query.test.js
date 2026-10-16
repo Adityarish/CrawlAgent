@@ -4,6 +4,7 @@ import { parseSourceUpload } from "../src/routes/admin.js";
 import { buildJobQuery } from "../src/routes/public.js";
 import { loadDistrictLocations, resolveDistrictLocations } from "../src/services/district-locations.js";
 import { normalizeJob } from "../src/services/job-importer.js";
+import { loadLivingExpenses, parseLivingExpenseRows } from "../src/services/living-expenses.js";
 import { parseSources } from "../src/services/source-sync.js";
 import { groupJobsByLocation } from "../../frontend/lib/jobLocations.js";
 
@@ -78,6 +79,31 @@ test("map groups jobs using imported district coordinates", () => {
   assert.equal(groups.length, 1);
   assert.equal(groups[0].label, "Bengaluru Urban, Karnataka");
   assert.deepEqual(groups[0].position, [12.951608, 77.592918]);
+});
+
+test("living expense estimates use district CSV coordinates and complete source values", async () => {
+  const locations = await loadLivingExpenses();
+  assert.ok(locations.length > 250);
+  assert.equal(new Set(locations.map((location) => location.key)).size, locations.length);
+  assert.ok(locations.every((location) => location.position.every(Number.isFinite)));
+  const bengaluru = locations.find((location) => location.kind === "city" && location.name === "Bengaluru");
+  assert.ok(bengaluru);
+  assert.deepEqual(bengaluru.position, [12.9716, 77.5946]);
+  assert.ok(bengaluru.costs.total.single > 0);
+  assert.ok(bengaluru.costs.total.family3 > bengaluru.costs.total.single);
+  assert.equal(bengaluru.estimate, true);
+  const districtEstimate = locations.find((location) => location.kind === "district");
+  const districtSource = (await loadDistrictLocations()).find((district) => district.districtCode === districtEstimate.districtCode);
+  assert.deepEqual(districtEstimate.position, [districtSource.latitude, districtSource.longitude]);
+
+  const districts = await loadDistrictLocations();
+  const incomplete = parseLivingExpenseRows([{
+    district_centroid_match: "Bengaluru Urban",
+    state: "Karnataka",
+    city: "Incomplete ULB",
+    single_rent_1bhk_inr: 1000,
+  }], districts);
+  assert.deepEqual(incomplete, []);
 });
 
 test("parseSources supports named and plain career URLs", () => {

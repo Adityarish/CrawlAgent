@@ -1,0 +1,43 @@
+INDIA JOB MAP — LIVING COST DATASET — 16 October 2026
+
+Coverage
+- CITY file: 5,050 LGD urban local body (ULB) records from 23 Sep 2026 LGD-derived snapshot; these include municipalities, town panchayats, corporations and similar areas, not every settlement or village. Some metropolitan areas appear as multiple ULBs. City and ULB are not interchangeable.
+- DISTRICT file: 784 district records from previous LGD 23 Sep 2026 dataset. District values are proxies, not a surveyed district headquarters city rate.
+
+MODEL WARNING
+All monthly INR costs are ESTIMATES, not observed city-by-city market prices. The 2026 Numbeo indexes are reference signals for selected major cities; converting an index into a monthly rupee budget is our model. For other locations, type-of-ULB and state adjustments are heuristic assumptions, not officially established cost-of-living indices. Small-area estimates may be materially inaccurate.
+
+Definition of 'normal' or modest private rental budget
+Single: one person renting a 1-bedroom flat OUTSIDE the city centre, with ordinary groceries/food, utilities, transport and miscellaneous expenses.
+Family3: 3 people renting an estimated 2-bedroom flat outside city centre with economies of scale. No childcare/private school fees, major healthcare events, savings, loan payments or taxes in expenses.
+Rupee amounts are estimates as of Oct 2026, rounded to nearest ₹100.
+
+Formula assumptions (not statistical observations)
+National single person non-rent budget = Rs 27,300 /month, decomposed as food 10,500; utilities 3,500; transport 3,500; other 9,800. Source for Rs 27,300 national anchor: India Today, 18 March 2026, citing Numbeo.
+National 1BHK outside-centre benchmark Rs 8,822 (Numbeo country page June 2026).
+Single non-rent components = component_anchor * model_cost_index / 20.0
+Single 1BHK rent = 8822 * model_rent_index / 5.0
+Family 3 2BHK rent = single 1BHK estimate * 1.60
+Family 3 food = single food * 2.40; utilities = single utilities * 1.60; transport = single transport * 2.00; other = single other * 1.75
+All components individually rounded to nearest Rs 100; totals sum rounded components.
+Low/high plausible planning bands = 75% /125% of model total, not statistically derived confidence intervals.
+Official ULB type codes are kept intact but proxy tiers are modeling categories.
+
+Map/geolocation precautions
+- historical_city_point_2011 = actual published city coordinate from an older 2011 Census >=100k population source. Not a current city boundary geometry.
+- approx_city_center_major_city = manually populated major city centre coordinates.
+- district_centroid_proxy_not_city_coordinates = approximate DISTRICT polygon centre, NOT the city centre (rough display fallback only).
+- not_available = latitude and longitude intentionally left blank. Do not display at [0,0], and do not geocode to state centre without additional evidence.
+Not all 5,050 ULBs have city coordinates; city name + state code is the most useful stable key.
+
+Sources
+LGD urban bodies 23-Sep-2026: https://lgd-json-api.vercel.app/api/metadata
+LGD search endpoint: https://lgd-json-api.vercel.app/api/cities
+Numbeo India prices: https://www.numbeo.com/cost-of-living/country_result.jsp?country=India
+Numbeo 2026 mid-year index: https://www.numbeo.com/cost-of-living/rankings.jsp?title=2026-mid
+India Today March 2026: https://www.indiatoday.in/information/story/cost-of-living-in-india-2026-city-wise-expenses-and-monthly-costs-2883591-2026-03-18
+Old 2011 geocoded cities: https://github.com/recurze/IndianCities
+District polygon coordinate source: https://github.com/Vardhan-Systems/vardhan-maps
+
+Licensing and data reuse
+Refer to each original source's terms before redistributing integrated production datasets. Geo coordinates are approximate.
