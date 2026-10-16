@@ -4,8 +4,8 @@ import { connectDatabase, disconnectDatabase } from "./config/database.js";
 import { importJobsFromFile } from "./services/job-importer.js";
 import { syncSourcesFromFile } from "./services/source-sync.js";
 
-const host = process.env.API_HOST || "127.0.0.1";
-const port = Number.parseInt(process.env.API_PORT || "8000", 10);
+const host = process.env.API_HOST || "0.0.0.0";
+const port = Number.parseInt(process.env.PORT || process.env.API_PORT || "8000", 10);
 
 async function start() {
   await connectDatabase();

@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+!.env.example
+node_modules
+venv
+.venv
+.next
+.vercel
+crawler/jobs_by_company
+crawler/jobs_by_company.json
+crawler/parsing/output
+__pycache__
+*.py[cod]
